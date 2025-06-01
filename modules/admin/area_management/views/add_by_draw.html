@@ -1,0 +1,414 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.area.add_area"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li><a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a></li>
+						
+						
+						<li><a href="javascript:void(0);" onclick="refreshMap();"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.refresh_map"); %></button></a></li>
+						
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ("../../elements/multilanguage_tabs.html") %>
+					<!-- Multilanguage tabs -->
+					<form id="add-area" data-submit-btn-id="cms-add-btn-id" method="post" class="on_click_submit" role="form">
+						<!-- Tab panes -->
+
+						<div class="row clearfix">
+							<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+								<span class="mt-2">
+									<b class="float-right"><%= __("admin.system.these_fields_are_same_in_all_languages"); %></b>
+								</span>
+							<% } %>
+						</div>
+ 
+						<div class="tab-content mt-20">
+							
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<div id="map"></div>
+										</div> 
+									</div>
+								</div>
+							</div>
+								  
+							<textarea id="coordinates"  name="coordinates" rows="10" cols="50" class="d-none"></textarea>
+							
+							<div class="row clearfix">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="country_id" class="control-label"><%= __("admin.user.country"); %><span class="required"> * </span>:</label>
+											<select onchange="getStateData(this)" data-live-search="true" class="form-control show-tick selectpicker search_by_status " data-dropup-auto="false" id="country_id" name="country_id" >
+												<option value=""><%= __("admin.user.select_country"); %></option>
+												<%- country_list %>
+											</select>
+										</div>
+										<span id="country_id_error" class="error"></span>
+									</div>
+								</div>
+							
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="state_id" class="control-label"><%= __("admin.country.state_name"); %><span class="required"> * </span>:</label>
+											<select onchange="getCityData(this)" data-live-search="true" class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="state_id" name="state_id">
+												<option value=""><%= __("admin.country.select_state"); %></option>
+											</select>
+										</div>
+										<span id="state_id_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">	
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="city_id" class="control-label"><%= __("admin.country.city"); %><span class="required"> * </span>:</label>
+											<select data-live-search="true" class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="city_id" name="city_id">
+												<option value=""><%= __("admin.country.select_city"); %></option>
+											</select>
+										</div>
+										<span id="city_id_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row clearfix seperator-line field-seperator">
+								<hr/>
+							</div>
+
+							<%
+							if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){
+								language_list.forEach(function(languages){
+									languageId 		= (languages._id) 		?  	languages._id 		:"";
+									languageCode 	= (languages.lang_code) ?	languages.lang_code :"";
+									%>
+									<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade_lang in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "active" : ""; %>" id="multi_lang_<%= languageCode; %>">
+										 
+ 
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="title_<%= languageCode; %>" class="control-label">
+															<%= __("admin.area.title"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> *</span>
+															<% } %>
+														</label>
+														<input type="text" id="title_<%= languageCode; %>" class="form-control" name="pages_descriptions[<%=languageCode%>][title]"/>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+														<span id="pages_descriptions_<%=languageCode %>_title_error" class="error"></span>
+													<% } %>
+												</div>
+											</div>
+										</div>
+ 
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="body_<%= languageCode; %>" class="control-label">
+															<%= __("admin.area.page_description"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> *</span>
+															<% } %>
+														</label>
+														<textarea rows="4"  id="body_<%= languageCode; %>" class="form-control no-resize"  name="pages_descriptions[<%=languageCode%>][body]"></textarea>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="pages_descriptions_<%=languageCode %>_body_error" class="error"></span>
+														<% } %>
+
+												</div>
+											</div>
+										</div>
+									 
+									</div>
+							<% 	});
+							} %>
+						</div>
+						<button type="button" id="cms-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("script") %>
+	<script src="https://maps.googleapis.com/maps/api/js?key=<%= google_map_key %>&libraries=places,drawing&loading=async"></script>
+	<script type="text/javascript">
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('add-area',function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+					stopTextLoading(btnId);
+				}
+			});
+		});
+		
+		
+		var drawingManager;
+		var selectedShape;
+		var colors = ['#1E90FF', '#FF1493', '#32CD32', '#FF8C00', '#4B0082'];
+		var selectedColor;
+		var colorButtons = {};
+		
+		/**
+		 * Script for google Map start here
+		 */
+		let map, polygon;
+		const google_map_default_lat = <%= google_map_default_lat %>;
+		const google_map_default_long = <%= google_map_default_long %>;
+
+		function initMap() {
+			// Initialize the map
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat:google_map_default_lat, lng: google_map_default_long }, // Default to San Francisco
+				zoom: 12,
+			});
+ 
+			/* show all previous areas on Map  */
+			<%
+			if(typeof allAreaList !== typeof undefined && Array.isArray(allAreaList) && allAreaList.length > 0){
+				allAreaList.forEach(function(area){ %>
+					
+					var coordinatesArea 		= 	`<%= JSON.stringify(area.coordinates); %>`;
+					coordinatesArea 			= 	coordinatesArea.replace('""', "");
+					coordinatesArea 			= 	coordinatesArea.replace(/&#34;/g, '"');
+					jsonCoordinatesAreaArray 	= 	JSON.parse(coordinatesArea);
+					
+					pathCoordinatesArea = jsonCoordinatesAreaArray.map(item => ({
+					  lat: parseFloat(item.lat),  // Convert lat to number
+					  lng: parseFloat(item.lng)   // Convert lng to number
+					}));
+				
+					polygon = new google.maps.Polygon({
+						paths: pathCoordinatesArea,
+						strokeColor: "#0000FF",
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: "#0000FF",
+						fillOpacity: 0.35,
+					})
+
+					polygon.setMap(map)
+				
+				<%
+				})
+			}
+			%> 
+			
+			
+			var polyOptions = {
+				strokeWeight: 0,
+				fillOpacity: 0.45,
+				editable: true
+			};
+			 
+			
+			// Creates a drawing manager attached to the map that allows the user to draw
+			// markers, lines, and shapes.
+			drawingManager = new google.maps.drawing.DrawingManager({
+				drawingMode: google.maps.drawing.OverlayType.POLYGON,
+				drawingControlOptions: {
+					drawingModes: [
+						google.maps.drawing.OverlayType.POLYGON
+					]
+				},
+				markerOptions: {
+					draggable: true
+				},
+				polylineOptions: {
+					editable: true
+				},
+				rectangleOptions: polyOptions,
+				circleOptions: polyOptions,
+				polygonOptions: polyOptions,
+				map: map
+			});
+			
+			google.maps.event.addListener(drawingManager, 'overlaycomplete', function(e) {
+				if (e.type != google.maps.drawing.OverlayType.MARKER) {
+					// Switch back to non-drawing mode after drawing a shape.
+					drawingManager.setDrawingMode(null);
+					// To hide:
+					drawingManager.setOptions({
+						drawingControl: false
+					});
+
+					// Add an event listener that selects the newly-drawn shape when the user
+					// mouses down on it.
+					var newShape = e.overlay;
+					newShape.type = e.type;
+					google.maps.event.addListener(newShape, 'click', function() {
+						setSelection(newShape);
+					});
+					setSelection(newShape);
+				}
+			});
+			
+			google.maps.event.addListener(map, 'click', clearSelection);
+			  
+			google.maps.event.addListener(drawingManager, 'polygoncomplete', function() {	
+				getAllnodes();
+				
+				google.maps.event.addListener(selectedShape.getPath(), 'set_at', function() {
+					getAllnodes();
+				});
+
+				google.maps.event.addListener(selectedShape.getPath(), 'insert_at', function() {
+					getAllnodes();
+				});
+			}); 
+		}
+		
+		
+		function clearSelection() {
+			if (selectedShape) {
+				selectedShape.setEditable(false);
+				selectedShape = null;
+			}
+		}
+
+		function setSelection(shape) {
+			clearSelection();
+			selectedShape = shape;
+			shape.setEditable(true);
+			/*selectColor(shape.get('fillColor') || shape.get('strokeColor'));*/
+		}
+		
+		
+		function refreshMap() {
+			document.getElementById("coordinates").value = null;
+			initMap();
+		}
+	  
+		
+		function getAllnodes(){
+			const coordinates = selectedShape
+					.getPath()
+					.getArray()
+					.map((latLng) => ({
+						lat: parseFloat(latLng.lat()),
+						lng: parseFloat(latLng.lng()),
+					}));
+			
+			document.getElementById("coordinates").value = JSON.stringify(coordinates, null, 2);
+		}
+
+		// Initialize the map on page load
+		window.onload = initMap;
+    </script>
+	<script type="text/javascript">
+	   
+		/**get states list country wise data
+		***/
+		function getStateData(selectObject){
+
+			var value = selectObject.value;
+			
+			if(value){
+				$.ajax({
+					'type'		: 	'POST',
+					url 		:	"<%= COUNTRY_STATE_CITY_URL %>/get_state_list_country_wise/"+value,
+					'data'		: 	{ 'country_id': value	},
+					'success': function (response){
+						var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+						if(result.length > 0){
+							var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+							result.map(function(res){
+								/**create select box */
+								var selectedString = (res._id == value) ? "selected" : "";
+								option+='<option  value="'+res._id+'">'+res.state_name+'</option>';
+							});
+							$("#state_id").html('');
+							$("#state_id").html(option);
+							$("#state_id").selectpicker('destroy'); // Destroy existing instance
+							$("#state_id").selectpicker();
+							//$("#state_id").selectpicker('refresh');
+						}else{
+							var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+							$("#state_id").html('');
+							$("#state_id").html(option);
+							$("#state_id").selectpicker('destroy'); // Destroy existing instance
+							$("#state_id").selectpicker();
+							//$("#state_id").selectpicker('refresh');
+						}
+						//$(".test-select-box").show();
+					}
+				});
+			}else{
+				var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+				$("#state_id").html('');
+				$("#state_id").html(option);
+				$("#state_id").selectpicker('destroy'); // Destroy existing instance
+				$("#state_id").selectpicker();
+				//$("#state_id").selectpicker('refresh');
+			}
+		}
+
+		/**
+		**get city list state wise data
+		***/
+		function getCityData(selectObject){
+			var value = selectObject.value;
+			if(value){
+				$.ajax({
+					'type'		: 	'POST',
+					url 		:	"<%= COUNTRY_STATE_CITY_URL %>/get_city_list_state_wise/"+value,
+					'data'		: 	{ 'state_id': value	},
+					'success': function (response){
+						var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+						if(result.length > 0){
+							var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+							result.map(function(res){
+								/**create select box */
+								var selectedString = (res._id == value) ? "selected" : "";
+								option+='<option  value="'+res._id+'">'+res.city_name+'</option>';
+							});
+							$("#city_id").html(option);
+							$("#city_id").selectpicker('destroy'); // Destroy existing instance
+							$("#city_id").selectpicker();
+							//$("#city_id").selectpicker('refresh');
+						}else{
+							var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+							$("#city_id").html(option);
+							$("#city_id").selectpicker('destroy'); // Destroy existing instance
+							$("#city_id").selectpicker();
+							//$("#city_id").selectpicker('refresh');
+						}
+						//$(".test-select-box").show();
+					}
+				});
+			}else{
+				var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+				$("#city_id").html(option);
+				$("#city_id").selectpicker('destroy'); // Destroy existing instance
+				$("#city_id").selectpicker();
+				//$("#city_id").selectpicker('refresh');
+			}
+		}
+	</script>

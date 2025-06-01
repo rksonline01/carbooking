@@ -1,0 +1,203 @@
+<%
+	type		=	(typeof type !== typeof undefined)			?	type		:"";
+	displayType	=	(typeof displayType !== typeof undefined)	?	displayType	:__('admin.master.master');
+	parentList	=	(typeof parent_list !== typeof undefined)	?	parent_list	:"";
+    var image	=	ADD_PROFILE_IMAGE_ICON;
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.category.add_catrgory")%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url+"/"+type%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					<form id="add-master" data-submit-btn-id="block-add-btn-id" method="post" class="on_click_submit" role="form">
+						
+						<!-- Tab panes -->
+						<div class="tab-content mt-20">
+                            <div class="row clearfix">
+                                <div class="col-sm-12 align-center">
+                                    <div class="form-group add-image">
+                                        <input name="category_image" id="category_image" class="form-control image-input-file" type="file"/>
+                                        <span class="help-inline required profile_image" id="ContentTypeNameSpan">
+                                            <div id="pImage">
+                                                <img src="<%=image%>?dim=120x120&type=crop" alt="Profile image" class="profileImage" />
+                                            </div>
+                                        </span>
+                                        <br/>
+                                        <div>
+                                            <a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="<%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>" class="btn bg-teal btn-block btn-sm waves-effect changePhoto">
+                                                <%= __("admin.system.upload_image"); %><span class="required"> *</span>
+                                            </a>
+                                        </div>
+                                        <span id="category_image_error" class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label for="parent_category" class="control-label"><%= __('admin.category.select_parent_category'); %> :</label>
+											<select onchange="getSubCategoData(this)" data-bs-dropup-auto="false" id="parent_category" data-bs-live-search="true" class="form-control show-tick search_by_status" id="state_id"
+											name="parent_category">
+												<option value=""><%= __("admin.category.select_parent_category") %></option>
+												<%- parent_category %>
+											</select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+
+							<div class="row clearfix d-none" id="sub_category_id">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label for="sub_category" class="control-label"><%= __('admin.category.select_sub_category'); %> :</label>
+											<select data-bs-dropup-auto="false" id="sub_category" data-bs-live-search="true" class="form-control show-tick search_by_status" name="sub_category">
+												
+											</select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							
+							<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ %>
+								<% language_list.forEach(function(languages){ %>
+									<%
+										languageId 		= (languages._id) ?  languages._id : '';
+										languageCode 	= (languages.lang_code) ?  languages.lang_code : '';
+									%>
+									<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade_lang in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "active" : ""; %>" id="multi_lang_<%= languageCode; %>">
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="category_name_<%= languageCode; %>" class="control-label">
+															<%= __("admin.category.category_name"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> * </span>:
+															<% } %>
+														</label>
+
+														<input type="hidden" name="pages_descriptions[<%= languageCode %>][language_id]" value="<%= languageId; %>"/>
+														<input type="text" id="category_name_<%= languageCode; %>" class="form-control" name="pages_descriptions[<%=languageCode%>][category_name]"/>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+														<span id="pages_descriptions_<%=languageCode %>_category_name_error" class="error"></span>
+													<% } %>
+												</div>
+											</div>
+										</div>
+                                    </div>
+								<% }); %>
+							<% } %>
+						</div>
+						<button type="button" id="block-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>/<%=type%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+			updateCkeditorValue();
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			submit_multipart_form('add-master',function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+					stopTextLoading(btnId);
+				}
+			});
+		});
+
+		/**
+		 * User image Upload
+		 */
+			$(document).on("click", ".changePhoto", function(){
+			if(!$(".add-image #category_image").hasClass("added")){
+				$(".add-image #category_image").trigger("click");
+				$(".add-image #category_image").addClass("added");
+				window.setTimeout(function(){
+					$(".add-image #category_image").removeClass("added");
+				},500);
+			}
+		});
+
+		/**
+		 *Show user image after select
+			*/
+			$("#category_image").on("change", function(){
+			var files = !!this.files ? this.files : [];
+			if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+			if (/^image/.test( files[0].type)){
+				var reader = new FileReader(); // instance of the FileReader
+				reader.readAsDataURL(files[0]); // read the local file
+				reader.onloadend = function(){
+					$("#pImage").html("<img src='"+this.result+"' class='profileImage' >");
+				}
+			}
+			$("span#category_image_error").text("");
+		});
+
+		/**
+	**get states list country wise data
+	***/
+	// function getSubCategoData(selectObject) {
+	// 	var value = selectObject.value;
+	// 	var field_name = selectObject.name;
+	// 	$("#sub_category").selectpicker('destroy');
+	// 	if (value) {
+	// 		$.ajax({
+	// 			'type': 'POST',
+	// 			url:  "<%=WEBSITE_ADMIN_URL%>category/get_sub_category_list/",
+	// 			'data': { 'field_name': field_name,'value': value },
+	// 			'success': function (response) {
+	// 				var result = (typeof response.result !== typeof undefined && response.result) ? response.result : [];
+	// 				if (result.length > 0) {
+	// 					$("#sub_category_id").removeClass('d-none');
+	// 					var option = '<option value=""><%= __("admin.category.select_sub_category")%></option>';
+	// 					result.map(function (res) {
+	// 						/**create select box */
+	// 						//var selectedString = (res._id == value) ? "selected" : "";
+	// 						option += '<option  value="' + res._id + '">' + res.category_name + '</option>';
+	// 					});
+	// 					$("#sub_category").html(option);
+	// 					$("#sub_category").selectpicker('render');
+	// 				}else{
+	// 					$("#sub_category_id").addClass('d-none');
+	// 				}
+	// 			}
+	// 		});
+	// 	}else{
+	// 		$("#sub_category_id").addClass('d-none');
+	// 	}
+	// }
+
+	</script>

@@ -1,0 +1,764 @@
+<%
+	var result		= (typeof result !== typeof undefined && result)											?	result							:{};
+	var user_name	= (typeof result !== typeof undefined && result.userData && result.userData[0].full_name)	?	result.userData[0].full_name	:"";
+	var imagePath 	= (typeof image_path !== typeof undefined && image_path)		?	image_path 			:"";
+	var otherImages	= (typeof result !== typeof undefined && result.other_images )	?	result.other_images	:[];
+	
+	%>
+
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.ads.posts_details'); %></h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						
+						<%
+						var status		=	(result.active)		?	result.active			: DEACTIVE;
+						var isBlock		=	(result.is_block)	?	result.is_block			: DEACTIVE;
+						var isSold 		= 	(result.is_sold)	?	result.is_sold			: DEACTIVE;
+						var isExpired 	= 	(result.is_expired)	?	result.is_expired		: DEACTIVE;
+						if( status != DRAFT && isSold != ACTIVE && isExpired != ACTIVE ){
+							if(isBlock == ACTIVE){ %>
+								<li>
+									<a href="<%=admin_list_url%>/bidding_posts/update_post_block/<%=result._id%>/1" >
+										<button type="button" class="btn bg-green waves-effect"><i class="material-icons font-14">done</i><%= __("admin.system.unblock"); %></button>
+									</a>
+								</li>
+							<% }
+							else{ %>
+								<li>
+									<a href="<%=admin_list_url%>/bidding_posts/update_post_block/<%=result._id%>/0" >
+										<button type="button" class="btn bg-red waves-effect"><i class="material-icons font-14">block</i><%= __("admin.system.block"); %></button>
+									</a>
+								</li>
+							<% }
+						} %>
+						<li>
+							<a href="<%=admin_list_url%>/bidding_posts">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+					<ul class="header-dropdown m-r--5 visible-xs">
+						<li class="dropdown">
+							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<i class="material-icons">more_vert</i>
+							</a>
+							<ul class="dropdown-menu pull-right m-w-200">
+								<%
+								var status		=	(result.active)		?	result.active			: DEACTIVE;
+								var isBlock		=	(result.is_block)	?	result.is_block			: DEACTIVE;
+								var isSold 		= 	(result.is_sold)	?	result.is_sold			: DEACTIVE;
+								var isExpired 	= 	(result.is_expired)	?	result.is_expired		: DEACTIVE;
+								
+								if( status != DRAFT && isSold != ACTIVE && isExpired != ACTIVE ){
+									if(isBlock == ACTIVE){ %>
+										<li>
+											<a href="<%=admin_list_url%>/update_post_block/<%=result._id%>/1" >
+												<i class="material-icons">done</i><%= __("admin.system.unblock"); %>
+											</a>
+										</li>
+									<% }
+									else{ %>
+										<li>
+											<a href="<%=admin_list_url%>/update_post_block/<%=result._id%>/0" >
+												<i class="material-icons">block</i><%= __("admin.system.block"); %>
+											</a>
+										</li>
+									<% }
+								} %>
+								<li>
+									<a href="<%=admin_list_url%>" >
+										<i class="material-icons">keyboard_backspace</i><%= __("admin.system.back"); %>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			
+			<!-- for video and main image and other image table start -->	
+			<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+			                   						 
+					<!--  video -->	
+					<% if(result.video_file_path && result.video_name){ %>
+						<tr>						   						      
+						      <th class="text-right" width="20%"><%= __('admin.product.video'); %></th>
+						      <td class="" colspan="3"> 
+						             <video width="320" height="240" controls  >
+									  <source src="<%=result.video_file_path%>" type="video/mp4">									 
+									  Your browser does not support the video tag.
+									</video>
+						      </td>
+						</tr>
+					<% } %>
+						
+						<!-- main image and other image -->	
+						<tr>
+							
+							
+							 <th class="text-right" width="20%"><%= __("admin.ads.main_image_name"); %></th>
+							<td>
+								<% if(typeof result[IMAGE_FIELD_NAME] !== typeof undefined && result[IMAGE_FIELD_NAME] !=""){ %>
+									<div class="form-group add-image">
+										<span class="help-inline required profile_image" id="ContentTypeNameSpan">
+											<div id="pImage">
+												<%
+												let isNoImage 		= 	(result.is_noimage)			? 	result.is_noimage 		:DEACTIVE;
+												if( isNoImage == ACTIVE ){ %>
+													<img src="<%= result[IMAGE_FIELD_NAME]%>?dim=150x100&type=resize" alt="Profile image" />
+												<%
+												}else{
+													var imageName	=	(result.main_image_name)	? 	result.main_image_name 	:''; %>
+													<a href="<%= imagePath['image_url_original']+imageName; %>"  class='items-image' data-lightbox='roadtrip'>
+														<img src='<%= result[IMAGE_FIELD_NAME]%>?dim=150x100&type=resize' class='img-thumbnail'  alt='Profile Image'/>
+													</a>
+												<% } %>	
+											</div>
+										</span>
+									</div>
+								<% } %>
+							</td>
+							
+																					
+							<th class="text-right" width="20%"><%= __("admin.ads.other_images"); %></th>
+							<td >
+								<% if(typeof otherImages !== typeof undefined && otherImages.length > DEACTIVE ){ %>
+									<ul class="cstm_ad_other_img " >
+										<%
+										otherImages.map((element) => { %>
+											<li class="float-left ">
+												<a href="<%= imagePath['image_url_original']+element; %>"  class='items-image' data-lightbox='roadtrip'>
+													<img src='<%= imagePath["image_url_original"]+element; %>?dim=75x50&type=resize' class='img-thumbnail'  alt='Profile Image'/>
+												</a>
+											</li>
+										<% }); %>
+									</ul>
+								<% } %>
+							</td>	
+						</tr>
+					
+						
+						 
+			        </table>
+			</div>				
+	<!-- for video and main image and other image table end -->			
+
+
+             <!-- basic details table start  -->	
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+				           
+				           <h3><%= __('admin.orders.basic_detail'); %></h3>
+				           
+				              
+				            <tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.ad_id'); %></th>
+								<td><b><%=(typeof result.product_id !== typeof undefined && result.product_id !="")	? result.product_id	: 'N/A';%></b></td>
+														
+								<th class="text-right" width="25%"><%= __('admin.ads.title'); %></th>
+								<td >
+									<%=(typeof result.product_title !== typeof undefined && result.product_title !="")	? result.product_title	: 'N/A';%>
+								   <span class="ml-5"> 
+									<%=(typeof result.pages_descriptions[ARABIC_LANGUAGE_CODE].product_title !== typeof undefined && result.pages_descriptions[ARABIC_LANGUAGE_CODE].product_title !="")	? result.pages_descriptions[ARABIC_LANGUAGE_CODE].product_title	: '';%>
+								   </span>
+								</td>					   
+							</tr>
+							
+							
+							<tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.product_type'); %></th>
+								<td><%=(typeof result.product_condition !== typeof undefined && result.product_condition !="")	? (result.product_condition).toUpperCase()	: 'N/A';%></td>
+														
+								<th class="text-right" width="25%"><%= __('admin.ads.bid_allowed'); %></th>
+								<td><%=(typeof result.is_bid_allowed !== typeof undefined)	? (result.is_bid_allowed == 0) ? 'NO' : 'YES' : 'N/A'%></td>
+							</tr>
+				             
+				             
+				        
+						<tr>
+							<th class="text-right" width="25%"><%= __('admin.user.seller_name'); %></th>
+							<td><%=user_name;%></td>												
+							<th class="text-right" width="25%"><%= __('admin.ads.phone_number'); %></th>
+							<td><%=(typeof result.mobile_number !== typeof undefined && result.mobile_number !="")	? result.mobile_number	: 'N/A';%></td>
+						</tr>
+						
+					  
+				        <tr>
+							<th class="text-right" width="25%"><%= __('admin.ads.commentable'); %></th>
+							<td><%=(typeof result.is_commentable !== typeof undefined && result.is_commentable !="")	?  (YES).toUpperCase()	: (NO).toUpperCase() ;%></td>												
+							<th class="text-right" width="25%"><%= __('admin.ads.refundable'); %></th>
+							<td><%=(typeof result.is_refundable !== typeof undefined && result.is_refundable !="")	?  (YES).toUpperCase()	: (NO).toUpperCase() ;%></td>
+						</tr>
+				        
+				        				            				    					           
+				        
+				        <tr>
+							<th class="text-right" width="25%"><%= __('admin.order.shipping'); %></th>
+							<td><%=(typeof result.is_shippable !== typeof undefined)	? (result.is_shippable == 0) ? 'NO' : 'YES' : 'N/A'%></td>										
+							<th class="text-right"><%= __('admin.system.created'); %></th>
+							<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'';%>"></span>
+							</td>
+						</tr>		   
+		
+						         		
+				   	    	
+		             <tr>																			
+						
+						<th class="text-right" width="25%"><%= __('admin.ads.tags'); %></th>
+						<% if(result.tags.length>0){%>
+						<td>
+							<% result.tags.map((tag,index)=>{ %>
+								<span><%= tag +((index < result.tags.length-1)? ', ':' ')%></span>
+							<%})%>
+						</td>
+						<%}else { %>
+							<td> <%= 'N/A'%> </td>
+						<% }%>
+						
+						
+						<th class="text-right"><%= __('admin.system.status'); %></th>
+						<%
+						var status 		= (result && result.active)			?	result.active			: DEACTIVE;		/** Active Status **/
+						var blockstatus = (result && result.is_block)		?	result.is_block			: DEACTIVE;   	/** Block Status **/
+						var isSold 		= (result && result.is_sold)		?	result.is_sold			: DEACTIVE;
+						var isExpired 	= (result && result.is_expired)		?	result.is_expired		: DEACTIVE;
+
+						var statusTab	= "";
+						if(status == ACTIVE && isExpired == DEACTIVE && isSold == DEACTIVE){
+							statusTab	+= '<span class="label label-success m-l-5 ">'+__("admin.system.active")+'</span>';
+						}
+
+						if(status == DEACTIVE && isExpired == DEACTIVE && isSold == DEACTIVE){
+							statusTab	+= '<span class="label label-danger m-l-5 ">'+__("admin.system.inactive")+'</span>';
+						}
+
+						if(blockstatus == ACTIVE && isExpired == DEACTIVE && isSold == DEACTIVE){
+							statusTab	+= '<span class="label label-danger m-l-5 ">'+__("admin.system.blocked")+'</span>';
+						}
+						else if ( blockstatus == DEACTIVE && isExpired == DEACTIVE && isSold == DEACTIVE){
+							statusTab	+= '<span class="label label-success  m-l-5 ">'+__("admin.system.unblocked")+'</span>';
+						}
+
+						if(isExpired == ACTIVE &&  isSold == DEACTIVE){
+							statusTab	+= '<span class="label label-danger m-l-5 ">'+__("admin.system.expired")+'</span>';
+						}
+
+						if(isSold == ACTIVE ){
+							statusTab	+= '<span class="label label-danger m-l-5 ">'+__("admin.system.sold")+'</span>';
+						}
+						%>
+						<td><%- statusTab%> </td>
+					</tr>
+					
+					
+					
+					
+						  
+				    </table>
+				</div>		
+		<!-- basic details table end  -->		
+       
+       
+       
+       
+        <!-- Main details table start  -->	
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<h3><%= __('admin.ads.main_detail'); %></h3>
+						
+						  <%if(result.category_type == CATEGORY_PRODUCTIVE_FAMILY_TYPE){%>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.ads.food_type_name'); %></th>
+								<td colspan="3">
+									<%=(typeof result.food_type_name !== typeof undefined && result.food_type_name !="")	? result.food_type_name	: 'N/A';%>							    							   							    
+							    </td>														
+								
+							</tr>
+							<tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.available_from'); %></th>
+								<td><span class="setDateTimeFormat" data-date-time="<%= (result.available_from) ? result.available_from :'';%>"></span></td>
+								<th class="text-right" width="25%"><%= __('admin.ads.available_till'); %></th>
+								<td><span class="setDateTimeFormat" data-date-time="<%= (result.available_to) ? result.available_to :'';%>"></span></td>														
+								
+							</tr>
+					     <%} %>	
+					     
+					     
+					     
+					<tr>
+						
+						
+						<% if(result.property_type_name){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.property_type'); %></th>
+						<td>
+							<%=(typeof result.property_type_name !== typeof undefined && result.property_type_name !="")	? result.property_type_name	: 'N/A';%></td>
+						<% } %>	
+						
+						<%if(result.furnish_type_name){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.furnish_type_name'); %></th>								
+						<td> <%=(typeof result.furnish_type_name !== typeof undefined && result.furnish_type_name !="")	? result.furnish_type_name	: 'N/A';%></td>
+						<% } %>	
+						
+					</tr>
+					
+																										
+					<tr>
+						<%if(result.no_of_bathrooms){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.no_of_bathrooms'); %></th>
+						<td><%=(typeof result.no_of_bathrooms !== typeof undefined && result.no_of_bathrooms !="")	? result.no_of_bathrooms	: 'N/A';%></td>
+						<% } %>	
+						
+						<%if(result.no_of_bedrooms){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.no_of_bedrooms'); %></th>
+						<td><%=(typeof result.no_of_bedrooms !== typeof undefined && result.no_of_bedrooms !="")	? result.no_of_bedrooms	: 'N/A';%></td>
+						<% } %>
+						
+					</tr>
+										
+				
+					<tr>
+						<%if(result.no_of_guest_bathrooms){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.no_of_guest_bathrooms'); %></th>
+						<td><%=(typeof result.no_of_guest_bathrooms !== typeof undefined && result.no_of_guest_bathrooms !="")	? result.no_of_guest_bathrooms	: 'N/A';%></td>
+						<% } %>	
+						
+						<%if(result.no_of_living_rooms){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.no_of_living_rooms'); %></th>
+						<td><%=(typeof result.no_of_living_rooms !== typeof undefined && result.no_of_living_rooms !="")	? result.no_of_living_rooms	: 'N/A';%></td>
+						<% } %>	
+						
+					</tr>
+											
+				
+					<tr>
+						<%if(result.no_of_carparks){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.no_of_carparks'); %></th>
+						<td><%=(typeof result.no_of_carparks !== typeof undefined && result.no_of_carparks !="")	? result.no_of_carparks	: 'N/A';%></td>
+						<% } %>	
+						
+						<%if(result.no_of_swimming_pool){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.no_of_swimming_pool'); %></th>
+						<td><%=(typeof result.no_of_swimming_pool !== typeof undefined && result.no_of_swimming_pool !="")	? result.no_of_swimming_pool	: 'N/A';%></td>
+						<% } %>	
+					 
+					</tr>
+				
+					
+				
+					<tr>
+						<%if(result.no_of_kitchen){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.no_of_kitchen'); %></th>
+						<td><%=(typeof result.no_of_kitchen !== typeof undefined && result.no_of_kitchen !="")	? result.no_of_kitchen	: 'N/A';%></td>
+						<% } %>
+					   
+					   <%if(result.gym_type_name){ %>
+						<th class="text-right" width="20%"><%= __('admin.ads.gym_type_name'); %></th>
+						<td><%=(typeof result.gym_type_name !== typeof undefined && result.gym_type_name !="")	? result.gym_type_name	: 'N/A';%></td>
+						<% } %>
+						
+					</tr>
+	
+					     
+					   
+					      <tr>
+							 <%	if(result.make_name){ %>
+								<th class="text-right" width="25%"><%= __('admin.ads.make_name'); %></th>
+								<td><%=(typeof result.make_name !== typeof undefined && result.make_name !="")	? result.make_name	: 'N/A';%></td>
+							 <% }%>
+							 
+							 <% if(result.model_name){ %>							
+								<th class="text-right" width="25%"><%= __('admin.ads.model_name'); %></th>
+								<td><%=(typeof result.model_name !== typeof undefined && result.model_name !="")	? result.model_name	: 'N/A';%></td>
+							<% }%>
+							 
+							</tr>
+						
+				
+						
+				
+							<tr>
+								<% 	if(result.body_type_name){ %>
+								<th class="text-right" width="25%"><%= __('admin.ads.body_type_name'); %></th>								
+								<td> <%=(typeof result.body_type_name !== typeof undefined && result.body_type_name !="")	? result.body_type_name	: 'N/A';%> </td>
+								<% }%>
+								
+								<% if(result.mileage_name){ %>
+								<th class="text-right" width="25%"><%= __('admin.ads.mileage'); %></th>
+								<td><%=(typeof result.mileage_name !== typeof undefined && result.mileage_name !="")	? result.mileage_name	: 'N/A';%></td>							
+								<% }%>
+								
+							</tr>
+						
+					 
+				
+		            	
+						<tr>
+							<%	if(result.fuel_type_name){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.fuel_type_name'); %></th>
+							<td><%=(typeof result.fuel_type_name !== typeof undefined && result.fuel_type_name !="")	? result.fuel_type_name	: 'N/A';%></td>
+						    <% }%>
+						    
+						    <% if(result.brochure_engine_size_name){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.engine_size'); %></th>
+							<td><%=(typeof result.brochure_engine_size_name !== typeof undefined && result.brochure_engine_size_name !="")	? result.brochure_engine_size_name	: 'N/A';%></td>
+						    <% }%>
+						    
+						</tr>
+						
+					
+      
+						 	<tr>
+							    <% if(result.category_name){ %>	
+								<th class="text-right" width="20%"><%= __('admin.ads.category_name'); %></th>
+								<td>
+									<%=(typeof result.category_name !== typeof undefined && result.category_name !="")	? result.category_name	: 'N/A';%>						    	
+								</td>
+								<% } 													 											
+								if(result.sub_category_name){ %>
+								<th class="text-right" width="20%"><%= __('admin.ads.sub_category_name'); %></th>
+								<td>
+									<%=(typeof result.sub_category_name !== typeof undefined && result.sub_category_name !="")	? result.sub_category_name	: 'N/A';%>																									
+								</td>
+							  <% }%>
+							</tr>		
+						
+					
+						<tr>
+							<% 	if(result.transmission_name){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.transmission_name'); %></th>							
+							<td> <%=(typeof result.transmission_name !== typeof undefined && result.transmission_name !="")	? result.transmission_name	: 'N/A';%>	</td>														
+							<% }%>
+							
+							<%	if(result.doors_name){ %>							
+								<th class="text-right" width="25%"><%= __('admin.ads.doors'); %></th>
+								<td><%=(typeof result.doors_name !== typeof undefined && result.doors_name !="")	? result.doors_name	: 'N/A';%></td>							
+							<% }%>
+							
+						</tr>
+						 
+					
+						
+				
+						<tr>
+							<% 	if(result.seats_name){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.seats'); %></th>
+							<td><%=(typeof result.seats_name !== typeof undefined && result.seats_name !="")	? result.seats_name	: 'N/A';%></td>
+							<% }%>
+							
+							<% 	if(result.colour_name){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.colour'); %></th>
+							<td><%=(typeof result.colour_name !== typeof undefined && result.colour_name !="")	? result.colour_name	: 'N/A';%></td>						
+							<% }%>
+								
+						</tr>
+							
+					
+	               <% if(result.category_type === 2){ %>						
+						<tr class="">
+							<th class="text-right" width="25%"><%= __('admin.ads.property_address'); %></th>
+							<td><%=(typeof result.formated_address !== typeof undefined && result.formated_address !="")	? result.formated_address	: 'N/A';%></td>											
+							<th class="text-right" width="25%"><%= __('admin.ads.latitude'); %></th>
+							<td><%=(typeof result.latitude !== typeof undefined && result.latitude !="")	? result.latitude	: 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="25%"><%= __('admin.ads.longitude'); %></th>
+							<td><%=(typeof result.longitude !== typeof undefined && result.longitude !="")	? result.longitude	: 'N/A';%></td>
+						</tr>
+				   <% }%>
+					
+						
+						
+						<tr>
+							<% if(result.year){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.year'); %></th>
+							<td><%=(typeof result.year !== typeof undefined && result.year !="")	? result.year	: 'N/A';%></td>
+							<% }%>
+						   
+						   
+						   <%	if(result.fuel_consumption){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.fuel_consumption'); %></th>
+							<td><%=(typeof result.fuel_consumption !== typeof undefined && result.fuel_consumption !="")	? result.fuel_consumption	: 'N/A';%></td>
+							<% }%>
+						   
+						  
+						</tr>
+						 
+					
+						 
+					
+						<tr>
+							<% if(result.licence_plate_number){ %>
+							<th class="text-right" width="25%"><%= __('admin.ads.licence_plate_number'); %></th>
+							<td><%=(typeof result.licence_plate_number !== typeof undefined && result.licence_plate_number !="")	? result.licence_plate_number	: 'N/A';%></td>
+							<% }%>
+							
+							 <% if(result.running_cost){ %>							
+							<th class="text-right" width="25%"><%= __('admin.ads.running_cost'); %></th>
+							<td><%=(typeof result.running_cost !== typeof undefined && result.running_cost !="")	? result.running_cost	: 'N/A';%></td>							
+							<% }%>
+							
+						</tr>  
+						
+						
+					
+					
+					
+					
+		
+						<%
+						if( typeof result.any_url !== typeof undefined && result.any_url !="" ){ %>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.ads.any_url'); %></th>
+								<td><a href="<%=result.any_url;%>" target="_blank"><%=result.any_url;%></a></td>
+							</tr>
+						<% } %>
+									    
+				  		
+						<tr>
+							<%  if(result.sector_name){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.sector'); %></th>
+							<td><%=(typeof result.sector_name !== typeof undefined && result.sector_name !="")	? result.sector_name	: 'N/A';%></td>
+							<% } %>
+							
+							<% if(result.hours_type_name){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.hours_type'); %></th>
+							<td><%=(typeof result.hours_type_name !== typeof undefined && result.hours_type_name !="")	? result.hours_type_name	: 'N/A';%></td>
+							<% } %>
+							
+						</tr>
+						 
+
+						
+						<tr>
+							<%  if(result.contract_type_name){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.contract_type'); %></th>
+							<td><%=(typeof result.contract_type_name !== typeof undefined && result.contract_type_name !="")	? result.contract_type_name	: 'N/A';%></td>
+							 <% } %>
+							
+							<% if(result.level_name){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.level'); %></th>
+							<td><%=(typeof result.level_name !== typeof undefined && result.level_name !="")	? result.level_name	: 'N/A';%></td>
+							 <% } %>
+							 
+						</tr>
+						
+													
+						<tr>
+							<% if(result.language_name){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.language'); %></th>
+							<td><%=(typeof result.language_name !== typeof undefined && result.language_name !="")	? result.language_name	: 'N/A';%></td>
+						   <% } %> 
+						   
+						   <%if(result.location_preference){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.location_preference'); %></th>
+							<td><%=(typeof result.location_preference !== typeof undefined && result.location_preference !="")	? result.location_preference	: 'N/A';%></td>
+						   <% } %> 
+						   
+						</tr>
+						 
+												
+						<tr>
+							<%  if(result.salary){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.salary'); %></th>
+							<td><%=(typeof result.salary !== typeof undefined && result.salary !="")	? result.salary	: 'N/A';%></td>
+							<% } %> 
+							<%  if(result.posted_on){ %>
+							<th class="text-right" width="20%"><%= __('admin.ads.posted_on'); %></th>								
+								<td><span class="setDateTimeFormat" data-date-time="<%= (result.posted_on) ? result.posted_on :'';%>"></span></td>								
+							<% } %> 
+							
+						</tr>
+						
+								
+						<% if(result.closes_on){ %>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.ads.closes_on'); %></th>
+								<td>
+									<span class="setDateTimeFormat" data-date-time="<%= (result.closes_on) ? result.closes_on :'';%>"></span>
+								</td>
+							</tr>
+						<% }%>			
+					
+					
+					     
+						
+				</table>
+				</div>		
+		<!-- Main details table end  -->	
+		
+		
+		
+		
+       <!-- is_shippable table start  -->	
+			 <% if(result.is_shippable){ %>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<h3><%= __('admin.order.shipping'); %><%=(typeof result.is_shippable !== typeof undefined)	? (result.is_shippable == 0) ? ' (No)' : ' (Yes)' : 'N/A'%></h3>	
+	             
+					<tr>
+						<th class="text-right" width="20%"><%= __('admin.ads.height'); %></th>
+						<td><%=(typeof result.height !== typeof undefined && result.height)	? result.height : 'N/A'%></td>												
+						<th class="text-right" width="20%"><%= __('admin.ads.width'); %></th>
+						<td><%=(typeof result.width !== typeof undefined && result.width)	? result.width : 'N/A'%></td>
+					</tr>
+					
+					<tr>
+						<th class="text-right" width="20%"><%= __('admin.ads.length'); %></th>
+						<td><%=(typeof result.length !== typeof undefined && result.length)	? result.length : 'N/A'%></td>														
+						<th class="text-right" width="20%"><%= __('admin.ads.weight'); %></th>
+						<td><%=(typeof result.weight !== typeof undefined && result.weight)	? (result.weight)+" Kg" : 'N/A'%></td>
+					</tr>				
+		     </table>
+			</div>
+		   <% } %>				
+	<!-- is_shippable table end  -->
+						
+              
+       <!-- if bid allowed table start -->       
+       <div class="body table-responsive" id="aniimated-thumbnials">
+			<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+		          <h3><%= __('admin.ads.bid_allowed'); %><%=(typeof result.is_bid_allowed !== typeof undefined)	? (result.is_bid_allowed == 0) ? ' (No)' : ' (Yes)' : 'N/A'%></h3>    
+		                <% if(!result.is_bid_allowed){ %>														
+							
+							<tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.price'); %></th>
+								<td>  <%=(typeof result.price !== typeof undefined && result.price !="")	? currencyFormat(result.price)	: 'N/A';%></td>
+													
+								<th class="text-right" width="25%"><%= __('admin.ads.price_without_discount'); %></th>
+								<td>  <%=(typeof result.price_without_discount !== typeof undefined && result.price_without_discount !="")	? currencyFormat(result.price_without_discount)	: 'N/A';%></td>
+							</tr>
+							
+							<tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.vat'); %></th>
+								<td> <%=(typeof result.vat !== typeof undefined && result.vat !="")	? result.vat + '%'	: 'N/A';%></td>
+							</tr>
+						<% }else{ %>
+							
+							<tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.bidding_start_date'); %></th>
+								<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.bidding_start_date) ? result.bidding_start_date :'';%>"></span>
+							   </td>
+													
+								<th class="text-right" width="25%"><%= __('admin.ads.bidding_end_date'); %></th>
+								<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.bidding_end_date) ? result.bidding_end_date :'';%>"></span>
+							   </td>
+							</tr>
+							
+							<tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.is_bid_private'); %></th>
+								<td> <%=(typeof result.is_bid_private !== typeof undefined && result.is_bid_private == 0)	? 'NO'	: 'YES';%> </td>														
+							
+								<th class="text-right" width="25%"><%= __('admin.ads.initial_price'); %></th>
+								<td> <%=(typeof result.initial_price !== typeof undefined && result.initial_price !="")	? currencyFormat(result.initial_price)	: 'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="25%"><%= __('admin.ads.mid_price'); %></th>
+								<td>  <%=(typeof result.mid_price !== typeof undefined && result.mid_price !="")	? currencyFormat(result.mid_price)	: 'N/A';%></td>
+														
+								<th class="text-right" width="25%"><%= __('admin.ads.desire_price'); %></th>
+								<td>  <%=(typeof result.desire_price !== typeof undefined && result.desire_price !="")	? currencyFormat(result.desire_price)	: 'N/A';%></td>
+							</tr>
+						<% } %>    
+		    </table>
+		</div>				     
+        <!-- if bid allowed table end  -->        
+              
+              
+               			
+				<% if(result.is_add_more_items && result.is_add_more_items === ACTIVE){%>
+					<div class="body table-responsive">
+						<h3><%= __('admin.products.add_on_items')%></h3>
+						<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+							<tr>
+								<th>
+									<%= __('admin.products.item_name') %>
+								</th>
+								<th>
+									<%= __('admin.products.item_price')%>
+								</th>
+								 <th  >
+								<%= __('admin.products.discounted_item_price') %>
+							   </th>
+							  <th>
+								<%= __('admin.ads.vat') %>
+							  </th>
+							    
+							</tr>
+							<% result.add_on_items.map((item)=>{%>
+								<tr>
+									<td><%= item.item_name ? item.item_name : 'N/A' ; %></td>
+									<td><%= (item.item_price) ? currencyFormat(item.item_price) :currencyFormat(DEACTIVE) %></td>
+								    <td class=""><%= (item.discounted_item_price) ? currencyFormat(item.discounted_item_price) :currencyFormat(DEACTIVE) %></td>
+								     <td class=""><%= (item.item_vat) ? (item.item_vat)+'%' :(DEACTIVE)+'%' %></td>
+								</tr>
+							<%})%>
+						</table>
+					</div>
+				<%}%>
+				
+				
+				
+				<!-- Attributes  -->
+				<% if(result.attributes && result.attributes.length > 0){%>
+					<div class="body table-responsive">
+						<h3><%= __('admin.products.attributes')%></h3>
+						<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+							<tr>
+								<th class="text-right" width="25%">
+									<%= __('admin.products.attribute_name') %>
+								</th>
+								<th>
+									<%= __('admin.products.option_name')%>
+								</th>
+							</tr>
+							<% result.attributes.map((item)=>{%>
+								<tr>
+									<td class="text-right" ><%= item.attribute_name %></td>
+									<td><%= item.option_name %></td>
+								</tr>
+							<%})%>
+						</table>
+					</div>
+				<%}%>
+				
+				
+		
+		       
+			<div class="body table-responsive m-t-0" id="aniimated-thumbnials">
+				<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">   
+				   <tr>
+					<th class="text-right" width="25%"><%= __('admin.ads.descriprion'); %></th>
+					<td><%=(typeof result.description !== typeof undefined && result.description !="")	? result.description	: 'N/A';%></td>
+				 </tr>	
+				 
+				   <tr>
+					<th class="text-right" width="25%"><%= __('admin.ads.brief_description'); %></th>
+					<td><%=(typeof result.brief_description !== typeof undefined && result.brief_description !="")	? result.brief_description	: 'N/A';%></td>											
+				   </tr>	
+				   
+			 </table>
+		   </div>    		
+				
+				
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>	

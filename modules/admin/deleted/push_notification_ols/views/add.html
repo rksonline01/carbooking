@@ -1,0 +1,228 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.add'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+					<%- include ('../../elements/multilanguage_tabs.html') %>
+						<!-- Multilanguage tabs -->
+
+						<form id="add-push_notification" data-submit-btn-id="push-notification-edit-btn-id"
+							method="post" class="on_click_submit" role="form" autocomplete="off">
+							<div class="tab-content mt-20">
+								<div class="row clearfix">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line">
+												<label for="user_type" class="control-label">
+													<%= __('admin.push_notification.Select_User_Type'); %><span
+															class="required"> *</span> :
+												</label>
+												<select class="form-control show-tick search_by_status" id="user_type"
+													name="user_type">
+													<option value="">
+														<%=__("Please select user type");%>
+													</option>
+													<% if(typeof PUSH_NOTIFICATION_USER_TYPE_DROPDOWN!==typeof undefined
+														&& PUSH_NOTIFICATION_USER_TYPE_DROPDOWN.length> 0){
+														PUSH_NOTIFICATION_USER_TYPE_DROPDOWN.map(userType=>{
+														%>
+														<option value="<%=userType.id %>">
+															<%=userType.name %>
+														</option>
+														<% }); } %>
+												</select>
+											</div>
+											<span id="user_type_error" class="error"></span>
+										</div>
+									</div>
+								</div>
+
+								<div class="row clearfix">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<div class="form-line selected_user_ids valid_location_div">
+												<label for="selected_user_ids" class="control-label">
+													<%= __('admin.push_notification.select_users'); %> <span
+															class="required">(Note : <%=
+																__('admin.system.please_search_by_email'); %>)</span>
+												</label>
+												<select id="selected_user_ids" name="selected_user_ids" multiple="true"
+													class="form-control ms selectpicker" data-live-search="true"
+													title="<%=__(" admin.push_notification.please_select_users");%>">
+
+												</select>
+											</div>
+											<span id="selected_user_ids_error" class="error"></span>
+										</div>
+									</div>
+								</div>
+								<% if(typeof language_list !==typeof undefined && Array.isArray(language_list) &&
+									language_list.length> 0){ %>
+									<% language_list.forEach(function(languages){ %>
+										<% languageId=(languages._id) ? languages._id : '' ;
+											languageCode=(languages.lang_code) ? languages.lang_code : '' ; %>
+											<div role="tabpanel"
+												class="tab-pane multi-lang-tab-pane fade in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "
+												active" : "" ; %>" id="multi_lang_<%= languageCode; %>">
+
+													<div class="row clearfix">
+														<div class="col-sm-12">
+															<div class="form-group">
+																<div class="form-line">
+																	<label for="message" class="control-label">
+																		<%= __("admin.push_notification.message"); %>
+																			<% if(languageCode==DEFAULT_LANGUAGE_CODE){
+																				%>
+																				<span class="required"> *</span>
+																				<% } %>
+																					:
+																	</label>
+																	<input type="hidden"
+																		name="notification_descriptions[<%= languageId %>][language_id]"
+																		value="<%= languageId; %>" />
+
+																	<textarea rows="4" id="message_<%= languageId; %>"
+																		class="form-control no-resize"
+																		name="notification_descriptions[<%= (languages._id) ? languages._id : "" %>][message]"></textarea>
+																	<!-- <textarea rows="4"  id="message" class="form-control no-resize ckeditor"  name="message"></textarea> -->
+																</div>
+																<% if(languageCode==DEFAULT_LANGUAGE_CODE){ %>
+																	<span
+																		id="notification_descriptions_<%=languageId %>_message_error"
+																		class="error"></span>
+																	<% } %>
+
+
+															</div>
+														</div>
+													</div>
+											</div>
+											<% }); %>
+												<% } %>
+							</div>
+							<button type="button" id="push-notification-edit-btn-id" <%- ADMIN_LOADING_TEXT %>
+								class="btn bg-pink btn-sm waves-effect btn-submit"><i
+									class="material-icons font-14">save</i>
+								<%= __('admin.system.submit'); %>
+							</button>
+							<a href="javascript:location.reload(true);" class="text-decoration-none"><button
+									type="button" class="btn bg-blue-grey btn-sm waves-effect"><i
+										class="material-icons font-14">refresh</i>
+									<%= __("admin.system.reset"); %>
+								</button></a>
+							<a href="<%= admin_list_url %>"><button type="button"
+									class="btn bg-brown btn-sm waves-effect"><i
+										class="material-icons font-14">cancel</i>
+									<%= __("admin.system.cancel"); %>
+								</button></a>
+						</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
+		integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>ajax-bootstrap-select/ajax-bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+
+	<%- contentFor("script") %>
+		<script type="text/javascript"
+			src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
+			integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
+			crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="<%=WEBSITE_ADMIN_JS_PATH%>ajax-bootstrap-select/ajax-bootstrap-select.js"></script>
+		<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+		<script type="text/javascript">
+
+			$(document).ready(function () {
+				var userType = document.getElementById('user_type').selectedOptions[0].value;
+				$(document).on("change", "#user_type", function () {
+					userType = document.getElementById('user_type').selectedOptions[0].value;
+					$("#selected_user_ids").html('');
+					$("#selected_user_ids").val('');
+					$("#selected_user_ids").selectpicker('deselectAll');
+					$("#selected_user_ids").selectpicker('refresh');
+				})
+
+				/** 
+				**get user list type wise for ajax type 
+				***/
+				$("#selected_user_ids").selectpicker().ajaxSelectPicker({
+
+					ajax: {
+						url: '<%=admin_list_url%>/get_user_list_type_wise_ajax/',
+						type: 'POST',
+						dataType: 'json',
+						data: function () { // This is a function that is run on every request
+							return {
+								q: '{{{q}}}',
+								user_type: userType//this is an input text HTML
+							};
+						}
+
+					},
+					minLength: 2,
+					delay: 250,
+					cache: true,
+					// function to preprocess JSON data
+					preprocessData: function (data) {
+						var i, l = data.result.length, selectOptions = [];
+						if (l) {
+							for (i = 0; i < l; i++) {
+								selectOptions.push($.extend(true, data.result[i], {
+									text: data.result[i].full_name + " (" + data.result[i].email + ")",
+									value: data.result[i]._id,
+									data: { }
+								}));
+							}
+						}						
+
+						
+						return selectOptions;
+					},
+				
+
+				});
+
+				
+
+				/**
+				 * Function to submit form
+				 */
+				$(".btn-submit").click(function () {
+					var btnId = $(this).attr("id");
+					startTextLoading(btnId);
+					ajax_submit("add-push_notification", function (status, response) {
+						if (status) {
+							window.location.href = response.redirect_url;
+						} else {
+							stopTextLoading(btnId);
+						}
+					});
+				});
+			});
+
+
+		</script>

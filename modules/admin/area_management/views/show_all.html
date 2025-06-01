@@ -1,0 +1,228 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.area.show_all_areas"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<div class="tab-content mt-20">
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<select  id="area_name_drop" name="area_name">
+											<option value="">Select Area</option>
+											<%
+											if(typeof result !== typeof undefined && Array.isArray(result) && result.length > 0){
+												result.forEach(function(area){ %>
+													<option value="<%= JSON.stringify(area.coordinates); %>"> <%= area.title; %> </option>
+												<%
+												})
+											}
+											%> 
+										</select>
+									</div>
+									<span id="area_name_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						 	
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<div id="map"></div>
+									</div> 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+ 
+
+<%- contentFor("script") %>
+	<script src="https://maps.googleapis.com/maps/api/js?key=<%= google_map_key %>&libraries=places"></script>
+	<script type="text/javascript">
+ 
+		var map
+		var marker
+		var polygon
+		var bounds
+		var path
+		 
+		function initMap() {
+			/**
+			 * Script for google Map start here
+			 */
+			let autocomplete;
+			const google_map_default_lat =		<%= google_map_default_lat %>;
+			const google_map_default_long = 	<%= google_map_default_long %>;
+
+		
+			// Initialize the map
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat:google_map_default_lat, lng: google_map_default_long }, // Default to San Francisco
+				zoom: 12,
+			});
+			
+			/*******************
+			var marker = new google.maps.Marker({
+				map: map,
+				position: { lat:google_map_default_lat, lng: google_map_default_long },
+				draggable: true,
+			});
+			
+			google.maps.event.addListener(marker, 'dragend', function(marker){
+				var latLng = marker.latLng; 
+				currentLatitude = latLng.lat();
+				currentLongitude = latLng.lng();
+				$("#latitude").val(currentLatitude);
+				$("#longitude").val(currentLongitude);
+			 }); 
+			 
+			
+			google.maps.event.addListener(map, "click", (event) => {
+				//addMarker(event.latLng, map);
+				marker.setPosition(event.latLng);
+				currentLatitude = event.latLng.lat();
+				currentLongitude = event.latLng.lng();
+				$("#latitude").val(currentLatitude);
+				$("#longitude").val(currentLongitude);
+			});
+			 
+			*******************/
+			/***********
+			// Initialize the autocomplete search box
+			const input = document.getElementById("area_name");
+			autocomplete = new google.maps.places.Autocomplete(input);
+
+			// Bind autocomplete to the map
+			autocomplete.bindTo("bounds", map);
+			
+			autocomplete.addListener("place_changed", () => {
+				const place = autocomplete.getPlace();
+
+				if (!place.geometry || !place.geometry.location) {
+					alert("No details available for this location.");
+					return;
+				}
+
+				// Center the map on the selected location
+				map.setCenter(place.geometry.location);
+				map.setZoom(12); 
+			});
+			*******************/
+			
+			 
+			let jsonCoordinatesAreaArray 	= 	null;
+			let pathCoordinatesArea 		= 	null;
+			let currentInfoWindow	 		= 	null;
+			 
+			<%
+			if(typeof result !== typeof undefined && Array.isArray(result) && result.length > 0){
+					
+				result.forEach(function(area){ %>
+					
+					var coordinatesArea 		= 	`<%= JSON.stringify(area.coordinates); %>`;
+					coordinatesArea 			= 	coordinatesArea.replace('""', "");
+					coordinatesArea 			= 	coordinatesArea.replace(/&#34;/g, '"');
+					jsonCoordinatesAreaArray 	= 	JSON.parse(coordinatesArea);
+					
+					pathCoordinatesArea = jsonCoordinatesAreaArray.map(item => ({
+					  lat: parseFloat(item.lat),  // Convert lat to number
+					  lng: parseFloat(item.lng)   // Convert lng to number
+					}));
+				
+					already_polygon = new google.maps.Polygon({
+						paths: pathCoordinatesArea,
+						strokeColor: "#0000FF",
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: "#0000FF",
+						fillOpacity: 0.35,
+					})
+
+					already_polygon.setMap(map)
+					
+					center_polygon = getPolygonCenter(pathCoordinatesArea);
+					
+					infoWindow<%= area._id %> = new google.maps.InfoWindow({
+						content: `<%= area.title %>`,
+						position: center_polygon,
+					});
+					
+					already_polygon.addListener("click", (e) => {
+						
+						/****
+						marker.setPosition(e.latLng);
+						currentLatitude = e.latLng.lat();
+						currentLongitude = e.latLng.lng();
+						$("#latitude").val(currentLatitude);
+						$("#longitude").val(currentLongitude);
+						*****/
+						
+						if (currentInfoWindow) {
+							currentInfoWindow.close();
+						}
+
+						// Open new InfoWindow
+						infoWindow<%= area._id %>.open(map);
+						currentInfoWindow = infoWindow<%= area._id %>; // Update reference
+					});
+				<%
+				})
+			}
+			%> 
+		
+		
+		
+			$("#area_name_drop").change(function() {
+				var area_name_drop_val = ($('#area_name_drop').val());
+				if(area_name_drop_val){
+					var coordinates = 	JSON.parse(area_name_drop_val);
+					
+					pathCoordinatesArea = coordinates.map(item => ({
+					  lat: parseFloat(item.lat),  // Convert lat to number
+					  lng: parseFloat(item.lng)   // Convert lng to number
+					}));
+
+					center_polygon = getPolygonCenter(pathCoordinatesArea);
+				 
+					var centerLat	=	(typeof center_polygon.lat	 !== typeof undefined) ? center_polygon.lat : <%= google_map_default_lat %>;
+					var centerLng	=	(typeof center_polygon.lng	 !== typeof undefined) ? center_polygon.lng : <%= google_map_default_long %>;
+					
+					var latlng = new google.maps.LatLng(centerLat, centerLng);
+					map.setCenter(latlng);
+				}
+			});
+		
+		}
+		
+		function getPolygonCenter(coords) {
+            let latSum = 0, lngSum = 0;
+            coords.forEach(coord => {
+                latSum += coord.lat;
+                lngSum += coord.lng;
+            });
+            return { lat: latSum / coords.length, lng: lngSum / coords.length };
+        }
+		
+		
+		 
+
+		// Initialize the map on page load
+		window.onload = initMap;
+		
+	</script>

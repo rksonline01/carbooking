@@ -1,0 +1,264 @@
+<%
+	var result			= (typeof result !== typeof undefined && result)		?	result		:{};
+	var userId			= (typeof result._id !== typeof undefined)				? 	result._id	:"";
+	var userType 		= (typeof user_type !== typeof undefined && user_type)	?	user_type 	:"";
+	
+	var languageName        =  (result.lang_name) ? result.lang_name : DEFAULT_LANGUAGE_CODE;
+	
+	/*
+	var languageName = "English";
+	if(language == ARABIC_LANGUAGE_CODE){
+		languageName ="Arabic"
+	}
+	*/
+
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%=result.full_name%>(<%= __('admin.user.view_details'); %>)</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						
+						<%if(userType == CUSTOMER_USER_TYPE){%>
+							<li>
+								<a href="<%=admin_list_url+'/'+userType%>/view-wallet-history/<%=userId%>">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">find_in_page</i> <%= __("admin.wallet.customer_wallet"); %>
+									</button>
+								</a>
+							</li>
+							<!-- <li>
+								<a href="<%=WEBSITE_ADMIN_URL+'points'%>?user_id=<%=userId%>">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">find_in_page</i> <%= __("admin.user.points"); %>
+									</button>
+								</a>
+							</li> -->
+
+							 <!-- <li>
+								<a href="<%=WEBSITE_ADMIN_FILES_URL%>orders?user_id=<%=userId%>&user_type=<%=userType%>">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">find_in_page</i> <%= __("admin.user.view_orders"); %>
+									</button>
+								</a>
+							</li>  -->
+
+							<!-- <li>
+								<a href="<%=admin_list_url+'/'+userType%>/subscription-list/<%=userId%>">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">find_in_page</i> <%= __("admin.user.view_subscription_list"); %>
+									</button>
+								</a>
+							</li> -->
+						<%}%>	
+						
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+						
+					 
+					<!-- Only For Mobile View-->
+					<ul class="header-dropdown m-r--5 d-none .d-block .d-sm-none">
+						<li class="dropdown">
+							<a href="javascript:void(0)" class="dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<i class="material-icons">more_vert</i>
+							</a>
+							<ul class="dropdown-menu pull-right m-w-200">
+								
+								<li>
+									<a href="<%=admin_list_url+'/'+userType%>" >
+										<i class="material-icons">keyboard_backspace</i><%= __("admin.system.back"); %>
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+			    <div class="row clearfix">
+					<%if(userType == CUSTOMER_USER_TYPE || userType == SERVICE_PROVIDER_USER_TYPE){%>
+				  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<% } else { %>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<% } %>
+
+				    <div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%"> %>
+							<tr>
+								<th class="text-right" width="25%"><%= __("admin.user.image"); %></th>
+								<td>
+									<% if(typeof result[IMAGE_FIELD_NAME] !== typeof undefined && result[IMAGE_FIELD_NAME] !=""){ %>
+										<a href="<%= result[IMAGE_FIELD_NAME]%>"   class="items-image" data-lightbox="roadtrip">
+											<img src="<%= result[IMAGE_FIELD_NAME]%>?dim=120x120&type=resize" alt="Profile image"  />
+										</a>
+									<% } %>
+								</td>
+							</tr>
+
+						<tr>
+							<%if(userType == SERVICE_PROVIDER_USER_TYPE){%>
+								<th class="text-right"><label for="full_name" class="control-label"><%= __('admin.user.provider_name'); %></th>
+							<%}else{%>
+								<th class="text-right"><label for="full_name" class="control-label"><%= __('admin.user.user_full_name'); %></th>
+							<%}%>
+							<td><%=(typeof result.full_name !== typeof undefined)	? result.full_name	: 'N/A';%></td>
+						</tr>
+						
+						<tr>
+						    <th class="text-right" ><label for="full_name" class="control-label"><%= __('admin.user.email'); %> </th>
+							<td><%-(typeof result.email !== typeof undefined) ? '<a href="mailto:'+result.email+'">'+result.email+'</a>' : 'N/A'%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right"><%= __('admin.user.mobile_number'); %></th>
+							<td><%= (typeof result.mobile_number !== typeof undefined) ? result.mobile_number :"N/A";%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.user.gender'); %></th>
+							<td colspan="3">
+								<%if(result.gender == 0){%>
+									<%= __('admin.gender.female'); %>
+								<%}else if(result.gender == 1){%>
+								<%=  __('admin.gender.male'); %>
+								<%}%>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.user.country'); %></th>
+							<td colspan="3"><%= (result.country_name) ? result.country_name :'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.country.state_name'); %></th>
+							<td colspan="3"><%= (result.state_name) ? result.state_name :'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.country.city'); %></th>
+							<td colspan="3"><%= (result.city_name) ? result.city_name :'N/A';%></td>
+						</tr>
+						<!-- <tr>
+							<th class="text-right" width="20%"><%= __('admin.user.language'); %></th>
+							<td colspan="3"><%= (languageName) ? languageName :'N/A';%></td>
+						</tr> -->
+						<tr>
+							<th class="text-right"><%= __('admin.system.status'); %></th>
+							<%
+								var status 	=	(result.status && result.status == ACTIVE)	? '<span class="label label-success ">'+__("admin.system.active")+'</span>' : '<span class="label label-danger ">'+__("admin.system.deactive")+'</span>';
+								status += " ";
+								status 		+= 	(result.is_mobile_verified && result.is_mobile_verified == VERIFIED ) ? '<span class="label label-info"> '+__("admin.user.user_mobile_verified")+'</span>': '<span class="label label-warning">'+__("admin.user.user_mobile_not_verified")+'</span>';
+							%>
+							<td colspan="3"><%- status%></td>
+						</tr>
+						
+						<%if(userType == CUSTOMER_USER_TYPE){%>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.user.available_balance'); %></th>
+								<td colspan="3"><%= (result.wallet_amount) ? displayPrice(result.wallet_amount) : 'N/A'; %></td>
+							</tr>
+							<!-- <tr>
+								<th class="text-right" width="20%"><%= __('admin.user.total_coins'); %></th>
+								<td colspan="3"><%= (result.total_points) ? result.total_points : 'N/A'; %></td>
+							</tr> -->
+						<%}%>		
+						
+						
+						
+						<%if([SERVICE_PROVIDER_USER_TYPE, CUSTOMER_USER_TYPE].includes(userType)){
+							%>
+						<tr>
+							<th class="text-right"><%= __('admin.user.service_provider_rating'); %></th>
+							<td>
+								<span class="rating" data-score="<%= (result.rating) ? result.rating : 0 %>"></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.user.rating_count'); %></th>
+							<td>
+								<%= (result.rating_count) ? result.rating_count : 0 %>
+							</td>
+						</tr>
+
+						<%if(userType == SERVICE_PROVIDER_USER_TYPE){%>						
+						<tr>
+							<th class="text-right"><%= __('admin.user.joining_date'); %></th>
+							<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'DD/MM/YYYY';%>"></span>
+							</td>
+						</tr>
+
+						
+						
+						
+						<%}}%>
+						<tr>
+							<%if(userType == SERVICE_PROVIDER_USER_TYPE){%>
+								<th class="text-right"><%= __('admin.user.created_date'); %></th>
+							<%}else{%>
+								<th class="text-right"><%= __('admin.user.registered_date'); %></th>
+							<%}%>
+							<td>
+								<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'DD/MM/YYYY';%>"></span>
+							</td>
+						</tr>
+					</table>
+				   </div>
+			     </div>
+
+				 <%if(userType == SERVICE_PROVIDER_USER_TYPE){%>
+				 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<div class="body table-responsive" id="aniimated-thumbnials">
+						<h5><%= __('admin.system.provider_service_details'); %></h5>
+					 <table  class="row-border hover table table-bordered" cellspacing="0" width="100%"> %>
+						<tr>
+							<th class="text-right"><%= __('admin.system.total_assign_order'); %></th>
+							<td  ><%= assignOrderCount %></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.system.total_complete_order'); %></th>
+							<td ><%= completeOrderCount %></td>
+						</tr>						
+					 </table>
+					</div>
+				 </div>
+				 <% } %>
+
+			 </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<%- contentFor('css') %>
+	<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+
+<%- contentFor('script') %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-raty.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('span.rating').each(function () {
+				var score = $(this).data('score');
+				console.log("🚀 -> score: ", score);
+				$(this).raty({
+					half: true,
+					halfShow: true,
+					number: 5,
+					readOnly: true,
+					score: score ? score : 0,
+					starHalf: '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-half.png',
+					starOff: '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-off.png',
+					starOn: '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-on.png',
+				});
+			});
+		});
+	</script>
+	

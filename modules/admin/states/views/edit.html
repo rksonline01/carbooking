@@ -1,0 +1,130 @@
+<%
+	result 		=	(typeof result !== typeof undefined)	?	result	:{};
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.state.edit_state_management'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					<form id="edit-user" data-submit-btn-id="user-edit-btn-id" method="post" class="on_click_submit" role="form" >
+						<div class="tab-content mt-20">
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="country_name" class="control-label"><%= __('admin.country.select_country'); %><span class="required"> *</span> :</label>
+											<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+												<span class="float-right">
+													<b><%= __('admin.system.these_fields_are_same_in_all_languages'); %></b>
+												</span>
+											<% } %>
+											<select data-live-search="true" data-dropup-auto="false" class="form-control show-tick search_by_status" id="country_id" name="country_id">
+													<option value=""><%= __('admin.country.select_country'); %></option>
+													<%- country_list %>
+											</select>
+										</div>
+										<span id="country_id_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ %>
+								
+								<% 
+								if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+									<div class="row clearfix seperator-line field-seperator"><hr/></div>
+								<% 
+								}
+								if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ 
+									language_list.forEach(function(languages){ 
+										languageId 		= (languages._id) ?  languages._id : '';
+										languageCode 	= (languages.lang_code) ?  languages.lang_code : '';
+										value 			= 	(result.pages_descriptions && result.pages_descriptions[languageCode] && result.pages_descriptions[languageCode]['state_name']) ? result.pages_descriptions[languageCode]['state_name'] : '';
+										resultId		=	(result._id)	? result._id	:	""
+										%>
+										<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade_lang in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? 'active' : ''; %>" id="multi_lang_<%= languageCode; %>">
+											<div class="row clearfix">
+												
+												<div class="col-sm-12">
+													<div class="form-group">
+														<div class="form-line">
+															<label for="body_<%= languageCode; %>" class="control-label">
+																<%= __('admin.country.state_name')%> 
+																<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																	<span class="required"> *</span>
+																<% } %> 
+															</label>
+															<input type="hidden" name="pages_descriptions[<%= languageCode %>][language_id]" value="<%= languageId; %>"/>
+															<input type="text" name="pages_descriptions[<%=languageCode%>][state_name]"  id="name_<%= languageCode; %>" class="form-control" value="<%= value %>" />
+															
+														</div>
+														<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="pages_descriptions_<%=languageCode %>_state_name_error" class="error"></span>
+														<% } %>
+													</div>
+												</div>
+											</div>
+										</div>
+										<% 		
+									}); 
+								} 
+							} %>
+
+						</div>
+						
+						
+						<button type="button"  id="user-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript">
+	
+		$(document).ready(function(){
+			/**
+			 * Function to submit form
+			 */
+			$(".btn-submit").click(function(){
+				var btnId = $(this).attr("id");
+				startTextLoading(btnId);
+				ajax_submit("edit-user",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});			
+		});
+	</script>
+
+
+
+

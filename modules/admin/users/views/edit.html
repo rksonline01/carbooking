@@ -1,0 +1,378 @@
+<%
+	result 				= 	(typeof result !== typeof undefined && result)				?	result 						:{};
+	var userType 		= 	(typeof user_type !== typeof undefined && user_type)		?	user_type 					:"";
+	var isEditable 		= 	(typeof is_editable !== typeof undefined && is_editable)	?	is_editable 				:"";
+
+	var gender			= 	(result.gender != "") 		? 	result.gender 				:"";
+
+
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= (isEditable) ? __("admin.user.edit") : __("admin.user.add_user"); %> 
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url+"/"+userType%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="edit-user" data-submit-btn-id="user-edit-btn-id" method="post" class="on_click_submit" role="form">
+						<%
+						var imageURL	= 	(image_url) ? image_url			: "";
+					  	var oldImage	= 	(result.profile_image)		? result.profile_image		:""; 
+						var image 		= 	(profile_image) 		 	? imageURL+profile_image				: ADD_PROFILE_IMAGE_ICON; 
+					  %>
+						<div class="row clearfix">
+							<div class="col-sm-12 align-center">
+								<div class="form-group add-image">
+									<input name="old_image" id="old_image" type="hidden" class="form-control"  value="<%=oldImage %>"/>
+									<input name="profile_image" id="profile_image" class="form-control image-input-file" type="file"/>
+									<span class="help-inline required profile_image" id="ContentTypeNameSpan">
+										<div id="pImage">
+											<img src="<%=image%>?dim=120x120&type=crop" alt="Profile image" class="profileImage" />
+											 
+										</div>
+									</span>
+									<br/>
+									<div>
+										<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="<%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>" class="btn bg-teal btn-block btn-sm waves-effect changePhoto">
+											<%= __("admin.user.upload_image"); %>
+										</a>
+									</div>
+									<span id="profile_image_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<div class="form-line">
+									<label for="full_name" class="control-label"><%= __("admin.user.full_name"); %> <span class="required"> * </span>:</label>
+									<input name="full_name" id="full_name" type="text" class="form-control" value="<%=(result.full_name) ? result.full_name :'';%>" />
+								</div>
+								<span id="full_name_error" class="error"></span>
+							</div>
+						</div>
+						</div>
+
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line cursor-not-allowed">
+										<label for="email" class="control-label"><%= __("admin.user.email"); %> <% if(userType != SERVICE_PROVIDER_USER_TYPE){%> <span class="required">  </span><%}%>:</label>
+										<input name="email" id="email" type="text" class="form-control <%-(isEditable) ? "readonly" :""%>" value="<%=(result.email) ? result.email :"";%>" <%-(isEditable) ? 'readonly="true"' :''%> />
+									</div>
+									<span id="email_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6 country-code-mask">
+								<label for="mobile_number" class="control-label"><%= __("admin.user.phone_number"); %><span class="required"> * </span>:</label>
+								<div class="input-group">
+									<div class="form-line cursor-not-allowed">
+										<span class="input-group-addon <%-(isEditable) ? 'color-gray' :''%>">
+											<select data-live-search="true" class="form-control show-tick selectpicker search_by_status country_code_css search-select" id="country_code_list" name="mobile_code"  autocomplete="off">
+												<%- country_code_list %>
+											</select>
+										</span>
+										<input name="mobile" id="mobile" type="text" class="form-control <%-(isEditable) ? 'readonly' :''%>" value="<%=(result.mobile) ? result.mobile :'';%>"  <%-(isEditable) ? 'readonly="true"' :''%>/>
+										<input name="mobile_number" id="mobile_number" type="hidden" class="form-control" />
+
+									</div>
+									<span id="mobile_error" class="error"></span>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="row clearfix">
+							  
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="zip" class="control-label"><%= __('admin.user.zip_code'); %> <% if(userType != SERVICE_PROVIDER_USER_TYPE){%> <span class="required">  </span><%}%>:</label>
+										<input name="zip" id="zip" type="text" class="form-control" value="<%=(result.zip) ? result.zip :'';%>"/>
+									</div>
+									<span id="zip_error" class="error"></span>
+								</div>
+							</div>
+						
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="country_id" class="control-label"><%= __("admin.user.country"); %> <% if(userType != SERVICE_PROVIDER_USER_TYPE){%> <span class="required">  </span><%}%>:</label>
+										<select onchange="getStateData(this)" data-live-search="true" class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="country_id" name="country_id" >
+											<option value=""><%= __("admin.user.select_country"); %></option>
+											<%- country_list %>
+										</select>
+									</div>
+									<span id="country_id_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="state_id" class="control-label"><%= __("admin.country.state_name"); %> <% if(userType != SERVICE_PROVIDER_USER_TYPE){%>  <span class="required">  </span><%}%>:</label>
+										<select onchange="getCityData(this)" data-live-search="true" class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="state_id" name="state_id">
+											<option value=""><%= __("admin.country.select_state"); %></option>
+											<%- state_list %>
+										</select>
+									</div>
+									<span id="state_id_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="city_id" class="control-label"><%= __("admin.country.city"); %> <% if(userType == FRNCHIES_USER_TYPE){%> <span class="required">  </span><%}%>:</label>
+										<select data-live-search="true" class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="city_id" name="city_id">
+											<option value=""><%= __("admin.country.select_city"); %></option>
+											<%- city_list %>
+										</select>
+									</div>
+									<span id="city_id_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="row clearfix">							
+
+							<!-- <div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="language" class="control-label"><%= __("admin.user.language"); %><span class="required"> * </span>:</label>
+										<select data-live-search="true" class="form-control show-tick selectpicker search_by_status " data-dropup-auto="false" id="language" name="language" >
+											<option value=""><%= __("admin.user.select_language"); %></option>
+											<%- lang_list %>
+										</select>
+									</div>
+									<span id="language_error" class="error"></span>
+								</div>
+							</div> -->
+
+													
+
+							<div class="col-sm-6">
+								<div class="form-group">
+									<!-- <div class="form-line"> -->
+										<label for="gender" class="control-label"><%= __('admin.user.gender'); %><span class="required"> * </span>:</label>
+										<br>
+										<input class="with-gap" id="gender1" name="gender" type="radio" value="<%= MALE %>" <% if(result.gender == 1){%><%="checked"%><%}%>><label class="label_checkbox" for="gender1"><%= __('admin.user.male'); %></label>
+										<input class="with-gap" id="gender2" name="gender" type="radio" value="<%= FEMALE %>" <% if(result.gender == 0){%><%="checked"%><%}%>><label class="label_checkbox" for="gender2"><%= __('admin.user.female'); %></label>
+									<!-- </div> -->
+									<span id="gender_error" class="error"></span>
+								</div>
+							</div>
+							
+							
+						</div>
+
+						<button type="button"  id="user-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%=admin_list_url+'/'+userType%>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+.country_code_css{
+	width: 75px  !important;
+	margin-top: -10px;
+}
+
+</style>
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+		<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			/**counrty wise state selected*/
+			$('#country_code_list').selectpicker('destroy')
+			$('#country_code_list').val('<%=result.mobile_code%>');
+			$('#country_code_list').selectpicker('render');
+
+			$(".btn-submit").click(function(){
+				let countryCode = $('#country_code_list').val();
+				let mobile = $('#mobile').val();
+				$('#mobile_number').val(countryCode+mobile);
+				$('#full_name').val('<%= result.full_name%>');
+
+				var btnId = $(this).attr("id");
+				startTextLoading(btnId);
+				ajax_submit("edit-user",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});
+
+			/**
+			 * User image Upload
+			 */
+			$(document).on("click", ".changePhoto", function(){
+				if(!$(".add-image #profile_image").hasClass("added")){
+					$(".add-image #profile_image").trigger("click");
+					$(".add-image #profile_image").addClass("added");
+					window.setTimeout(function(){
+						$(".add-image #profile_image").removeClass("added");
+					},500);
+				}
+			});
+
+			/**
+			 *Show user image after select
+			 */
+			$("#profile_image").on("change", function(){
+				var files = !!this.files ? this.files : [];
+				if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+				
+				if (/^image/.test( files[0].type)){
+					// only image file
+					var reader = new FileReader(); // instance of the FileReader
+					reader.readAsDataURL(files[0]); // read the local file
+					reader.onloadend = function(){
+
+						$("#pImage").html("<img src='"+this.result+"' class='profileImage' >");
+						
+					}
+					$("span#profile_image_error").text("");
+				}else{
+					$("span#profile_image_error").text("Please enter valid image file.");
+				}
+				
+			});
+
+			var options		= 	{};
+			options.locale 	=	{
+				format	: 	"YYYY-MM-DD",
+			};
+			options.startDate		= 	moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD");
+			options.autoUpdateInput	= 	false;
+			options.singleDatePicker= 	true;
+			options.showDropdowns	= 	true;
+			options.maxDate			= 	moment().tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD");
+			options.drops			= 	"up";
+
+
+
+			var configDemo = $('.datepicker');
+			configDemo.daterangepicker(options);
+			configDemo.on('apply.daterangepicker', function(e,picker){
+				var displayStartDate 	=	picker.startDate.format('<%= DATE_FORMAT %>');
+				$('.datepicker').val(displayStartDate);
+			});
+
+		});
+		
+		
+		/**get states list country wise data
+		***/
+		function getStateData(selectObject){
+
+			var value = selectObject.value;
+			
+			if(value){
+				$.ajax({
+					'type'		: 	'POST',
+					url 		:	"<%= COUNTRY_STATE_CITY_URL %>/get_state_list_country_wise/"+value,
+					'data'		: 	{ 'country_id': value	},
+					'success': function (response){
+						var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+						if(result.length > 0){
+							var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+							result.map(function(res){
+								/**create select box */
+								var selectedString = (res._id == value) ? "selected" : "";
+								option+='<option  value="'+res._id+'">'+res.state_name+'</option>';
+							});
+							$("#state_id").html('');
+							$("#state_id").html(option);
+							$("#state_id").selectpicker('destroy'); // Destroy existing instance
+							$("#state_id").selectpicker();
+							//$("#state_id").selectpicker('refresh');
+						}else{
+							var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+							$("#state_id").html('');
+							$("#state_id").html(option);
+							$("#state_id").selectpicker('destroy'); // Destroy existing instance
+							$("#state_id").selectpicker();
+							//$("#state_id").selectpicker('refresh');
+						}
+						//$(".test-select-box").show();
+					}
+				});
+			}else{
+				var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+				$("#state_id").html('');
+				$("#state_id").html(option);
+				$("#state_id").selectpicker('destroy'); // Destroy existing instance
+				$("#state_id").selectpicker();
+				//$("#state_id").selectpicker('refresh');
+			}
+		}
+
+		/**
+		**get city list state wise data
+		***/
+		function getCityData(selectObject){
+			var value = selectObject.value;
+			if(value){
+				$.ajax({
+					'type'		: 	'POST',
+					url 		:	"<%= COUNTRY_STATE_CITY_URL %>/get_city_list_state_wise/"+value,
+					'data'		: 	{ 'state_id': value	},
+					'success': function (response){
+						var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+						if(result.length > 0){
+							var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+							result.map(function(res){
+								/**create select box */
+								var selectedString = (res._id == value) ? "selected" : "";
+								option+='<option  value="'+res._id+'">'+res.city_name+'</option>';
+							});
+							$("#city_id").html(option);
+							$("#city_id").selectpicker('destroy'); // Destroy existing instance
+							$("#city_id").selectpicker();
+							//$("#city_id").selectpicker('refresh');
+						}else{
+							var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+							$("#city_id").html(option);
+							$("#city_id").selectpicker('destroy'); // Destroy existing instance
+							$("#city_id").selectpicker();
+							//$("#city_id").selectpicker('refresh');
+						}
+						//$(".test-select-box").show();
+					}
+				});
+			}else{
+				var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+				$("#city_id").html(option);
+				$("#city_id").selectpicker('destroy'); // Destroy existing instance
+				$("#city_id").selectpicker();
+				//$("#city_id").selectpicker('refresh');
+			}
+		}
+
+	</script>

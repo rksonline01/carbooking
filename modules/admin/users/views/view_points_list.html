@@ -1,0 +1,259 @@
+<%
+	var userType 		= (typeof user_type !== typeof undefined && user_type)		?	user_type 					:"";
+    var userId 		= (typeof user_id !== typeof undefined && user_id)		?	user_id 					:"";
+
+%>
+
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="#panel-collapse-id" aria-expanded="false" aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm"  method="POST" name="searchForm" >
+							<input type="hidden" name="search_open" id="search_open" value="0">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Name -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0" placeholder="<%= __('admin.orders.search_by_order_number'); %>" name="order_number">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" name="created"  placeholder="<%= __('admin.user.search_by_created_date'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="hidden" name="from_date">
+											<input class="form-control hide" id="to_date" type="hidden" name="to_date">
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+											<%= __("admin.system.submit")%>
+										</button>
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'users/'+userType%>/view_points_list/<%=userId%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.user.points'); %>
+					</h2>
+					<!-- Inline User Details -->
+					<%- include ("../../elements/customer_info_details.html") %>
+			
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>/view/<%=userId%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+						
+						<li>
+							<a href="<%=admin_list_url+'/'+userType%>/export-points-list/<%=userId%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<%= __('admin.system.export_all'); %>
+								</button>
+							</a>
+						</li>
+						
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="20%"><%= __('admin.user_point.order_number'); %></th>
+								<th width="10%"><%= __('admin.user_point.type'); %></th>
+								<th width="20%"><%= __('admin.user_point.point'); %></th>
+								<th width="20%"><%= __('admin.user_point.amount'); %></th>
+								<th width="10%"><%= __('admin.user_point.balance'); %></th>
+                                <th width="20%"><%= __('admin.system.created'); %></th>
+
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>wallet-tranaction.js"></script>
+
+	<script type="text/javascript">
+		/**
+		* Function to initialize datatable and get server side data
+		*/
+		var dataTable 	= "";
+		$(document).ready(function() {
+			dataTable = $('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: [[5, "desc" ]],
+				"sDom"		: "ltipr",
+				"lengthMenu": PAGING_LENGTH_MENU,
+				"serverSide": true,
+				"scrollX"	: true,
+				"language"		: {
+						"url"		: "<%=DATABLE_LANG_CDN%>",
+				},
+				"columns": [
+					
+					// Order/Reference Number
+					{
+						"data": "order_number",
+						"orderable"		: false,
+						"render": function (order_number) {
+							return order_number ? order_number.toString() : "N/A";
+						}
+					},
+					// Transaction Type (Credit or Redeem)
+					{
+						"data": "is_redeem",
+						"orderable"		: false,
+						"render": function (is_redeem) {
+							return is_redeem == 1 
+								? '<span class="badge bg-danger">Redeem</span>' 
+								: '<span class="badge bg-success">Credit</span>';
+						}
+					},
+					// Points Earned or Redeemed
+					{
+						"data": {},
+						"orderable"		: false,
+						"render": function (result) {
+							if (result.is_redeem == 1) {
+								return '<span class="text-danger">-' + result.total_redeem_points + '</span>';
+							} else {
+								return '<span class="text-success">+' + result.points + '</span>';
+							}
+						}
+					},
+					// Monetary Amount Associated with the Transaction
+					{
+						"data": {},
+						"orderable"		: false,
+						"render": function (result) {
+							if (result.is_redeem == 1) {
+								return '<span class="text-success">' + currencyFormat(result.total_redeem_amount) + '</span>';
+							} else {
+								return currencyFormat(result.total_selling_amount) ;
+							}
+						}
+					},
+					// Running Points Balance After the Transaction
+					{
+						"data": "total_user_points",
+						"orderable"		: false,
+						"render": function (total_user_points) {
+							return total_user_points;
+						}
+					},
+					// Transaction Date/Time
+					{
+						"data": "created",
+						"render" : function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url+"/"+userType+"/view_points_list/"+userId%>",
+					type	: 	"POST",
+					data	: 	function (d) {
+
+						var formdata =  JSON.parse(JSON.stringify($("#searchForm").serializeArray()))
+						d.search_data = formdata
+					},
+					dataSrc	: function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});
+
+
+		});
+
+		$("#submit_btn").click(function(){
+			dataTable.draw();
+		})
+
+		/**
+		* Javascript function to search datatable
+		*
+		* @param  columnNumber as data table column number
+		*
+		* @return void
+		*
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});*/
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

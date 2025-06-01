@@ -1,0 +1,186 @@
+<%
+var is_franchise_selected = (typeof franchise != "undefined" && franchise != "") ? true : false;
+var franchise = (is_franchise_selected) ? franchise : "";
+
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.franchise_contracts.add_contract'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%><%=(is_franchise_selected)? `?franchise=${franchise}`: ''%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="add-subscriber" data-submit-btn-id="subscriber-add-btn-id" method="post" class="on_click_submit" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="franchise_id" class="control-label"><%= __("admin.franchise_contracts.franchise"); %><span class="required"> * </span>:</label>
+										<select data-live-search="true" class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="franchise" name="franchise" <%=(is_franchise_selected)? 'disabled': ''%> >
+											<option value=""><%= __("admin.franchise_contracts.select_franchise"); %></option>
+											<%- franchise_list %>
+										</select>
+										<%if(is_franchise_selected){%>
+											<input type="hidden" name="franchise" value="<%= franchise %>">
+										<%}%>
+									</div>
+									<span id="franchise_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="area_id" class="control-label"><%= __("admin.franchise_contracts.area"); %><span class="required"> * </span>:</label>
+										<select data-live-search="true" class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="area_id" name="area_id" >
+											<option value=""><%= __("admin.franchise_contracts.select_area"); %></option>
+											<%- area_list %>
+										</select>
+									</div>
+									<span id="area_id_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="start_date" class="control-label"><%= __('admin.franchise_contracts.start_date'); %><span class="required"> * </span> :</label>
+										<input name="start_date" id="start_date" type="text" class="form-control" readonly/>
+									</div>
+									<span id="start_date_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="end_date" class="control-label"><%= __('admin.franchise_contracts.end_date'); %><span class="required"> * </span> :</label>
+										<input name="end_date" id="end_date" type="text" class="form-control" readonly/>
+									</div>
+									<span id="end_date_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="purely_amount_commission_store" class="control-label"><%= __("admin.user.purely_amount_commission_store"); %> <span class="required"> * </span>:</label>
+										<input name="purely_amount_commission_store" id="purely_amount_commission_store" type="text" class="form-control" />
+									</div>
+									<span id="purely_amount_commission_store_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="purely_amount_commission" class="control-label"><%= __("admin.user.purely_amount_commission"); %> <span class="required"> * </span>:</label>
+										<input name="purely_amount_commission" id="purely_amount_commission" type="text" class="form-control" />
+									</div>
+									<span id="purely_amount_commission_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-lin">
+										
+										<label for="contract_file" class="control-label mb-2">
+											<%= __('admin.franchise_contracts.contract_file'); %>
+											
+												<span class="required"> * </span>:
+											
+											<span class="material-icons align-middle" data-bs-toggle="tooltip" data-bs-placement="top" title="<%= __("admin.system.allowed_file_extension")+ALLOWED_CONTRACT_DOCUMENT_EXTENSIONS%>">info</span>
+
+											
+										</label> <br/>
+										<input name="contract_file" id="contract_file" type="file" class="form-control jfilestyle"/>
+									</div>
+									<span id="contract_file_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<button type="button"  id="subscriber-add-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+	
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>jquery-filestyle.min.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>select2.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css" integrity="sha512-ELV+xyi8IhEApPS/pSj66+Jiw+sOT1Mqkzlh8ExXihe4zfqbWkxPRi8wptXIO9g73FSlhmquFlUOuMSoXz5IRw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>product.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-filestyle.min.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js" integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		// if (window.location.search.length > 0) {
+		// 	window.history.replaceState(null, null, window.location.pathname);
+		// }
+		/**
+		 * Function to submit form
+		 */
+		$(".btn-submit").click(function(){
+			var btnId = $(this).attr("id");
+			
+			startTextLoading(btnId);
+			ajax_submit("add-subscriber",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+
+		// Initialize date pickers
+		$('#start_date').daterangepicker({
+			singleDatePicker: true,
+			showDropdowns: true,
+			minDate: moment(),
+			locale: {
+				format: '<%=DATATABLE_DATE_FORMAT%>'
+			}
+		});
+
+		$('#end_date').daterangepicker({
+			singleDatePicker: true,
+			showDropdowns: true,
+			minDate: moment().add(1, 'days'),
+			locale: {
+				format: '<%=DATATABLE_DATE_FORMAT%>'
+			}
+		});
+	});
+</script>

@@ -1,0 +1,143 @@
+<%
+var imageURL		= (image_url)		? image_url			    : "";
+var productImage	= (result.main_image_name) ? result.main_image_name  : "";
+
+var productTitleEn 			= (typeof result.product_title !== typeof undefined)			? result.product_title			: 'N/A';
+var productTitleAr 			= (result.pages_descriptions && result.pages_descriptions[ARABIC_LANGUAGE_CODE] && result.pages_descriptions[ARABIC_LANGUAGE_CODE]['product_title']) 		? result.pages_descriptions[ARABIC_LANGUAGE_CODE]['product_title'] 			: 'N/A';
+var descriptionEn 			= (typeof result.brief_description !== typeof undefined)		? result.brief_description	: 'N/A';
+var descriptionAr			= (result.pages_descriptions && result.pages_descriptions[ARABIC_LANGUAGE_CODE] && result.pages_descriptions[ARABIC_LANGUAGE_CODE]['brief_description']) 	? result.pages_descriptions[ARABIC_LANGUAGE_CODE]['brief_description'] 		: 'N/A';
+var detailedDescriptionEn	= (typeof result.detailed_description !== typeof undefined) 	? result.detailed_description 	:"N/A";
+var detailedDescriptionAr 	= (result.pages_descriptions && result.pages_descriptions[ARABIC_LANGUAGE_CODE] && result.pages_descriptions[ARABIC_LANGUAGE_CODE]['detailed_description']) ? result.pages_descriptions[ARABIC_LANGUAGE_CODE]['detailed_description'] 	: 'N/A';
+var parentCategoryNameEn	= (typeof result.parent_category_name !== typeof undefined) 	? result.parent_category_name 	:"N/A";
+var parentCategoryNameAr 	= (result.pages_descriptions && result.pages_descriptions[ARABIC_LANGUAGE_CODE] && result.pages_descriptions[ARABIC_LANGUAGE_CODE]['parent_category_name']) ? result.pages_descriptions[ARABIC_LANGUAGE_CODE]['parent_category_name'] 	: 'N/A';
+
+
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view_details');%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+
+					<table  class="row-border hover table table-bordered" cellspacing="0" >
+						<tr>
+							<th ><%= __('admin.product.main_image_name'); %></th>
+							<td ><span><%if(productImage !=""){%>
+								<a href="<%= imageURL; %><%= productImage %>" target="_blank" class="items-image" data-lightbox="roadtrip">
+									<figure><img src="<%= imageURL; %><%= productImage %>?dim=300X200&type=resize" class="profileImage"></figure>
+								</a>
+								<%}%></span></td>
+						</tr>
+						
+						   
+						<tr>
+							<th><%= __('admin.product.price'); %></th>
+							<td><%=(typeof result !== typeof undefined && result.price) ? displayPrice(result.price) :''; %></td>
+						</tr>
+						<!-- <tr>
+							<th><%= __('admin.product.price_without_discount'); %></th>
+							<td><%=(typeof result !== typeof undefined && result.price_without_discount) ? displayPrice(result.price_without_discount) :''; %></td>
+						</tr> -->
+                        <!-- <tr>
+							<th><%= __('admin.product.quantity'); %></th>
+							<td><%=(typeof result !== typeof undefined && result.quantity) ? result.quantity :''; %></td>
+						</tr> -->
+						<tr>
+							<th><%= __('admin.product.product_sku'); %></th>
+							<td><%=(typeof result !== typeof undefined && result.product_sku) ? result.product_sku :''; %></td>
+						</tr>
+                        <tr>
+							<th><%= __('admin.product.vat_included'); %></th>
+							<td><%=(typeof result.vat_included !== typeof undefined && result.vat_included) ? __("admin.system.yes") :__("admin.system.no"); %></td>
+						</tr>
+
+						<tr>
+							<th><%= __('admin.product.quantity'); %></th>
+							<td><%=(typeof result.quantity !== typeof undefined && result.quantity) ? result.quantity : "0" %></td>
+						</tr>
+                       
+						<tr>
+							<th><%= __('admin.system.status'); %></th>
+							<td>
+                              
+                                <% if(result.is_active == ACTIVE){%>
+                                    <span class="label label-success m-l-5 m-t-5"><%=__("admin.system.active")%></span>
+                                <%}else{%>
+                                    <span class="label label-warning m-l-5 m-t-5"><%=__("admin.system.inactive")%></span>
+                                <%}%>
+						</tr>
+						
+						<tr>
+							<th class="text-right"><%= __('admin.system.created'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (typeof result !== typeof undefined &&  result.created) ? result.created : 'N/A';%>"></span></td>
+						</tr>
+						
+					</table>
+
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right" width="20%"></th>
+							<th class="" width="40%"><%= __('English'); %></th>
+							<th class="" width="40%"><%= __('Arabic'); %></th>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.product.product_title'); %></th>
+							<td><%=productTitleEn;%></td>
+							<td><%=productTitleAr;%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __("admin.product.brief_description"); %></th>
+							<td><%=descriptionEn;%></td>
+							<td><%=descriptionAr;%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.product.detailed_description'); %></th>
+							<td><%-detailedDescriptionEn;%></td>
+							<td><%-detailedDescriptionAr;%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.product.parent_category'); %></th>
+							<td><%=parentCategoryNameEn;%></td>
+							<td><%=parentCategoryNameAr;%></td>
+						</tr>
+
+						<tr>
+							<th class="text-right" ><%= __('admin.product.images'); %></th>
+							<td colspan="4">
+								<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+									<% if(result.images) { 
+										result.images.map(item => { %>
+											<a href='<%=PRODUCT_URL+item.image%>' class='items-image' data-lightbox='roadtrip'>
+												<img src="<%=PRODUCT_URL+item.image%>" alt="image" class="img-thumbnail dim-80" style="width: 100px; height: auto; object-fit: cover;" />
+											</a>
+										<% }) 
+									} else { %>
+										<span>N/A</span>
+									<% } %>
+								</div>
+							</td>
+						</tr>
+						
+						
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+		<link href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css" rel="stylesheet">
+
+		<%- contentFor('script') %>
+			<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>

@@ -1,0 +1,380 @@
+<%
+	var statusType = (typeof status_type !== typeof undefined && status_type)	?	status_type :"";
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+		<!--Search Start -->
+		<div class="row clearfix">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-default" id="panel-group-id" role="tablist" aria-multiselectable="true">
+					<div class="panel panel-col-pink">
+						<div class="panel-heading" role="tab" id="panel-heading-id">
+							<h4 class="panel-title">
+								<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="#panel-collapse-id" aria-expanded="false" aria-controls="panel-collapse-id">
+									<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+									<span class="pull-right collapse-toggle-icon"></span>
+								</a>
+							</h4>
+						</div>
+						<div id="panel-collapse-id" class="panel-collapse collapse" role="tabpanel" aria-labelledby="panel-heading-id">
+							<form id="searchForm"  method="POST" name="searchForm" >
+								<input type="hidden" name="search_open" id="search_open" value="0">
+								<div class="panel-body">
+									<div class="row clearfix dataTables_wrapper">
+										<!-- Search by Order ID -->
+										<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select class="form-control show-tick search_by_review_for" id="review_for" name="review_for">
+														<option value=""><%=__("admin.rating.search_by_review_for");%></option>
+														<%
+														if(typeof PRODUCT_USER_REVIEW_DROPDOWN!== typeof undefined && PRODUCT_USER_REVIEW_DROPDOWN.length > 0){
+															PRODUCT_USER_REVIEW_DROPDOWN.map(searchReview=>{%>
+	
+																	<option value="<%=searchReview.status_id%>"><%=__(searchReview.status_name)%></option>
+																<%
+															});
+														} %>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<!-- Search by product -->
+										<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select data-live-search="true" class="form-control show-tick selectpicker search_by_product " data-dropup-auto="false" name="product_id" >
+														<option value=""><%= __("admin.system.search_by_product"); %></option>
+														<%- product_list %>
+													</select>
+												</div>
+											</div>
+										</div>
+										
+										
+										<!-- Search by customer -->
+										<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select data-live-search="true" class="form-control show-tick selectpicker search_by_customer" data-dropup-auto="false" name="user_id" >
+														<option value=""><%= __("admin.system.search_by_customer"); %></option>
+														<%- customer_list %>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<!-- Search by service provider -->
+										<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+											<div class="form-group">
+												<div class="form-line">
+													<select data-live-search="true" class="form-control show-tick selectpicker search_by_service_provider" data-dropup-auto="false" name="user_id" >
+														<option value=""><%= __("admin.system.search_by_service_provider"); %></option>
+														<%- service_provider_list %>
+													</select>
+												</div>
+											</div>
+										</div>
+
+										<!-- Search by Date Range -->
+										<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+											<div class="form-group">
+												<div class="form-line">
+													<input class="form-control" id="date-range-picker" name="registration_date"  placeholder="<%= __('admin.user.search_by_date'); %>"  autocomplete="off">
+												</div>
+												<input class="form-control hide" id="from_date" type="hidden" name="from_date">
+												<input class="form-control hide" id="to_date" type="hidden" name="to_date">
+											</div>
+										</div>
+
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+											<%= __("admin.system.submit")%>
+										</button>
+										<button type="button" id="reset" class="btn btn-sm waves-effect bg-brown" data-href="<%=admin_list_url%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<!--Search End -->
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.rating.rating_review") %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a id="back_btn" href="#" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+					
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __('admin.rating.user_name'); %> / <%= __('admin.rating.product_name'); %></th>
+								<th><%= __('admin.rating.rating'); %></th>
+								<th><%= __('admin.rating.posted_by'); %></th>
+								<th><%= __('admin.rating.review_for'); %></th>
+								<th><%= __('admin.rating.review'); %></th>
+								<th><%= __('admin.system.created'); %></th>
+								<th><%= __('admin.system.created'); %></th>
+								<th><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>	
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-raty.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript">
+		
+		var userTypes	=	<%- JSON.stringify(USER_TYPE); %>;
+		
+		
+		/**
+		* Function to initialize datatable and get server side data
+		*/
+		var dataTable = "";
+		$(document).ready(function() {
+			$("#back_btn").attr("href", document.referrer);
+
+			dataTable = $('#datatable-listing').DataTable({
+                "language"	: 	{
+					"url" 	: 	"<%= DATABLE_LANG_CDN %>"
+				},
+				"order"		: 	[[4, "desc" ]],
+				"sDom"		:	"ltipr",
+				"lengthMenu": 	PAGING_LENGTH_MENU,
+				"serverSide":	true,
+				"scrollX"	: 	true,
+				"columns"	: 	[
+					{
+						"data" 		:	{},
+						"orderable"	: 	false,
+						"render" 	: 	function(result){
+							var reviewFor	= (result.review_for)	?	result.review_for	:"";
+							var productName	= (result.product_name)	?	result.product_name	:"";
+							var userName	= (result.user_name)	?	result.user_name	:"";
+							var userType	= (result.user_type)	?	userTypes[result.user_type]	:"";
+							if(reviewFor == 'product'){
+								return	productName;
+							}
+							if(reviewFor == 'user'){
+								return	userName + " <br/>  ( " +userType + " )";
+							}
+							
+							 
+						}
+					},
+					{
+						"data"		: 	{},
+						"field_type":   "<%= NUMERIC_FIELD %>",
+						"field_name":   "rating",
+						"render"	:	function(result){
+							var rating 		= (result.rating)  		? 	result.rating 		:"";
+							
+							return '<span class="rating" data-score="' + rating + '">';
+						}
+					},
+					{
+						"data" 		:	{},
+						"orderable"	: 	false,
+						"render" 	: 	function(result){
+							var postedUserName	= (result.posted_by_name)	?	result.posted_by_name	:"";
+							var postedUserName	= (result.posted_by_user_type)	?		userTypes[result.posted_by_user_type]	:"";
+							return	postedUserName + " <br/> ( " +postedUserName + " )";
+						}
+					},
+					{
+						"data" 		:	"review_for",
+						"orderable"	: 	false,
+						 "render" 	: 	function(review_for){
+ 							return review_for.toUpperCase();
+						}
+					},
+					{
+						"data"		:	'review',
+						"orderable"	: 	false,
+						"render"	: 	function(review){
+							return review;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"field_name"	:	"status",
+						"render": function(result){
+							var active 			= 	(result && result.status)	?	result.status	:"";
+							var statusTab = "";
+
+						if (active == '<%=APPROVE%>') {
+							statusTab += '<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.approve")%></span>';
+						} else if (active == '<%=REJECT%>') {
+							statusTab += '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.rejected")%></span>';
+						} else {
+							statusTab += '<span class="label label-secondary m-l-5 m-t-5"><%=__("admin.system.pending")%></span>';
+						}
+
+						statusTab += '<br/>';
+						return statusTab;
+							 
+
+							 
+						}
+					},
+					{
+						"data"	 : 'created',
+						"render" : function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id 		=	(result._id)	? 	result._id 		 :"";
+							var status	=	(result.status)	? 	result.status :"<%= DEACTIVE %>";
+							var approveStatus	=	"<%= APPROVE %>";
+							var rejectStatus	=	"<%= REJECT %>";
+							 
+
+							/** Status Link Text **/
+							var approvedStatusLinkText  	=	"<%= __('admin.system.mark_as_approved'); %>";
+							var rejectStatusLinkText  		=	"<%= __('admin.system.mark_as_reject'); %>";
+							/** Status Link Title **/
+							var approvedStatusLinkTitle 	=	"<%= __('admin.system.click_to_approved'); %>";
+							var rejectStatusLinkTitle 		=	"<%= __('admin.system.click_to_reject'); %>" ;
+							/** Status Link Icon **/
+							var approvedStatusLinkIcon		=	"done"	;
+							var rejectStatusLinkIcon		=	"block"	;
+
+
+							var dropDownButton 	=	''+		 
+							'<div class="btn-group m-l-5 m-t-5">'+	
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'+
+									'<%= __("admin.system.action"); %>'+
+									'<span class="caret"></span>'+
+								'</button>'+	
+								'<ul class="dropdown-menu min-width-190">';
+									if(status == '<%=DEACTIVE%>' || status == '<%=REJECT%>'){
+									/** Approve Link  **/
+									dropDownButton 	+= '<li>'+
+										'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/approve_rating_status/'+id+'/'+approveStatus+'/<%=APPROVE_REJECT_STATUS%>" class=" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.offers.do_you_want_to_change_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+approvedStatusLinkTitle+'">'+
+											'<i class="material-icons">'+approvedStatusLinkIcon+'</i>'+
+											approvedStatusLinkText+
+										'</a>'+
+									'</li>';
+									}
+
+									if(status == '<%=DEACTIVE%>' || status == '<%=APPROVE%>'){
+									/** Approve Link  **/
+									dropDownButton 	+= '<li>'+
+										'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/approve_rating_status/'+id+'/'+rejectStatus+'/<%=APPROVE_REJECT_STATUS%>" class=" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.offers.do_you_want_to_change_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+rejectStatusLinkTitle+'">'+
+											'<i class="material-icons">'+rejectStatusLinkIcon+'</i>'+
+											rejectStatusLinkText+
+										'</a>'+
+									'</li>';
+									}
+									dropDownButton 	+= '</ul>'+
+							'</div>';
+							return 	dropDownButton;
+						}
+					},
+					
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%><%=(typeof user != typeof undefined && user) ? `?user=${user}` : '' %><%=(typeof product != typeof undefined && product) ? `?product=${product}` : '' %>",
+					type	: 	"POST",
+                    data	: 	function (d) {
+						var formdata =  JSON.parse(JSON.stringify($("#searchForm").serializeArray()))
+						d.search_data = formdata
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				createdRow: function (row, data, dataIndex) {
+					initRating(row);
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});
+		});
+
+		/**
+		* Function to select rating
+		*/
+		function initRating(container) {
+			$('span.rating', container).each(function() {
+				var score = $(this).data('score');
+				$(this).raty({
+					half        : true,
+					halfShow    : true,
+					number      : 5,
+					readOnly    : true,
+					score       : score ? score : 0,
+					starHalf    : '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-half.png',
+					starOff     : '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-off.png',
+					starOn      : '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-on.png',
+				});
+			});
+		}
+
+		/**
+		* Javascript function to search datatable
+		*
+		* @param  columnNumber as data table column number
+		*
+		* @return void
+		*/
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+        $("#submit_btn").click(function(){
+			dataTable.draw();
+		})
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

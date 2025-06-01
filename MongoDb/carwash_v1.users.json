@@ -1,0 +1,2210 @@
+[{
+  "_id": {
+    "$oid": "5f7c0fbdced1c84625f4c52b"
+  },
+  "email": "admin@gmail.com",
+  "username": "admin@gmail.com",
+  "full_name": "Carwash Project",
+  "password": "$2b$10$tI9w9d9MxvVMQ1V5N2RC.eXCCjjQoj6qs/CmQSb3SYhGUKqorg0gy",
+  "user_role_id": "5b6bc8111dd6a1219e632b03",
+  "is_verified": 1,
+  "active": 1,
+  "is_deleted": 0,
+  "created": {
+    "$date": "2014-08-21T18:30:00.000Z"
+  },
+  "modified": {
+    "$date": "2025-03-10T10:53:04.359Z"
+  },
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "is_admin_approved": 1,
+  "profile_image": "",
+  "company_name": "",
+  "mobile_number": "0123456789",
+  "operational_city": "ObjectId(\"5b56c83ef190ae2aef3a5e0d\"),",
+  "is_on_ride": 0,
+  "is_inprocess_ride": 1,
+  "current_ride_id": {
+    "$oid": "5e945e98fa4e066735059e54"
+  },
+  "user_type": "admin",
+  "profile_view_counter": 0,
+  "forgot_password_opt_code": 9581,
+  "slug": "admin",
+  "forgot_password_validate_string": "b56e7cf034807eb30d3dcc3c9dc17483",
+  "total_earned_points": 10995
+},
+{
+  "_id": {
+    "$oid": "67ee8704a02f3dc91f6d4a91"
+  },
+  "display_name": "Franchise For Jaipur Area 1",
+  "full_name": "Franchise For Jaipur Area 1",
+  "email": "franchise01@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:03:00.827Z"
+  },
+  "request_from": "admin",
+  "slug": "franchise-for-jaipur-area-1",
+  "usr_slug": "franchise-for-jaipur-area-1",
+  "last_login": {
+    "$date": "2025-04-03T13:03:00.827Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "franchise",
+  "validate_string": "2307d9719085e7aa454e9a0f9edc716d",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "APR2025/1743685380790-1Copy.jpg",
+  "zip": 302017,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "987987901",
+  "mobile_number": "+966987987901",
+  "wallet_status": 1,
+  "franchise_type": "1",
+  "franchise_number": "FN-987987901",
+  "activated_at": {
+    "$date": "2025-04-03T13:03:00.827Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:03:00.827Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:03:00.827Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67ee8747752e1a5cfc51be31"
+  },
+  "display_name": "Service Provider Van Jaipur 1",
+  "full_name": "Service Provider Van Jaipur 1",
+  "email": "service_provider_van_jaipur_1@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:04:07.628Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-van-jaipur-1",
+  "usr_slug": "service-provider-van-jaipur-1",
+  "last_login": {
+    "$date": "2025-04-03T13:04:07.628Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "4d05ee901eaed0385569528a95d3943a",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "859658745",
+  "mobile_number": "+966859658745",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:04:07.628Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:04:07.628Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:04:07.628Z"
+  },
+  "area_id": {
+    "$oid": "67ee84a6a02f3dc91f6d4a8b"
+  },
+  "provider_type": "van_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee8784752e1a5cfc51be32"
+  },
+  "display_name": "Service Provider Bike Jaipur 1",
+  "full_name": "Service Provider Bike Jaipur 1",
+  "email": "service_provider_bike_jaipur_1@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:05:08.935Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-bike-jaipur-1",
+  "usr_slug": "service-provider-bike-jaipur-1",
+  "last_login": {
+    "$date": "2025-04-03T13:05:08.935Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "54f958af113540a01b7cbb88e3d71073",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "852147852",
+  "mobile_number": "+966852147852",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:05:08.935Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:05:08.935Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:05:08.935Z"
+  },
+  "area_id": {
+    "$oid": "67ee84a6a02f3dc91f6d4a8b"
+  },
+  "provider_type": "bike_fleet",
+  "total_earned_points": 590
+},
+{
+  "_id": {
+    "$oid": "67ee8792a02f3dc91f6d4a93"
+  },
+  "display_name": "Franchise For Jaipur Area 2 And Jaipur Area 3",
+  "full_name": "Franchise For Jaipur Area 2 And Jaipur Area 3",
+  "email": "franchise0203@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:05:22.045Z"
+  },
+  "request_from": "admin",
+  "slug": "franchise-for-jaipur-area-2-and-jaipur-area-3",
+  "usr_slug": "franchise-for-jaipur-area-2-and-jaipur-area-3",
+  "last_login": {
+    "$date": "2025-04-08T08:58:38.313Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "franchise",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "APR2025/1743685522026-2.jpg",
+  "zip": 302017,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "987987902",
+  "mobile_number": "+966987987902",
+  "wallet_status": 1,
+  "franchise_type": "2",
+  "franchise_number": "FN-987987902",
+  "activated_at": {
+    "$date": "2025-04-03T13:05:22.046Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:05:22.046Z"
+  },
+  "modified": {
+    "$date": "2025-04-08T08:58:49.130Z"
+  },
+  "otp_type": "login",
+  "is_user_logged_in": 1,
+  "is_verified": 1
+},
+{
+  "_id": {
+    "$oid": "67ee87c2752e1a5cfc51be33"
+  },
+  "display_name": "Service Provider Van Jaipur 2",
+  "full_name": "Service Provider Van Jaipur 2",
+  "email": "service_provider_van_jaipur_2@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:06:10.421Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-van-jaipur-2",
+  "usr_slug": "service-provider-van-jaipur-2",
+  "last_login": {
+    "$date": "2025-04-03T13:06:10.422Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "4684458e92f3bddb1c022ba6807a02dd",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "852963147",
+  "mobile_number": "+966852963147",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:06:10.422Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:06:10.422Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:06:10.422Z"
+  },
+  "area_id": {
+    "$oid": "67ee84eca02f3dc91f6d4a8c"
+  },
+  "provider_type": "van_fleet",
+  "total_earned_points": 764
+},
+{
+  "_id": {
+    "$oid": "67ee87ed752e1a5cfc51be34"
+  },
+  "display_name": "Service Provider Bike Jaipur 2",
+  "full_name": "Service Provider Bike Jaipur 2",
+  "email": "service_provider_bike_jaipur_2@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:06:53.380Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-bike-jaipur-2",
+  "usr_slug": "service-provider-bike-jaipur-2",
+  "last_login": {
+    "$date": "2025-04-03T13:06:53.380Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "a7d8c60da65115a7aa56fc6d9ace8b19",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "APR2025/1744626403946-2.jpg",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "753214569",
+  "mobile_number": "+966753214569",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:06:53.380Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:06:53.380Z"
+  },
+  "modified": {
+    "$date": "2025-04-14T10:26:44.108Z"
+  },
+  "area_id": {
+    "$oid": "67ee84eca02f3dc91f6d4a8c"
+  },
+  "provider_type": "bike_fleet",
+  "total_earned_points": 1870
+},
+{
+  "_id": {
+    "$oid": "67ee8859752e1a5cfc51be35"
+  },
+  "display_name": "Service Provider Van Jaipur 3",
+  "full_name": "Service Provider Van Jaipur 3",
+  "email": "service_provider_van_jaipur_3@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:08:41.623Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-van-jaipur-3",
+  "usr_slug": "service-provider-van-jaipur-3",
+  "last_login": {
+    "$date": "2025-04-03T13:08:41.623Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "334ce9e56d2f044c206f84cd36a6f489",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "869856458",
+  "mobile_number": "+966869856458",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:08:41.623Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:08:41.623Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:08:41.623Z"
+  },
+  "area_id": {
+    "$oid": "67ee8523a02f3dc91f6d4a8d"
+  },
+  "provider_type": "van_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee886ba02f3dc91f6d4a96"
+  },
+  "display_name": "Franchise For Jaipur Area 4 And Jaipur Area 5",
+  "full_name": "Franchise For Jaipur Area 4 And Jaipur Area 5",
+  "email": "franchise0405@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:08:59.583Z"
+  },
+  "request_from": "admin",
+  "slug": "franchise-for-jaipur-area-4-and-jaipur-area-5",
+  "usr_slug": "franchise-for-jaipur-area-4-and-jaipur-area-5",
+  "last_login": {
+    "$date": "2025-04-07T10:31:12.858Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "franchise",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "APR2025/1743685739555-0761345999342.jpg",
+  "zip": 302017,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "987987904",
+  "mobile_number": "+966987987904",
+  "wallet_status": 1,
+  "franchise_type": "2",
+  "franchise_number": "FN-987987904",
+  "activated_at": {
+    "$date": "2025-04-03T13:08:59.583Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:08:59.583Z"
+  },
+  "modified": {
+    "$date": "2025-04-07T10:31:16.486Z"
+  },
+  "otp_type": "login",
+  "is_user_logged_in": 1,
+  "is_verified": 1
+},
+{
+  "_id": {
+    "$oid": "67ee8882752e1a5cfc51be36"
+  },
+  "display_name": "Service Provider Bike Jaipur 3",
+  "full_name": "Service Provider Bike Jaipur 3",
+  "email": "service_provider_bike_jaipur_3@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:09:22.489Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-bike-jaipur-3",
+  "usr_slug": "service-provider-bike-jaipur-3",
+  "last_login": {
+    "$date": "2025-04-03T13:09:22.489Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "2b6fc66ea78ba2c42d807ddc6e99b657",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "951236598",
+  "mobile_number": "+966951236598",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:09:22.489Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:09:22.489Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:09:22.489Z"
+  },
+  "area_id": {
+    "$oid": "67ee8523a02f3dc91f6d4a8d"
+  },
+  "provider_type": "bike_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee88c5752e1a5cfc51be37"
+  },
+  "display_name": "Service Provider Van Jaipur 4",
+  "full_name": "Service Provider Van Jaipur 4",
+  "email": "service_provider_van_jaipur_4@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:10:29.376Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-van-jaipur-4",
+  "usr_slug": "service-provider-van-jaipur-4",
+  "last_login": {
+    "$date": "2025-04-03T13:10:29.376Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "3f6711943537180396591e4db7a6ab6f",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "845698745",
+  "mobile_number": "+966845698745",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:10:29.376Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:10:29.376Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:10:29.376Z"
+  },
+  "area_id": {
+    "$oid": "67ee8580a02f3dc91f6d4a8e"
+  },
+  "provider_type": "van_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee88ea752e1a5cfc51be38"
+  },
+  "display_name": "Service Provider Bike Jaipur 4",
+  "full_name": "Service Provider Bike Jaipur 4",
+  "email": "service_provider_bike_jaipur_4@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:11:06.986Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-bike-jaipur-4",
+  "usr_slug": "service-provider-bike-jaipur-4",
+  "last_login": {
+    "$date": "2025-04-03T13:11:06.986Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "48d18722a3f1189535b140c5e0805e4e",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "879456978",
+  "mobile_number": "+966879456978",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:11:06.986Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:11:06.986Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:11:06.986Z"
+  },
+  "area_id": {
+    "$oid": "67ee8580a02f3dc91f6d4a8e"
+  },
+  "provider_type": "bike_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee893b752e1a5cfc51be39"
+  },
+  "display_name": "Service Provider Van Jaipur 5",
+  "full_name": "Service Provider Van Jaipur 5",
+  "email": "service_provider_van_jaipur_5@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:12:27.431Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-van-jaipur-5",
+  "usr_slug": "service-provider-van-jaipur-5",
+  "last_login": {
+    "$date": "2025-04-03T13:12:27.431Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "f1840df13af40dde48f4fffaf3bd18d1",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "852369856",
+  "mobile_number": "+966852369856",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:12:27.432Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:12:27.432Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:22:28.316Z"
+  },
+  "area_id": {
+    "$oid": "67ee85eda02f3dc91f6d4a8f"
+  },
+  "provider_type": "van_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee896f752e1a5cfc51be3a"
+  },
+  "display_name": "Service Provider Bike Jaipur 5",
+  "full_name": "Service Provider Bike Jaipur 5",
+  "email": "service_provider_bike_jaipur_5@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:13:19.231Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-bike-jaipur-5",
+  "usr_slug": "service-provider-bike-jaipur-5",
+  "last_login": {
+    "$date": "2025-04-03T13:13:19.231Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "34d1e607243c98c08d4aef52bd45b4a5",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "963369963",
+  "mobile_number": "+966963369963",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:13:19.232Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:13:19.232Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:13:19.232Z"
+  },
+  "area_id": {
+    "$oid": "67ee85eda02f3dc91f6d4a8f"
+  },
+  "provider_type": "bike_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee89c8752e1a5cfc51be3b"
+  },
+  "display_name": "Service Provider Van Jaipur 6",
+  "full_name": "Service Provider Van Jaipur 6",
+  "email": "service_provider_van_jaipur_6@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:14:48.419Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-van-jaipur-6",
+  "usr_slug": "service-provider-van-jaipur-6",
+  "last_login": {
+    "$date": "2025-04-03T13:14:48.419Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "c544e6c8a04c59a6e8dc08525d6a7c76",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "741258741",
+  "mobile_number": "+966741258741",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:14:48.419Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:14:48.419Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:14:48.419Z"
+  },
+  "area_id": {
+    "$oid": "67ee8661a02f3dc91f6d4a90"
+  },
+  "provider_type": "van_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ee89f5752e1a5cfc51be3c"
+  },
+  "display_name": "Service Provider Bike Jaipur 6",
+  "full_name": "Service Provider Bike Jaipur 6",
+  "email": "service_provider_bike_jaipur_6@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-03T13:15:33.070Z"
+  },
+  "request_from": "admin",
+  "slug": "service-provider-bike-jaipur-6",
+  "usr_slug": "service-provider-bike-jaipur-6",
+  "last_login": {
+    "$date": "2025-04-03T13:15:33.070Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "service-provider",
+  "validate_string": "df848c4b2f9292442b9b5fc9e924e0cf",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302031,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "852258852",
+  "mobile_number": "+966852258852",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-03T13:15:33.070Z"
+  },
+  "created": {
+    "$date": "2025-04-03T13:15:33.071Z"
+  },
+  "modified": {
+    "$date": "2025-04-03T13:15:33.071Z"
+  },
+  "area_id": {
+    "$oid": "67ee8661a02f3dc91f6d4a90"
+  },
+  "provider_type": "bike_fleet"
+},
+{
+  "_id": {
+    "$oid": "67ef681bc484124fc49fbcca"
+  },
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "full_name": "Mohammed Shafique",
+  "email": "mohsmmed-shafique@mailinator.com",
+  "mobile_code": "+966",
+  "mobile_number": "+966982982982",
+  "mobile": "982982982",
+  "gender": 1,
+  "language": "en",
+  "email_otp": 1234,
+  "is_email_verified": 0,
+  "is_mobile_verified": 1,
+  "is_verified": 1,
+  "email_otp_expire_time": {
+    "$date": "2025-04-04T05:13:23.010Z"
+  },
+  "is_deleted": 0,
+  "status": 1,
+  "slug": "mohammed-shafique",
+  "terms_conditions": true,
+  "consent_with_policy": 1,
+  "wallet_amount": 48602,
+  "otp_type": "profile_update",
+  "created": {
+    "$date": "2025-04-04T05:03:23.015Z"
+  },
+  "modified": {
+    "$date": "2025-04-16T10:28:20.511Z"
+  },
+  "is_user_logged_in": 1,
+  "last_login": {
+    "$date": "2025-04-04T05:05:37.975Z"
+  },
+  "display_name": "Mohammed Shafique",
+  "profile_image": "APR2025/1743743534977-images8.jpg",
+  "total_balance_for_points": 0,
+  "total_points": 30,
+  "message": "Hello, How are you?",
+  "wallet_status": 1,
+  "total_redeem_amount": 250,
+  "total_redeem_points": 500,
+  "b2b_code": "I44VDSU5R",
+  "b2b_code_created": {
+    "$date": "2025-04-15T09:37:17.766Z"
+  },
+  "b2b_code_details": {
+    "_id": {
+      "$oid": "67fe1fa9719b34991406ea47"
+    },
+    "promo_code": "I44VDSU5R",
+    "code_discount_type": "percent",
+    "company_id": {
+      "$oid": "67fe1f7d719b34991406ea46"
+    },
+    "code_valid_from": {
+      "$date": "2025-04-14T18:30:00.000Z"
+    },
+    "code_valid_to": {
+      "$date": "2026-04-14T18:29:00.000Z"
+    },
+    "number_of_washes_per_user": "3",
+    "number_of_user": "5",
+    "maximum_number_of_washes": "6",
+    "discount_amount": "50",
+    "min_order_value": "100",
+    "category_id": [
+      {
+        "$oid": "67d27501eda7adf86adee4b5"
+      },
+      {
+        "$oid": "67d274f3eda7adf86adee4b4"
+      },
+      {
+        "$oid": "67d274e7eda7adf86adee4b3"
+      },
+      {
+        "$oid": "67d274d0eda7adf86adee4b2"
+      },
+      {
+        "$oid": "67d274c7eda7adf86adee4b1"
+      },
+      {
+        "$oid": "67d274beeda7adf86adee4b0"
+      },
+      {
+        "$oid": "67d274b3eda7adf86adee4af"
+      },
+      {
+        "$oid": "67d274a9eda7adf86adee4ae"
+      },
+      {
+        "$oid": "67d2749feda7adf86adee4ad"
+      },
+      {
+        "$oid": "67d27496eda7adf86adee4ac"
+      },
+      {
+        "$oid": "67d2748deda7adf86adee4ab"
+      },
+      {
+        "$oid": "67d27482eda7adf86adee4aa"
+      },
+      {
+        "$oid": "67d27477eda7adf86adee4a9"
+      },
+      {
+        "$oid": "67d2746eeda7adf86adee4a8"
+      },
+      {
+        "$oid": "67d27465eda7adf86adee4a7"
+      },
+      {
+        "$oid": "67d2745aeda7adf86adee4a6"
+      },
+      {
+        "$oid": "67d27451eda7adf86adee4a5"
+      },
+      {
+        "$oid": "67d27447eda7adf86adee4a4"
+      },
+      {
+        "$oid": "67d2743eeda7adf86adee4a3"
+      },
+      {
+        "$oid": "67d27432eda7adf86adee4a2"
+      }
+    ],
+    "package_id": [
+      {
+        "$oid": "67f4c6d0e26eb20aa12b492d"
+      },
+      {
+        "$oid": "67d27a3f0a0d90740ea96c06"
+      },
+      {
+        "$oid": "67d279fd0a0d90740ea96c05"
+      },
+      {
+        "$oid": "67d278af42d8bf882d659b39"
+      }
+    ],
+    "subscription_id": [
+      {
+        "$oid": "67d279900a0d90740ea96c04"
+      },
+      {
+        "$oid": "67d2794e0a0d90740ea96c03"
+      },
+      {
+        "$oid": "67d278d20a0d90740ea96c02"
+      },
+      {
+        "$oid": "67d278820a0d90740ea96c01"
+      }
+    ],
+    "is_deleted": 0,
+    "is_active": 1,
+    "created": {
+      "$date": "2025-04-15T08:58:17.737Z"
+    },
+    "modified": {
+      "$date": "2025-04-15T09:37:14.887Z"
+    }
+  },
+  "b2b_order_number": 0,
+  "b2b_status": 1,
+  "company_id": {
+    "$oid": "67fe1f7d719b34991406ea46"
+  },
+  "total_earned_points": 30
+},
+{
+  "_id": {
+    "$oid": "67ef69b0d780c24db7663898"
+  },
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "full_name": "rajesh",
+  "email": "raj123@mailinator.com",
+  "mobile_code": "+966",
+  "mobile_number": "+966982800001",
+  "mobile": "982800001",
+  "gender": 1,
+  "language": "en",
+  "email_otp": 1234,
+  "is_email_verified": 0,
+  "is_mobile_verified": 1,
+  "is_verified": 1,
+  "email_otp_expire_time": {
+    "$date": "2025-04-04T05:20:08.709Z"
+  },
+  "is_deleted": 0,
+  "status": 1,
+  "slug": "rajesh",
+  "terms_conditions": true,
+  "consent_with_policy": 0,
+  "wallet_amount": 150000028213.5,
+  "otp_type": "registration",
+  "created": {
+    "$date": "2025-04-04T05:10:08.713Z"
+  },
+  "modified": {
+    "$date": "2025-04-16T12:56:17.015Z"
+  },
+  "total_balance_for_points": 0,
+  "total_points": 0,
+  "total_earned_points": 3749,
+  "wallet_status": 1,
+  "message": "Gift",
+  "total_redeem_amount": 5615.5,
+  "total_redeem_points": 11231
+},
+{
+  "_id": {
+    "$oid": "67ef6a0879d6ba0792eb35b6"
+  },
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "full_name": "Deepak",
+  "email": "dg@mailinator.com",
+  "mobile_code": "+966",
+  "mobile_number": "+966789456123",
+  "mobile": "789456123",
+  "gender": 1,
+  "language": "en",
+  "email_otp": 1234,
+  "is_email_verified": 0,
+  "is_mobile_verified": 1,
+  "is_verified": 1,
+  "email_otp_expire_time": {
+    "$date": "2025-04-04T05:21:36.624Z"
+  },
+  "is_deleted": 0,
+  "status": 1,
+  "slug": "deepak",
+  "terms_conditions": true,
+  "consent_with_policy": 0,
+  "wallet_amount": 0,
+  "otp_type": "registration",
+  "created": {
+    "$date": "2025-04-04T05:11:36.626Z"
+  },
+  "modified": {
+    "$date": "2025-04-04T05:13:07.268Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67f3653894ea9b2da85af459"
+  },
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "full_name": "Mohammed",
+  "email": "shafiquexxx022@mailinator.com",
+  "mobile_code": "+966",
+  "mobile_number": "+966564646464",
+  "mobile": "564646464",
+  "gender": 1,
+  "language": "en",
+  "email_otp": 1234,
+  "is_email_verified": 0,
+  "is_mobile_verified": 1,
+  "is_verified": 1,
+  "email_otp_expire_time": {
+    "$date": "2025-04-07T05:50:08.801Z"
+  },
+  "is_deleted": 0,
+  "status": 1,
+  "slug": "mohammed-1",
+  "terms_conditions": true,
+  "consent_with_policy": 0,
+  "wallet_amount": 0,
+  "otp_type": "registration",
+  "first_booking": 1,
+  "created": {
+    "$date": "2025-04-07T05:40:08.802Z"
+  },
+  "modified": {
+    "$date": "2025-04-07T05:41:43.411Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67f79c2308967b79f520d708"
+  },
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "full_name": "DG Boy",
+  "email": "deepak@mailinator.com",
+  "mobile_code": "+966",
+  "mobile_number": "+966963258789",
+  "mobile": "963258789",
+  "gender": 1,
+  "language": "en",
+  "email_otp": 1234,
+  "is_email_verified": 0,
+  "is_mobile_verified": 1,
+  "is_verified": 1,
+  "email_otp_expire_time": {
+    "$date": "2025-04-10T10:33:31.367Z"
+  },
+  "is_deleted": 0,
+  "status": 1,
+  "slug": "dg-boy",
+  "terms_conditions": true,
+  "consent_with_policy": 0,
+  "wallet_amount": {
+    "$numberLong": "149999981515"
+  },
+  "otp_type": "registration",
+  "first_booking": 0,
+  "created": {
+    "$date": "2025-04-10T10:23:31.367Z"
+  },
+  "modified": {
+    "$date": "2025-04-16T12:44:51.768Z"
+  },
+  "wallet_status": 1,
+  "total_balance_for_points": 0,
+  "total_points": 60,
+  "total_earned_points": 5490,
+  "total_redeem_amount": 2715,
+  "total_redeem_points": 5430
+},
+{
+  "_id": {
+    "$oid": "67fcb40c00174440172f65dc"
+  },
+  "user_role_id": "67fcb3f800174440172f65db",
+  "role_id": {
+    "$oid": "67fcb3f800174440172f65db"
+  },
+  "first_name": "oparent",
+  "last_name": "oparentlase",
+  "full_name": "oparent oparentlase",
+  "slug": "oparent-oparentlase",
+  "email": "oparent@mailinator.com",
+  "username": "oparent@mailinator.com",
+  "password": "$2b$10$o7vXE7qk12vxyK3on1CgxeTzzo4kdICbjOliR9Qxs92dI0FSUg9vm",
+  "module_ids": [
+    {
+      "_id": {
+        "$oid": "5b598ea27cec7427f578d010"
+      },
+      "group_path": "dashboard",
+      "parent_id": 0,
+      "childs": 0
+    },
+    {
+      "_id": {
+        "$oid": "678757557b00cc0dfceaa7f0"
+      },
+      "group_path": "users,company_management",
+      "parent_id": 0,
+      "childs": 4
+    },
+    {
+      "_id": {
+        "$oid": "67877bd8ef3a26a3200c33d5"
+      },
+      "group_path": "promo_codes",
+      "parent_id": 0,
+      "childs": 0
+    },
+    {
+      "_id": {
+        "$oid": "6788a21824bc905a5f19d92a"
+      },
+      "group_path": "users",
+      "parent_id": {
+        "$oid": "678757557b00cc0dfceaa7f0"
+      },
+      "childs": 0
+    }
+  ],
+  "is_sub_admin": 1,
+  "active": 1,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "is_admin_approved": 1,
+  "is_verified": 1,
+  "is_deleted": 1,
+  "created": {
+    "$date": "2025-04-14T07:06:52.693Z"
+  },
+  "modified": {
+    "$date": "2025-04-14T07:06:58.617Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fcb4594df5d97b7ff690cd"
+  },
+  "user_role_id": "67fcb3f800174440172f65db",
+  "role_id": {
+    "$oid": "67fcb3f800174440172f65db"
+  },
+  "first_name": "oparent",
+  "last_name": "oparentlase",
+  "full_name": "oparent oparentlase",
+  "slug": "oparent-oparentlase-1",
+  "email": "oparent@mailinator.com",
+  "username": "oparent@mailinator.com",
+  "password": "$2b$10$WvcfoRr0I8lox/Kc9AQwNOTKwFlaH.vV8ZoG.lsBnDRAESJWVNrp6",
+  "module_ids": [
+    {
+      "_id": {
+        "$oid": "5b598ea27cec7427f578d010"
+      },
+      "group_path": "dashboard",
+      "parent_id": 0,
+      "childs": 0
+    },
+    {
+      "_id": {
+        "$oid": "678757557b00cc0dfceaa7f0"
+      },
+      "group_path": "users,company_management",
+      "parent_id": 0,
+      "childs": 4
+    },
+    {
+      "_id": {
+        "$oid": "67877bd8ef3a26a3200c33d5"
+      },
+      "group_path": "promo_codes",
+      "parent_id": 0,
+      "childs": 0
+    },
+    {
+      "_id": {
+        "$oid": "6788a21824bc905a5f19d92a"
+      },
+      "group_path": "users",
+      "parent_id": {
+        "$oid": "678757557b00cc0dfceaa7f0"
+      },
+      "childs": 0
+    }
+  ],
+  "is_sub_admin": 1,
+  "active": 1,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "is_admin_approved": 1,
+  "is_verified": 1,
+  "is_deleted": 1,
+  "created": {
+    "$date": "2025-04-14T07:08:09.663Z"
+  },
+  "modified": {
+    "$date": "2025-04-14T07:08:37.805Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fcb46f4df5d97b7ff690ce"
+  },
+  "user_role_id": "67fcb3f800174440172f65db",
+  "role_id": {
+    "$oid": "67fcb3f800174440172f65db"
+  },
+  "first_name": "oparent",
+  "last_name": "oparentlase",
+  "full_name": "oparent oparentlase",
+  "slug": "oparent-oparentlase-2",
+  "email": "oparent123@mailinator.com",
+  "username": "oparent123@mailinator.com",
+  "password": "$2b$10$ZejWgPmTZKQAOpW14rFhxuoGX0iKugRs.DCqaXXr6jJkbryQVChFO",
+  "module_ids": [
+    {
+      "_id": {
+        "$oid": "5b598ea27cec7427f578d010"
+      },
+      "group_path": "dashboard",
+      "parent_id": 0,
+      "childs": 0
+    },
+    {
+      "_id": {
+        "$oid": "678757557b00cc0dfceaa7f0"
+      },
+      "group_path": "users,company_management",
+      "parent_id": 0,
+      "childs": 4
+    },
+    {
+      "_id": {
+        "$oid": "67877bd8ef3a26a3200c33d5"
+      },
+      "group_path": "promo_codes",
+      "parent_id": 0,
+      "childs": 0
+    },
+    {
+      "_id": {
+        "$oid": "6788a21824bc905a5f19d92a"
+      },
+      "group_path": "users",
+      "parent_id": {
+        "$oid": "678757557b00cc0dfceaa7f0"
+      },
+      "childs": 0
+    }
+  ],
+  "is_sub_admin": 1,
+  "active": 1,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "is_admin_approved": 1,
+  "is_verified": 1,
+  "is_deleted": 1,
+  "created": {
+    "$date": "2025-04-14T07:08:31.026Z"
+  },
+  "modified": {
+    "$date": "2025-04-14T07:08:34.589Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe232ef0b9cb71fdc41724"
+  },
+  "display_name": "Aryan Khan",
+  "full_name": "Aryan Khan",
+  "email": "aryan@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-15T09:13:18.520Z"
+  },
+  "request_from": "admin",
+  "slug": "aryan-khan",
+  "usr_slug": "aryan-khan",
+  "last_login": {
+    "$date": "2025-04-15T09:13:18.521Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "validate_string": "36960833132ab798aeb9e2778f75f855",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "APR2025/1744708398477-2.jpg",
+  "zip": 302020,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bef190ae27b67b8bc3"
+  },
+  "mobile_code": "+966",
+  "mobile": "745689258",
+  "mobile_number": "+966745689258",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-15T09:13:18.521Z"
+  },
+  "created": {
+    "$date": "2025-04-15T09:13:18.521Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T09:13:18.521Z"
+  },
+  "b2b_code": "I44VDSU5R",
+  "b2b_code_created": {
+    "$date": "2025-04-15T09:14:55.776Z"
+  },
+  "b2b_code_details": {
+    "_id": {
+      "$oid": "67fe1fa9719b34991406ea47"
+    },
+    "promo_code": "I44VDSU5R",
+    "code_discount_type": "percent",
+    "company_id": {
+      "$oid": "67fe1f7d719b34991406ea46"
+    },
+    "code_valid_from": {
+      "$date": "2025-04-14T18:30:00.000Z"
+    },
+    "code_valid_to": {
+      "$date": "2026-04-14T18:29:00.000Z"
+    },
+    "number_of_washes_per_user": "3",
+    "number_of_user": "5",
+    "maximum_number_of_washes": "15",
+    "discount_amount": "50",
+    "min_order_value": "100",
+    "category_id": [
+      {
+        "$oid": "67d27501eda7adf86adee4b5"
+      },
+      {
+        "$oid": "67d274f3eda7adf86adee4b4"
+      },
+      {
+        "$oid": "67d274e7eda7adf86adee4b3"
+      },
+      {
+        "$oid": "67d274d0eda7adf86adee4b2"
+      },
+      {
+        "$oid": "67d274c7eda7adf86adee4b1"
+      },
+      {
+        "$oid": "67d274beeda7adf86adee4b0"
+      },
+      {
+        "$oid": "67d274b3eda7adf86adee4af"
+      },
+      {
+        "$oid": "67d274a9eda7adf86adee4ae"
+      },
+      {
+        "$oid": "67d2749feda7adf86adee4ad"
+      },
+      {
+        "$oid": "67d27496eda7adf86adee4ac"
+      },
+      {
+        "$oid": "67d2748deda7adf86adee4ab"
+      },
+      {
+        "$oid": "67d27482eda7adf86adee4aa"
+      },
+      {
+        "$oid": "67d27477eda7adf86adee4a9"
+      },
+      {
+        "$oid": "67d2746eeda7adf86adee4a8"
+      },
+      {
+        "$oid": "67d27465eda7adf86adee4a7"
+      },
+      {
+        "$oid": "67d2745aeda7adf86adee4a6"
+      },
+      {
+        "$oid": "67d27451eda7adf86adee4a5"
+      },
+      {
+        "$oid": "67d27447eda7adf86adee4a4"
+      },
+      {
+        "$oid": "67d2743eeda7adf86adee4a3"
+      },
+      {
+        "$oid": "67d27432eda7adf86adee4a2"
+      }
+    ],
+    "package_id": [
+      {
+        "$oid": "67f4c6d0e26eb20aa12b492d"
+      },
+      {
+        "$oid": "67d27a3f0a0d90740ea96c06"
+      },
+      {
+        "$oid": "67d279fd0a0d90740ea96c05"
+      },
+      {
+        "$oid": "67d278af42d8bf882d659b39"
+      }
+    ],
+    "subscription_id": [
+      {
+        "$oid": "67d279900a0d90740ea96c04"
+      },
+      {
+        "$oid": "67d2794e0a0d90740ea96c03"
+      },
+      {
+        "$oid": "67d278d20a0d90740ea96c02"
+      },
+      {
+        "$oid": "67d278820a0d90740ea96c01"
+      }
+    ],
+    "is_deleted": 0,
+    "is_active": 1,
+    "created": {
+      "$date": "2025-04-15T08:58:17.737Z"
+    },
+    "modified": {
+      "$date": "2025-04-15T08:58:17.737Z"
+    }
+  },
+  "b2b_order_number": 0,
+  "b2b_status": 1,
+  "company_id": {
+    "$oid": "67fe1f7d719b34991406ea46"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe24a1f0b9cb71fdc41725"
+  },
+  "display_name": "Aryan kanna",
+  "full_name": "Aryan kanna",
+  "email": "aryan.khanna@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-15T09:19:29.501Z"
+  },
+  "request_from": "admin",
+  "slug": "aryan-kanna",
+  "usr_slug": "aryan-kanna",
+  "last_login": {
+    "$date": "2025-04-15T09:19:29.501Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "validate_string": "4431e6df594537b21ca294b3a2bb296f",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "APR2025/1744708769433-5bf60a85a633b2add2911175ea8c4f4d.jpg",
+  "zip": 302010,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bdf190ae27b67b8b70"
+  },
+  "mobile_code": "+966",
+  "mobile": "745896321",
+  "mobile_number": "+966745896321",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-15T09:19:29.501Z"
+  },
+  "created": {
+    "$date": "2025-04-15T09:19:29.501Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T09:19:29.501Z"
+  },
+  "b2b_code": "I44VDSU5R",
+  "b2b_code_created": {
+    "$date": "2025-04-15T09:20:36.436Z"
+  },
+  "b2b_code_details": {
+    "_id": {
+      "$oid": "67fe1fa9719b34991406ea47"
+    },
+    "promo_code": "I44VDSU5R",
+    "code_discount_type": "percent",
+    "company_id": {
+      "$oid": "67fe1f7d719b34991406ea46"
+    },
+    "code_valid_from": {
+      "$date": "2025-04-14T18:30:00.000Z"
+    },
+    "code_valid_to": {
+      "$date": "2026-04-14T18:29:00.000Z"
+    },
+    "number_of_washes_per_user": "3",
+    "number_of_user": "2",
+    "maximum_number_of_washes": "6",
+    "discount_amount": "50",
+    "min_order_value": "100",
+    "category_id": [
+      {
+        "$oid": "67d27501eda7adf86adee4b5"
+      },
+      {
+        "$oid": "67d274f3eda7adf86adee4b4"
+      },
+      {
+        "$oid": "67d274e7eda7adf86adee4b3"
+      },
+      {
+        "$oid": "67d274d0eda7adf86adee4b2"
+      },
+      {
+        "$oid": "67d274c7eda7adf86adee4b1"
+      },
+      {
+        "$oid": "67d274beeda7adf86adee4b0"
+      },
+      {
+        "$oid": "67d274b3eda7adf86adee4af"
+      },
+      {
+        "$oid": "67d274a9eda7adf86adee4ae"
+      },
+      {
+        "$oid": "67d2749feda7adf86adee4ad"
+      },
+      {
+        "$oid": "67d27496eda7adf86adee4ac"
+      },
+      {
+        "$oid": "67d2748deda7adf86adee4ab"
+      },
+      {
+        "$oid": "67d27482eda7adf86adee4aa"
+      },
+      {
+        "$oid": "67d27477eda7adf86adee4a9"
+      },
+      {
+        "$oid": "67d2746eeda7adf86adee4a8"
+      },
+      {
+        "$oid": "67d27465eda7adf86adee4a7"
+      },
+      {
+        "$oid": "67d2745aeda7adf86adee4a6"
+      },
+      {
+        "$oid": "67d27451eda7adf86adee4a5"
+      },
+      {
+        "$oid": "67d27447eda7adf86adee4a4"
+      },
+      {
+        "$oid": "67d2743eeda7adf86adee4a3"
+      },
+      {
+        "$oid": "67d27432eda7adf86adee4a2"
+      }
+    ],
+    "package_id": [
+      {
+        "$oid": "67f4c6d0e26eb20aa12b492d"
+      },
+      {
+        "$oid": "67d27a3f0a0d90740ea96c06"
+      },
+      {
+        "$oid": "67d279fd0a0d90740ea96c05"
+      },
+      {
+        "$oid": "67d278af42d8bf882d659b39"
+      }
+    ],
+    "subscription_id": [
+      {
+        "$oid": "67d279900a0d90740ea96c04"
+      },
+      {
+        "$oid": "67d2794e0a0d90740ea96c03"
+      },
+      {
+        "$oid": "67d278d20a0d90740ea96c02"
+      },
+      {
+        "$oid": "67d278820a0d90740ea96c01"
+      }
+    ],
+    "is_deleted": 0,
+    "is_active": 1,
+    "created": {
+      "$date": "2025-04-15T08:58:17.737Z"
+    },
+    "modified": {
+      "$date": "2025-04-15T09:18:27.596Z"
+    }
+  },
+  "b2b_order_number": 0,
+  "b2b_status": 1,
+  "company_id": {
+    "$oid": "67fe1f7d719b34991406ea46"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe24caf0b9cb71fdc41726"
+  },
+  "display_name": "Aryan Sharma",
+  "full_name": "Aryan Sharma",
+  "email": "aryan.sharma@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-15T09:20:10.145Z"
+  },
+  "request_from": "admin",
+  "slug": "aryan-sharma",
+  "usr_slug": "aryan-sharma",
+  "last_login": {
+    "$date": "2025-04-15T09:20:10.145Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "validate_string": "4ee617ebec9fce8e500f3b1ea2bab555",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "",
+  "zip": 302010,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bdf190ae27b67b8b70"
+  },
+  "mobile_code": "+966",
+  "mobile": "741258963",
+  "mobile_number": "+966741258963",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-15T09:20:10.145Z"
+  },
+  "created": {
+    "$date": "2025-04-15T09:20:10.145Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T09:20:10.145Z"
+  },
+  "b2b_code": "I44VDSU5R",
+  "b2b_code_created": {
+    "$date": "2025-04-15T09:21:38.719Z"
+  },
+  "b2b_code_details": {
+    "_id": {
+      "$oid": "67fe1fa9719b34991406ea47"
+    },
+    "promo_code": "I44VDSU5R",
+    "code_discount_type": "percent",
+    "company_id": {
+      "$oid": "67fe1f7d719b34991406ea46"
+    },
+    "code_valid_from": {
+      "$date": "2025-04-14T18:30:00.000Z"
+    },
+    "code_valid_to": {
+      "$date": "2026-04-14T18:29:00.000Z"
+    },
+    "number_of_washes_per_user": "3",
+    "number_of_user": "2",
+    "maximum_number_of_washes": "6",
+    "discount_amount": "50",
+    "min_order_value": "100",
+    "category_id": [
+      {
+        "$oid": "67d27501eda7adf86adee4b5"
+      },
+      {
+        "$oid": "67d274f3eda7adf86adee4b4"
+      },
+      {
+        "$oid": "67d274e7eda7adf86adee4b3"
+      },
+      {
+        "$oid": "67d274d0eda7adf86adee4b2"
+      },
+      {
+        "$oid": "67d274c7eda7adf86adee4b1"
+      },
+      {
+        "$oid": "67d274beeda7adf86adee4b0"
+      },
+      {
+        "$oid": "67d274b3eda7adf86adee4af"
+      },
+      {
+        "$oid": "67d274a9eda7adf86adee4ae"
+      },
+      {
+        "$oid": "67d2749feda7adf86adee4ad"
+      },
+      {
+        "$oid": "67d27496eda7adf86adee4ac"
+      },
+      {
+        "$oid": "67d2748deda7adf86adee4ab"
+      },
+      {
+        "$oid": "67d27482eda7adf86adee4aa"
+      },
+      {
+        "$oid": "67d27477eda7adf86adee4a9"
+      },
+      {
+        "$oid": "67d2746eeda7adf86adee4a8"
+      },
+      {
+        "$oid": "67d27465eda7adf86adee4a7"
+      },
+      {
+        "$oid": "67d2745aeda7adf86adee4a6"
+      },
+      {
+        "$oid": "67d27451eda7adf86adee4a5"
+      },
+      {
+        "$oid": "67d27447eda7adf86adee4a4"
+      },
+      {
+        "$oid": "67d2743eeda7adf86adee4a3"
+      },
+      {
+        "$oid": "67d27432eda7adf86adee4a2"
+      }
+    ],
+    "package_id": [
+      {
+        "$oid": "67f4c6d0e26eb20aa12b492d"
+      },
+      {
+        "$oid": "67d27a3f0a0d90740ea96c06"
+      },
+      {
+        "$oid": "67d279fd0a0d90740ea96c05"
+      },
+      {
+        "$oid": "67d278af42d8bf882d659b39"
+      }
+    ],
+    "subscription_id": [
+      {
+        "$oid": "67d279900a0d90740ea96c04"
+      },
+      {
+        "$oid": "67d2794e0a0d90740ea96c03"
+      },
+      {
+        "$oid": "67d278d20a0d90740ea96c02"
+      },
+      {
+        "$oid": "67d278820a0d90740ea96c01"
+      }
+    ],
+    "is_deleted": 0,
+    "is_active": 1,
+    "created": {
+      "$date": "2025-04-15T08:58:17.737Z"
+    },
+    "modified": {
+      "$date": "2025-04-15T09:18:27.596Z"
+    }
+  },
+  "b2b_order_number": 0,
+  "b2b_status": 1,
+  "company_id": {
+    "$oid": "67fe1f7d719b34991406ea46"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe2923d73466f5acb1c18b"
+  },
+  "display_name": "Test Customer",
+  "full_name": "Test Customer",
+  "email": "test123@mailinator.com",
+  "email_otp": 1234,
+  "is_email_verified": 1,
+  "is_mobile_verified": 1,
+  "date_joined": {
+    "$date": "2025-04-15T09:38:43.777Z"
+  },
+  "request_from": "admin",
+  "slug": "test-customer",
+  "usr_slug": "test-customer",
+  "last_login": {
+    "$date": "2025-04-15T09:38:43.778Z"
+  },
+  "is_blocked": 0,
+  "status": 1,
+  "api_type": "admin",
+  "is_deleted": 0,
+  "user_role_id": "5fcb734c0990ad27e022cf67",
+  "user_type": "customer",
+  "validate_string": "af7ded208fee6d412b58fcf3e3359a49",
+  "age": 0,
+  "dob": "",
+  "gender": 1,
+  "profile_image": "APR2025/1744709923740-5bf60a85a633b2add2911175ea8c4f4d.jpg",
+  "zip": 302014,
+  "language": "en",
+  "country_id": {
+    "$oid": "5b56b1aff190ae08d94474cd"
+  },
+  "state_id": {
+    "$oid": "5b56c00bf190ae7fdb2e0652"
+  },
+  "city_id": {
+    "$oid": "5b56c6bdf190ae27b67b8b70"
+  },
+  "mobile_code": "+966",
+  "mobile": "741258522",
+  "mobile_number": "+966741258522",
+  "wallet_status": 1,
+  "franchise_type": "",
+  "franchise_number": "",
+  "activated_at": {
+    "$date": "2025-04-15T09:38:43.778Z"
+  },
+  "created": {
+    "$date": "2025-04-15T09:38:43.778Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T09:38:43.778Z"
+  },
+  "b2b_code": "I44VDSU5R",
+  "b2b_code_created": {
+    "$date": "2025-04-15T09:39:08.187Z"
+  },
+  "b2b_code_details": {
+    "_id": {
+      "$oid": "67fe1fa9719b34991406ea47"
+    },
+    "promo_code": "I44VDSU5R",
+    "code_discount_type": "percent",
+    "company_id": {
+      "$oid": "67fe1f7d719b34991406ea46"
+    },
+    "code_valid_from": {
+      "$date": "2025-04-14T18:30:00.000Z"
+    },
+    "code_valid_to": {
+      "$date": "2026-04-14T18:29:00.000Z"
+    },
+    "number_of_washes_per_user": "3",
+    "number_of_user": "5",
+    "maximum_number_of_washes": "6",
+    "discount_amount": "50",
+    "min_order_value": "100",
+    "category_id": [
+      {
+        "$oid": "67d27501eda7adf86adee4b5"
+      },
+      {
+        "$oid": "67d274f3eda7adf86adee4b4"
+      },
+      {
+        "$oid": "67d274e7eda7adf86adee4b3"
+      },
+      {
+        "$oid": "67d274d0eda7adf86adee4b2"
+      },
+      {
+        "$oid": "67d274c7eda7adf86adee4b1"
+      },
+      {
+        "$oid": "67d274beeda7adf86adee4b0"
+      },
+      {
+        "$oid": "67d274b3eda7adf86adee4af"
+      },
+      {
+        "$oid": "67d274a9eda7adf86adee4ae"
+      },
+      {
+        "$oid": "67d2749feda7adf86adee4ad"
+      },
+      {
+        "$oid": "67d27496eda7adf86adee4ac"
+      },
+      {
+        "$oid": "67d2748deda7adf86adee4ab"
+      },
+      {
+        "$oid": "67d27482eda7adf86adee4aa"
+      },
+      {
+        "$oid": "67d27477eda7adf86adee4a9"
+      },
+      {
+        "$oid": "67d2746eeda7adf86adee4a8"
+      },
+      {
+        "$oid": "67d27465eda7adf86adee4a7"
+      },
+      {
+        "$oid": "67d2745aeda7adf86adee4a6"
+      },
+      {
+        "$oid": "67d27451eda7adf86adee4a5"
+      },
+      {
+        "$oid": "67d27447eda7adf86adee4a4"
+      },
+      {
+        "$oid": "67d2743eeda7adf86adee4a3"
+      },
+      {
+        "$oid": "67d27432eda7adf86adee4a2"
+      }
+    ],
+    "package_id": [
+      {
+        "$oid": "67f4c6d0e26eb20aa12b492d"
+      },
+      {
+        "$oid": "67d27a3f0a0d90740ea96c06"
+      },
+      {
+        "$oid": "67d279fd0a0d90740ea96c05"
+      },
+      {
+        "$oid": "67d278af42d8bf882d659b39"
+      }
+    ],
+    "subscription_id": [
+      {
+        "$oid": "67d279900a0d90740ea96c04"
+      },
+      {
+        "$oid": "67d2794e0a0d90740ea96c03"
+      },
+      {
+        "$oid": "67d278d20a0d90740ea96c02"
+      },
+      {
+        "$oid": "67d278820a0d90740ea96c01"
+      }
+    ],
+    "is_deleted": 0,
+    "is_active": 1,
+    "created": {
+      "$date": "2025-04-15T08:58:17.737Z"
+    },
+    "modified": {
+      "$date": "2025-04-15T09:37:14.887Z"
+    }
+  },
+  "b2b_order_number": 0,
+  "b2b_status": 1,
+  "company_id": {
+    "$oid": "67fe1f7d719b34991406ea46"
+  }
+}]

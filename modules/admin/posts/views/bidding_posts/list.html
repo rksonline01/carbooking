@@ -1,0 +1,377 @@
+<%
+	var statusType 		= (typeof status_type !== typeof undefined && status_type)	?	status_type :"";
+	var imagePath 		= (typeof image_path !== typeof undefined && image_path)	?	image_path 	:"";
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" >
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Ad ID -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_1"  onkeyup="searchDatatable(1)" placeholder="<%= __('admin.ads.search_by_ad_id'); %>" name="product_id">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Ad Title -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2"  onkeyup="searchDatatable(2)" placeholder="<%= __('admin.category.search_by_ad_title'); %>" name="lower_product_name">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="status_search" name="status" autocomplete="off">
+													<option value=""><%=__("admin.university.search_by_status");%></option>
+													<%
+													if(typeof AD_TYPE_SEARCH_DROPDOWN[DEFAULT_LANGUAGE_CODE] !== typeof undefined && AD_TYPE_SEARCH_DROPDOWN[DEFAULT_LANGUAGE_CODE].length > 0){
+														AD_TYPE_SEARCH_DROPDOWN[DEFAULT_LANGUAGE_CODE].map(searchStatus=>{
+															if( searchStatus.status_id != SEARCHING_ALL ){
+																var selectedFlag	= (typeof searchStatus.status_type !== typeof undefined && searchStatus.status_type  && searchStatus.status_type == statusType)	? "selected" : ""; %>
+																<option value="<%=searchStatus.status_id%>"  <%=selectedFlag%>><%=searchStatus.status_name%></option>
+															<% 	}
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- Search by Bid Status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_bid_status" id="bid_status_search" name="bid_status" autocomplete="off">
+													<option value=""><%=__("admin.bidding_posts.search_by_bid_status");%></option>
+													<%
+													if(typeof BID_POST_STATUS_SEARCH_DROPDOWN !== typeof undefined && BID_POST_STATUS_SEARCH_DROPDOWN.length > 0){
+														BID_POST_STATUS_SEARCH_DROPDOWN.map(searchStatus=>{%>
+															<option value="<%=searchStatus.status_id%>"><%=searchStatus.status_name%></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_seller" id="seller_search" name="seller" data-live-search="true">
+													<option value=""><%=__("admin.category.search_by_seller");%></option>
+													<%- seller_list %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" name="search_by_registration_date"  placeholder="<%= __('admin.user.search_by_created_date'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="text" name="from_date">
+											<input class="form-control hide" id="to_date" type="text" name="to_date">
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'posts/bidding_posts'%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.ads.bidding_posts"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/export_data/all">
+								<button type="button" class="btn bg-pink waves-effect">
+									<i class="material-icons font-14">import_export</i> <%= __("admin.system.export_csv"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="10%"><%= __("admin.ads.main_image_name"); %></th>
+								<th><%= __("admin.ads.ad_id"); %></th>
+								<th><%= __("admin.ads.title"); %></th>
+								<th><%= __("admin.ads.seller_name"); %></th>
+								<th><%= __("admin.system.bid_count"); %></th>
+								<th><%= __("admin.system.bid_status"); %></th>
+								<th><%= __("admin.system.status"); %></th>
+								<th><%= __("admin.system.created"); %> </th>
+								<th><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable 	="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: 	[[ 7, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{ 
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imageHtml	=	"";
+							let isNoImage 	= 	(result.is_noimage)					? 	result.is_noimage 				:"<%= DEACTIVE %>";
+							var imagePath	=	(result['<%=IMAGE_FIELD_NAME%>']) 	? 	result['<%=IMAGE_FIELD_NAME%>'] :'';
+							if( isNoImage == "<%= ACTIVE %>" ){
+								return "<img src='"+imagePath+"?dim=150x100&type=resize' class='img-thumbnail' alt='Product Image'/>";
+							}
+							else{
+								var id 			=	(result._id)				? 	result._id 				:'';
+								var imageName	=	(result.main_image_name)	? 	result.main_image_name 	:'';
+								return "<a href='<%=imagePath['image_url_original']%>"+imageName+"'  class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=150x100&type=resize' class='img-thumbnail'  alt='Product Image'/></a>";
+							}
+						}
+					},
+					{ 
+						"data"		: 'product_id',
+						"orderable"	: false,
+						"render" 	: function(product_id){
+							return "<b>"+product_id+"</b>";
+						}
+					},
+					{ 
+						"data"			: {},
+						"field_name"	: "lower_product_name",
+						render : function(result){
+							return '<a href="<%=admin_list_url%>/bidding_posts/view/'+result._id+'">'+result.product_title+'</a>';
+						} 
+					},
+					{ 
+						"data"			: 'user_name',
+						"orderable"		: false,
+						"searchable"	: false,
+					},
+					{ 
+						"data"			: 'bid_count',
+						"orderable"		: false,
+						"searchable"	: false,
+					},
+					{
+						"data"			: 'is_bid_approved',
+						"orderable"		: true,
+						"searchable"	: false,
+						"render": function(is_bid_approved){
+							var statusTab = is_bid_approved == '<%=ACTIVE%>' ? '<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.approved")%></span>' : '<span class="label label-warning m-l-5 m-t-5"><%=__("admin.system.in_process")%></span>';	/** Is Bid Approved Status */
+							return statusTab;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"searchable"	: false,
+						"render": function(result){
+							var status 		= (result && result.active)			?	result.active			: "<%= DEACTIVE %>";	/** Active Status **/
+							var blockstatus = (result && result.is_block)		?	result.is_block			: "<%= DEACTIVE %>";   /** Block Status **/
+							var isSold 		= (result && result.is_sold)		?	result.is_sold			: "<%= DEACTIVE %>";
+							var isExpired 	= (result && result.is_expired)		?	result.is_expired		: "<%= DEACTIVE %>";
+
+							var statusTab	= "";
+							if(status == '<%=ACTIVE%>' && isExpired == '<%=DEACTIVE%>' && isSold == '<%=DEACTIVE%>'){
+								statusTab	+= '<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.active")%></span>';
+							}
+
+							if(status == '<%=DEACTIVE%>' && isExpired == '<%=DEACTIVE%>' && isSold == '<%=DEACTIVE%>'){
+								statusTab	+= '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.inactive")%></span>';
+							}
+
+							if(blockstatus == '<%=ACTIVE%>' && isExpired == '<%=DEACTIVE%>' && isSold == '<%=DEACTIVE%>'){
+								statusTab	+= '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.blocked")%></span>';
+							}
+							else if ( blockstatus == '<%=DEACTIVE%>' && isExpired == '<%=DEACTIVE%>' && isSold == '<%=DEACTIVE%>'){
+								statusTab	+= '<span class="label label-success  m-l-5 m-t-5"><%=__("admin.system.unblocked")%></span>';
+							}
+
+							if(isExpired == '<%=ACTIVE%>' &&  isSold == '<%=DEACTIVE%>'){
+								statusTab	+= '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.expired")%></span>';
+							}
+
+							if(isSold == '<%=ACTIVE%>' ){
+								statusTab	+= '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.sold")%></span>';
+							}
+								
+							return statusTab;
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){	
+							var id 				= 	(result._id)		?	result._id				: "";
+							/** Active or Inactive Status **/
+							var status			=	(result.active)		?	result.active			: "<%= DEACTIVE %>";
+							var isBlock			=	(result.is_block)	?	result.is_block			: "<%= DEACTIVE %>";
+							var isSold 			= 	(result.is_sold)	?	result.is_sold			: "<%= DEACTIVE %>";
+							var isExpired 		= 	(result.is_expired)	?	result.is_expired		: "<%= DEACTIVE %>";
+
+							var statusConfirmMsg =	"<%= __('admin.ads.do_you_want_to_change_status'); %>" ;
+
+							var blockConfirmMsg =	(isBlock =='<%= DEACTIVE %>') 	? 	"<%= __('admin.ads.you_want_to_block_this_ad'); %>" : "<%= __('admin.ads.you_want_to_unblock_this_ad'); %>" ;
+							var statusLinkTitle =	(status =='<%= DEACTIVE %>') 	?  	"<%= __('admin.system.active'); %>"  : "<%= __('admin.system.deactive'); %>" ;
+							var statusLinkIcon  =	(status == '<%= DEACTIVE %>') 	?	"done"	: "block";
+							var blockLinkTitle 	=	(isBlock =='<%= DEACTIVE %>') 	?  	"<%= __('admin.system.click_to_blocked'); %>"  : "<%= __('admin.system.click_to_unblocked'); %>" ;
+							var blockLinkLable 	=	(isBlock =='<%= DEACTIVE %>') 	?  	"<%= __('admin.system.block'); %>"  : "<%= __('admin.system.unblock'); %>" ;
+							var blockLinkIcon  	=	(isBlock == '<%= ACTIVE %>') 	?	"done"	: "block";
+							
+
+
+							var dropDownButton 	=	''+	
+							'<div class="btn-group m-l-5 m-t-5">'+	
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'+
+									'<%= __("admin.system.action"); %>'+
+									'<span class="caret"></span>'+
+								'</button>'+	
+								'<ul class="dropdown-menu min-width-190">'
+									if( status != '<%=DRAFT%>' && isSold != '<%=ACTIVE%>' && isExpired != '<%=ACTIVE%>' ){
+										dropDownButton +=
+										'<li>'
+											+'<a href="<%=admin_list_url%>/bidding_posts/bid_listing/'+id+'" class="waves-effect waves-block">'+
+												'<i class="material-icons">list</i>'+
+												'<%= __("admin.bidding_post.bid_listing"); %>'+
+											'</a>'+
+										'</li>';
+									}
+								dropDownButton 	+= '</ul>'+	
+							'</div>';
+							return dropDownButton;
+						}
+					}
+				],
+				"ajax":{
+					url 	: "<%=admin_list_url%>/bidding_posts",
+					type	: "POST",
+					data	: function (d) {
+						d.fromDate 			= $('#from_date').val();
+				        d.toDate 			= $('#to_date').val();
+						d.status_search		= $('#status_search').val();
+						d.bid_status_search	= $('#bid_status_search').val();
+						d.seller_search		= $('#seller_search').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				}
+			});
+			
+			
+			
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+		/**
+		* Search by status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_status").change(function(){
+			dataTable.draw();
+		});
+
+		/**
+		* Search by bid status
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_bid_status").change(function(){
+			dataTable.draw();
+		});
+
+		/**
+		* Search by Seller
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+		$(".search_by_seller").change(function(){
+			dataTable.draw();
+		});
+	</script>
+	<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

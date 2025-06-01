@@ -1,0 +1,350 @@
+<%
+	result 		=	(typeof result !== typeof undefined)	?	result	:{};	
+	areaList    =   (result.area_list && Array.isArray(result.area_list)) ? result.area_list : []
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.customer_address.edit_customer_address'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url + '/' + user_id %>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<form id="edit-subscriber" data-submit-btn-id="subscriber-edit-btn-id" method="post" class="on_click_submit" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="full_name" class="control-label"><%= __('admin.customer_address.full_name'); %><span class="required"> * </span> :</label>
+										<input name="full_name" id="full_name" type="text" class="form-control" value="<%=(result.full_name) ? result.full_name :"";%>"/>
+									</div>
+									<span id="full_name_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="country_id" class="control-label"><%= __('admin.customer_address.country_name'); %><span class="required">  </span> :</label>
+										
+										<input id="country_id" name="country_id" type="text" class="form-control" value="<%=(result.country_name) ? result.country_name :"";%>"/>
+
+									 
+
+									</div>
+									<span id="country_id_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="state_id" class="control-label"><%= __('admin.customer_address.state_name'); %><span class="required">  </span> :</label>
+										
+										<input id="state_id" name="state_id" type="text" class="form-control" value="<%=(result.state_name) ? result.state_name :"";%>"/>
+
+										 
+
+									</div>
+									<span id="state_id_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="city_id" class="control-label"><%= __('admin.customer_address.city_name'); %><span class="required">  </span> :</label>
+										
+										<input id="city_id" name="city_id" type="text" class="form-control" value="<%=(result.city_name) ? result.city_name :"";%>"/>
+
+										 
+
+									</div>
+									<span id="city_id_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="address_line_1" class="control-label"><%= __('admin.customer_address.address_line_1'); %><span class="required"> * </span> :</label>
+										<input name="address_line_1" id="email" type="text" class="form-control" value="<%=(result.address_line_1) ? result.address_line_1 :"";%>"/>
+									</div>
+									<span id="address_line_1_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="address_line_2" class="control-label"><%= __('admin.customer_address.address_line_2'); %><span class="required"> * </span> :</label>
+										<input name="address_line_2" id="address_line_2" type="text" class="form-control" value="<%=(result.address_line_2) ? result.address_line_2 :"";%>"/>
+									</div>
+									<span id="address_line_2_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<div id="map"></div>
+									</div> 
+									<span id="marker_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+						<!-- Hidden inputs to store latitude & longitude -->
+						<input type="hidden" id="latitude" name="latitude" value="<%= result.latitude || '' %>">
+						<input type="hidden" id="longitude" name="longitude" value="<%= result.longitude || '' %>">
+						<input type="hidden" id="marker" name="marker" value="<%= `${result.latitude} - ${result.longitude}`  %>">
+
+
+						<button type="button"  id="subscriber-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%=admin_list_url + '/' + user_id %>" ><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("script") %>
+	<script src="https://maps.googleapis.com/maps/api/js?key=<%= google_map_key %>&libraries=places"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		/**
+		 * Function to submit form
+		 */
+		$(".btn-submit").click(function(){
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			ajax_submit("edit-subscriber",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	});
+</script>
+<script type="text/javascript">
+    var address_latitude  = parseFloat('<%= result.latitude || "0" %>') || <%= google_map_default_lat %>;
+    var address_longitude = parseFloat('<%= result.longitude || "0" %>') || <%= google_map_default_long %>;
+
+    var map;
+    var marker;
+
+    function initMap() {
+        // Initialize Google Map
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: address_latitude, lng: address_longitude },
+            zoom: 15, // Zoom level for pinpointed address
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        // Create draggable marker
+        marker = new google.maps.Marker({
+            position: { lat: address_latitude, lng: address_longitude },
+            map: map,
+            draggable: true, // Make the marker draggable
+            animation: google.maps.Animation.DROP
+        });
+
+        // Update latitude & longitude when marker is moved
+        google.maps.event.addListener(marker, "dragend", function(event) {
+            document.getElementById("latitude").value = event.latLng.lat();
+            document.getElementById("longitude").value = event.latLng.lng();
+        });
+
+        // Optional: Click on map to move marker
+        google.maps.event.addListener(map, "click", function(event) {
+            marker.setPosition(event.latLng);
+            document.getElementById("latitude").value = event.latLng.lat();
+            document.getElementById("longitude").value = event.latLng.lng();
+            document.getElementById("marker").value = `${event.latLng.lat()} - ${event.latLng.lng()}`;
+        });
+		 
+		
+		let jsonCoordinatesAreaArray 	= 	null;
+		let pathCoordinatesArea 		= 	null;
+		let currentInfoWindow	 		= 	null;
+		 
+		<%
+		if(typeof area_list !== typeof undefined && Array.isArray(area_list) && area_list.length > 0){
+				
+			area_list.forEach(function(area){ %>
+				
+				var coordinatesArea 		= 	`<%= JSON.stringify(area.coordinates); %>`;
+				coordinatesArea 			= 	coordinatesArea.replace('""', "");
+				coordinatesArea 			= 	coordinatesArea.replace(/&#34;/g, '"');
+				jsonCoordinatesAreaArray 	= 	JSON.parse(coordinatesArea);
+				
+				pathCoordinatesArea = jsonCoordinatesAreaArray.map(item => ({
+				  lat: parseFloat(item.lat),  // Convert lat to number
+				  lng: parseFloat(item.lng)   // Convert lng to number
+				}));
+			
+				already_polygon = new google.maps.Polygon({
+					paths: pathCoordinatesArea,
+					strokeColor: "#0000FF",
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					fillColor: "#0000FF",
+					fillOpacity: 0.35,
+				})
+
+				already_polygon.setMap(map)
+				
+				center_polygon = getPolygonCenter(pathCoordinatesArea);
+				
+				infoWindow<%= area._id %> = new google.maps.InfoWindow({
+					content: `<%= area.title %>`,
+					position: center_polygon,
+				});
+				
+				already_polygon.addListener("click", (e) => {
+					
+					/****
+					marker.setPosition(e.latLng);
+					currentLatitude = e.latLng.lat();
+					currentLongitude = e.latLng.lng();
+					$("#latitude").val(currentLatitude);
+					$("#longitude").val(currentLongitude);
+					*****/
+					
+					if (currentInfoWindow) {
+						currentInfoWindow.close();
+					}
+
+					// Open new InfoWindow
+					infoWindow<%= area._id %>.open(map);
+					currentInfoWindow = infoWindow<%= area._id %>; // Update reference
+				});
+			<%
+			})
+		}
+		%> 
+    }
+	
+	
+	function getPolygonCenter(coords) {
+		let latSum = 0, lngSum = 0;
+		coords.forEach(coord => {
+			latSum += coord.lat;
+			lngSum += coord.lng;
+		});
+		return { lat: latSum / coords.length, lng: lngSum / coords.length };
+	}
+
+    // Load Google Map
+    window.onload = initMap;
+</script>
+
+<script type="text/javascript">
+		 
+	/**get states list country wise data
+	***/
+	function getStateData(selectObject){
+
+		var value = selectObject.value;
+		
+		if(value){
+			$.ajax({
+				'type'		: 	'POST',
+				url 		:	"<%= COUNTRY_STATE_CITY_URL %>/get_state_list_country_wise/"+value,
+				'data'		: 	{ 'country_id': value	},
+				'success': function (response){
+					var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+					if(result.length > 0){
+						var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+						result.map(function(res){
+							/**create select box */
+							var selectedString = (res._id == value) ? "selected" : "";
+							option+='<option  value="'+res._id+'">'+res.state_name+'</option>';
+						});
+						$("#state_id").html('');
+						$("#state_id").html(option);
+						$("#state_id").selectpicker('destroy'); // Destroy existing instance
+						$("#state_id").selectpicker();
+						//$("#state_id").selectpicker('refresh');
+					}else{
+						var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+						$("#state_id").html('');
+						$("#state_id").html(option);
+						$("#state_id").selectpicker('destroy'); // Destroy existing instance
+						$("#state_id").selectpicker();
+						//$("#state_id").selectpicker('refresh');
+					}
+					//$(".test-select-box").show();
+				}
+			});
+		}else{
+			var option =	'<option value=""><%= __("admin.user.select_state"); %></option>';
+			$("#state_id").html('');
+			$("#state_id").html(option);
+			$("#state_id").selectpicker('destroy'); // Destroy existing instance
+			$("#state_id").selectpicker();
+			//$("#state_id").selectpicker('refresh');
+		}
+	}
+
+	/**
+	**get city list state wise data
+	***/
+	function getCityData(selectObject){
+		var value = selectObject.value;
+		if(value){
+			$.ajax({
+				'type'		: 	'POST',
+				url 		:	"<%= COUNTRY_STATE_CITY_URL %>/get_city_list_state_wise/"+value,
+				'data'		: 	{ 'state_id': value	},
+				'success': function (response){
+					var result = (typeof response.result !== typeof undefined && response.result) ? response.result :[];
+					if(result.length > 0){
+						var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+						result.map(function(res){
+							/**create select box */
+							var selectedString = (res._id == value) ? "selected" : "";
+							option+='<option  value="'+res._id+'">'+res.city_name+'</option>';
+						});
+						$("#city_id").html(option);
+						$("#city_id").selectpicker('destroy'); // Destroy existing instance
+						$("#city_id").selectpicker();
+						//$("#city_id").selectpicker('refresh');
+					}else{
+						var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+						$("#city_id").html(option);
+						$("#city_id").selectpicker('destroy'); // Destroy existing instance
+						$("#city_id").selectpicker();
+						//$("#city_id").selectpicker('refresh');
+					}
+					//$(".test-select-box").show();
+				}
+			});
+		}else{
+			var option =	'<option value=""><%= __("admin.user.select_city"); %></option>';
+			$("#city_id").html(option);
+			$("#city_id").selectpicker('destroy'); // Destroy existing instance
+			$("#city_id").selectpicker();
+			//$("#city_id").selectpicker('refresh');
+		}
+	}
+
+</script>
+
+
+
+

@@ -1,0 +1,160 @@
+<div class="container-fluid">	
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.push_notification.push_notification") %>
+					</h2>					
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">						
+						<li>
+							<a href="<%=admin_list_url%>/add" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __('admin.push_notification.message'); %></th>
+								<th><%= __('admin.system.status'); %></th>
+								<th><%= __('admin.system.created'); %></th>								
+								<th><%= __('admin.system.action'); %></th>								
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+
+	<script type="text/javascript">
+		/**
+		* Function to initialize datatable and get server side data
+		*/
+		var dataTable = "";
+		$(document).ready(function() {
+			dataTable = $('#datatable-listing').DataTable({
+				"language"	: 	{
+					"url" 	: 	"<%= DATABLE_LANG_CDN %>"
+				},
+				"order"		: 	[[2, "desc" ]],
+				"sDom"		:	"ltipr",
+				"lengthMenu": 	PAGING_LENGTH_MENU,
+				"serverSide":	true,
+				"scrollX"	: 	true,
+				"columns"	: 	[
+					{
+						"data"		: "message",
+						"orderable"	: false,
+						"render" 	:  function(message){
+							return '<span class="readmore">'+message+'</span>';
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render": function(result){
+							var active 			= 	(result && result.is_active)			?	result.is_active			:"";
+							
+							/** Active Status **/
+							var statusTab	 = 	(active == "<%=ACTIVE%>")  		? 	'<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.active")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.inactive")%></span>';
+							statusTab		+=	'<br/>';
+							return statusTab;
+						}
+					},
+					{
+						"data"			:	'created',
+						"orderable"	 	:   true,
+						"searchable" 	: 	true,
+						"render" 		: 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							
+							var id 				= 	(result._id)			?	result._id				:	"";
+							var status			=	(result.is_active)		?	result.is_active		:	"<%=DEACTIVE%>";
+
+							/** Status Link Label And Class **/
+							var statusLinkText  =	(status == "<%= DEACTIVE %>") ?	"<%= __('admin.system.active'); %>"				: "<%= __('admin.system.deactive'); %>" ;
+							var statusLinkTitle =	(status == "<%= DEACTIVE %>") ?  	"<%= __('admin.system.click_to_activate'); %>"  : "<%= __('admin.system.click_to_deactivate'); %>" ;
+							var statusLinkIcon  =	(status == "<%= DEACTIVE %>") ?	"done"	: "block";
+							
+							var dropDownButton 	=	''+	
+							'<div class="dropdown btn-group m-l-5 m-t-5">'+	
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'+
+									'<%= __("admin.system.action"); %>'+
+									'<span class="caret"></span>'+
+								'</button>'+	
+								'<ul class="dropdown-menu min-width-190">'+
+									
+									
+									/** Status Link  **/
+									'<li>'+
+										'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/update_notification_status/'+id+'/'+status+'/<%=ACTIVE_INACTIVE_STATUS%>" class=" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.system.you_want_to_change_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+statusLinkTitle+'">'+
+											'<i class="material-icons">'+statusLinkIcon+'</i>'+
+											statusLinkText+
+										'</a>'+
+									'</li>'+
+									
+									/** Delete Link */
+									'<li>'+
+										'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/delete/'+id+'" class="waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.system.do_you_want_to_delete"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>">'+
+											'<i class="material-icons">delete_sweep</i>'+
+											'<%= __("admin.system.delete"); %>'+
+										'</a>'+
+									'</li>'+								
+								'</ul>'+	
+							'</div>';
+							return dropDownButton;
+						}
+					},
+				],
+				"ajax":{
+					url 	:	"<%= admin_list_url %>",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.status_search	= 	$('#status_search').val();
+					},
+					dataSrc	: function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": readMore
+			});			
+		
+		});
+
+		/**
+		* Javascript function to search datatable
+		*
+		* @param  columnNumber as data table column number
+		*
+		* @return void
+		*/
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

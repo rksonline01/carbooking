@@ -1,0 +1,112 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.posts.edit_review"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>/reviews" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+					<%- include ('../../../elements/multilanguage_tabs.html'); %>
+					<!-- Multilanguage tabs -->
+					<form id="add-block" data-submit-btn-id="block-add-btn-id" method="post" class="on_click_submit" role="form">
+						<div class="tab-content mt-20">	
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line cursor-not-allowed">
+											<label for="product_name" class="control-label"><%= __('admin.posts.post_title'); %><span class="required"> * </span> :</label>
+											<input type="text" id="product_name" name="product_name" class="form-control readonly" value="<%= record.product_name %>" readonly="true">
+										</div>
+										<span id="product_name_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line cursor-not-allowed">
+											<label for="user_name" class="control-label">
+												<%= __("admin.posts.user_name"); %>
+													<span class="required">*</span>
+											</label> 
+											
+											<input type="text" id="user_name" name="user_name" class="form-control readonly" value="<%= (record && record.full_name) ? record.full_name : ''%>" readonly="true"/>
+										</div>
+										<span id="user_name_error" class="error"></span>
+									</div>
+								</div>
+							</div>	
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line cursor-not-allowed">
+											<label for="email" class="control-label">
+												<%= __("admin.posts.user_email"); %>
+													<span class="required">*</span>
+											</label> 
+											
+											<input type="email" id="email" name="email" class="form-control readonly" value="<%= (record && record.email) ? record.email : ''%>" readonly="true"/>
+										</div>
+										<span id="email_error" class="error"></span>
+									</div>
+								</div>
+							</div>	
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="review" class="control-label">
+												<%= __("admin.posts.review"); %>
+													<span class="required">*</span>
+											</label> 
+										 
+											<input type="text" id="review" name="review" class="form-control" value="<%= (record && record.review) ? record.review : ''%>"/>
+										</div>
+										<span id="review_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" id="rating" name="rating" value="<%= (record.rating);%>">
+						</div>
+						<button type="button" id="block-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>/reviews"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript">
+	
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+		//	updateCkeditorValue();
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('add-block',function(status,response){
+				
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	</script>

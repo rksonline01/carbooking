@@ -1,0 +1,238 @@
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id"
+								href="#panel-collapse-id" aria-expanded="false" aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i>
+								<%= __("admin.system.search"); %>
+									<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" method="POST" name="searchForm">
+						<div class="panel-body">
+							<div class="row clearfix dataTables_wrapper">
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_0" name="title" placeholder="<%= __("admin.area.search_by_title"); %>">
+										</div>
+									</div>
+								</div>
+							
+							
+							<div class="col-xs-12 col-sm-4">
+								<button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+									<%= __("admin.system.submit")%>
+								</button>
+								<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger"
+									data-href="<%=WEBSITE_ADMIN_URL%>area">
+									<%= __("admin.system.reset")%>
+								</button>
+							</div>
+						</div>	
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.area.area_management"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url%>/add">
+								<button type="button" class="btn bg-pink waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add_by_place_search"); %>
+								</button>
+							</a>
+						</li>
+						
+						<li>
+							<a href="<%=admin_list_url%>/add/draw">
+								<button type="button" class="btn bg-pink waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add_by_draw"); %>
+								</button>
+							</a>
+						</li>
+						
+						
+						<li>
+							<a href="<%=admin_list_url%>/show-all">
+								<button type="button" class="btn bg-pink waves-effect">
+									<%= __("admin.area.show-all"); %>
+								</button>
+							</a>
+						</li>
+						
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="20%"><%= __("admin.area.title"); %></th>
+								<th width="50%"><%= __("admin.area.page_description"); %></th>
+								<th><%= __("admin.system.status"); %></th>	
+								<th width="20%"><%= __("admin.system.modified"); %> </th>
+								<th width="10%"><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("script") %>
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"language"	: 	{
+					"url" 	:	"<%= DATABLE_LANG_CDN %>"
+				},
+				"order"		: 	[[ 0, "asc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{ "data": 'title' },
+					{
+						"data": 'body',
+						"searchable" : 	false,
+						"orderable"  :   false,
+						"render" 	 : 	function(body){
+							return body.replace(/(<([^>]+)>)/ig," ").substring(0,200)+((body.length>200) ? "..." :"");
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"field_name"	:	"status",
+						"render": function(result){
+							var active 			= 	(result && result.status)			?	result.status			:"";
+							
+							/** Active Status **/
+							var statusTab	 = 	(active == '<%=ACTIVE%>')  		? 	'<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.active")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.inactive")%></span>';
+							statusTab		+=	'<br/>';
+							return statusTab;
+						}
+					},
+					{
+						"data"		 : 'modified',
+						"searchable" : 	false,
+						"render" 	 : 	function(modified){
+							return moment(modified).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id 				= 	(result._id)					?	result._id						:	"";
+							var status			=	(result.status)					?	result.status					:	"<%=DEACTIVE%>";
+							 
+							/** Status Link Label And Class **/
+							var statusLinkText  =	(status == '<%= DEACTIVE %>') ?	"<%= __("admin.system.active"); %>"				: "<%= __("admin.system.deactive"); %>" ;
+							var statusLinkTitle =	(status == '<%= DEACTIVE %>') ? "<%= __("admin.system.click_to_activate"); %>"  : "<%= __("admin.system.click_to_deactivate"); %>" ;
+							var statusLinkIcon  =	(status == '<%= DEACTIVE %>') ?	"done"	: "block";														
+							
+							var dropDownButton 	=	''+	
+							'<div class="dropdown btn-group m-l-5 m-t-5">'+	
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'+
+									'<%= __("admin.system.action"); %>'+
+									'<span class="caret"></span>'+
+								'</button>'+	
+								'<ul class="dropdown-menu min-width-190">'+
+									/** Edit Link **/
+									'<li>'+
+										'<a href="<%=admin_list_url%>/edit/'+id+'" class="dropdown-item waves-effect waves-block">'+
+											'<i class="material-icons">mode_edit</i>'+
+											'<%= __("admin.system.edit"); %>'+
+										'</a>'+
+									'</li>';
+
+									/** Edit assign service provider Link**/
+									dropDownButton+= '<li>'+
+										'<a href="<%=admin_list_url%>/assign-service-provider/'+id+'" class="dropdown-item waves-effect waves-block">'+
+											'<i class="material-icons">person</i>'+'<%= __("admin.system.assign_service_provider"); %>'+
+										'</a>'+
+									'</li>';
+									 
+									
+									/** Status Link  **/
+									dropDownButton+=	'<li>'+
+										'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/update_area_status/'+id+'/'+status+'" class="dropdown-item waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.location.do_you_want_to_change_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+statusLinkTitle+'">'+
+											'<i class="material-icons">'+statusLinkIcon+'</i>'+
+											statusLinkText+
+										'</a>'+
+									'</li>';
+									
+									/** Delete link **/
+									dropDownButton += 	'<li>'+
+										'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/delete/'+id+'" class="waves-effect waves-block confirm_box" data-confirm-message="<%= __("You want to delete this area."); %>" data-confirm-heading="<%= __("Are you sure?") %>">'+
+											'<i class="material-icons">delete_sweep</i>'+
+											'<%= __("Delete"); %>'+
+										'</a>'+
+									'</li>'+
+								'</ul>'+	
+							'</div>';
+							return dropDownButton;
+						}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>",
+					type	: 	"POST",
+					data: function (d) {
+						var formdata = JSON.parse(JSON.stringify($("#searchForm").serializeArray()))
+						d.search_data = formdata	
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});
+		});
+		
+		$("#submit_btn").on('click', function () {
+			dataTable.draw();
+		});
+		
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

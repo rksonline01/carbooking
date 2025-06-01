@@ -1,0 +1,131 @@
+<div class="container-fluid">
+	<div class="row clearfix admin-dashboard-listing">
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+			<a href="<%= WEBSITE_ADMIN_URL+"users/"+CUSTOMER_USER_TYPE%>"
+				class="stats-anchor text-decoration-none">
+				<div
+					class="info-box bg-pink hover-expand-effect cursor-pointer all_patients_color total-order-color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.dashboard.total_customers"); %></div>
+						<div class="number count-to" data-from="0"
+							data-to='<%= (total_customers["total_users"]) ? total_customers["total_users"] : 0; %>'
+							data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+			<a href="<%= WEBSITE_ADMIN_URL+"users/"+SERVICE_PROVIDER_USER_TYPE%>"
+				class="stats-anchor text-decoration-none">
+				<div
+					class="info-box bg-pink hover-expand-effect cursor-pointer all_patients_color total-order-color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text"><%= __("admin.dashboard.total_service_providers");
+							%></div>
+						<div class="number count-to" data-from="0"
+							data-to='<%= (total_service_provider["total_users"]) ? total_service_provider["total_users"] : 0; %>'
+							data-speed="1000" data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+			<a href class="stats-anchor text-decoration-none">
+				<div
+					class="info-box bg-pink hover-expand-effect cursor-pointer all_patients_color total-order-color">
+					<div class="icon">
+						<i class="material-icons">group</i>
+					</div>
+					<div class="content">
+						<div class="text">Total Booking</div>
+						<div class="number count-to" data-from="0" data-to='0' data-speed="1000"
+							data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+			<a href class="stats-anchor text-decoration-none">
+				<div
+					class="info-box bg-pink hover-expand-effect cursor-pointer all_patients_color total-order-color">
+					<div class="icon">
+						<i class="material-icons">account_balance</i>
+					</div>
+					<div class="content">
+						<div class="text">Total Earning</div>
+						<div class="number count-to" data-from="0" data-to='0' data-speed="1000"
+							data-fresh-interval="20"></div>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __("admin.dashboard.users_registration_chart"); %></h2>
+				</div>
+				<div class="body">
+					<canvas id="bar_chart" height="300"></canvas>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- <button onclick="sendMessage()">Send Message</button> -->
+	<%- contentFor("script") %>
+
+	<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery-countto/jquery.countTo.js"
+		type="text/javascript"></script>
+	<script type="text/javascript">
+		<% 
+			var usersData 	= [];
+			var year  		= "";
+			var month  		= "";
+			var monthyear  	= "";
+			if(result){
+				for(var i=0; i < result.length; i++) {
+					month					= (result[i]["_id"]["month"]) 	? result[i]["_id"]["month"] :"";
+					year					= (result[i]["_id"]["year"]) 	? result[i]["_id"]["year"]	:"";
+					monthyear				= month+"-"+year;
+					usersData[i]            = {};
+					usersData[i][monthyear] = {};
+					
+					usersData[i][monthyear]["total_users"]	= (result[i]["total_users"]) 	? result[i]["total_users"] : 0;
+					//usersData[i][monthyear]["total_suspended"]= (result[i]["total_suspended"]) 	? result[i]["total_suspended"] : 0;
+					//usersData[i][monthyear]["total_unsuspended"]= (result[i]["total_unsuspended"]) 	? result[i]["total_unsuspended"] : 0;
+					//usersData[i][monthyear]["verified_users"]= (result[i]["verified_users"]) 	? result[i]["verified_users"] : 0;
+				}
+			}
+		%>
+		var userRecords 	=	<%- JSON.stringify(usersData); %>;
+	
+		
+		
+	</script>
+	<script>
+$(function () {
+			$('.count-to').countTo();
+		});
+
+	</script>
+	<link href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.css"
+		rel="stylesheet">
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>chartjs/Chart.bundle.js"
+		type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>raphael/raphael.min.js"
+		type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>morrisjs/morris.js"
+		type="text/javascript"></script>
+	<script src="<%=WEBSITE_ADMIN_JS_PAGE_PATH%>dashboard/chartjs.js"
+		type="text/javascript"></script>

@@ -1,0 +1,357 @@
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="#panel-collapse-id" aria-expanded="false"
+							   aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm"  method="POST" name="searchForm" >
+							<input type="hidden" name="search_open" id="search_open" value="0">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by sender name-->
+									<div class="col-xs-12 col-sm-6">
+										<div class="form-group">
+											<div class="form-line">
+												<select data-live-search="true" class="form-control show-tick selectpicker search_by_language " data-dropup-auto="false" name="sender_id" >
+													<option value=""><%= __("admin.user.search_by_sender_namer"); %></option>
+													<%- sender_list %>
+												</select>
+												<!-- <input class="form-control" id="column_filter_0" placeholder="<%= __('admin.user.search_by_sender_namer'); %>" name="sender_name"> -->
+											</div>
+										</div>
+									</div>
+									<!-- Search by receiver name-->
+									<div class="col-xs-12 col-sm-6">
+										<div class="form-group">
+											<div class="form-line">
+												<select data-live-search="true" class="form-control show-tick selectpicker search_by_language " data-dropup-auto="false" name="receiver_id" >
+													<option value=""><%= __("admin.user.search_by_receiver_namer"); %></option>
+													<%- receiver_list %>
+												</select>
+												<!-- <input class="form-control" id="column_filter_1" placeholder="<%= __('admin.user.search_by_receiver_namer'); %>" name="receiver_name"> -->
+											</div>
+										</div>
+									</div>
+									<!-- Search by message -->
+									<div class="col-xs-12 col-sm-6">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2" placeholder="<%= __('admin.sms_logs.search_by_message'); %>" name="message">
+											</div>
+										</div>
+									</div>
+
+									<!--
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<div class="form-group"> 
+											<div class="form-line">
+												<select class="form-control show-tick"id="status"  name="status">
+													<option value=""><%=__("admin.master.search_by_status");%></option>
+													<%
+													if(ACTIVE_DEACTIVE_DROPDOWN && ACTIVE_DEACTIVE_DROPDOWN.length > 0){
+														ACTIVE_DEACTIVE_DROPDOWN.forEach(function(searchStatus,index){%>
+															<option value="<%=searchStatus.status_id%>"><%=__(searchStatus.status_name);%></option>
+													<% 	});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									-->
+
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<div class="form-group"> 
+											<div class="form-line">
+												<select class="form-control show-tick"id="payment_method"  name="payment_method">
+													<option value=""><%=__("admin.master.search_by_paymnet_method");%></option>
+													<option value="<%= PAYMENT_BY_WALLET %>"><%= PAYMENT_BY_WALLET %></option>
+													<option value="<%= PAYMENT_BY_APPLE_PAY %>"><%= PAYMENT_BY_APPLE_PAY %></option>
+												</select>
+											</div>
+										</div>
+									</div>
+									
+									<!-- Search by gift_transaction_id -->
+									<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2" placeholder="<%= __('admin.gift.search_by_gift_transaction_id'); %>" name="gift_transaction_id">
+											</div>
+										</div>
+									</div>
+
+
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input  autofocus="false" class="form-control" id="date-range-picker" name="registration_date"  placeholder="<%= __('admin.user.search_by_transaction_date'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="hidden" name="from_date">
+											<input class="form-control hide" id="to_date" type="hidden" name="to_date">
+										</div>
+									</div>
+
+
+									<div class="col-xs-12 col-sm-6 col-md-2 col-lg-2">
+										<button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+											<%= __("admin.system.submit")%>
+										</button>
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=admin_list_url%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<!-- Start Listing -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.user.gift_transaction_logs"); %>
+					</h2>
+					
+					<p class="points-details">
+						
+						
+					</p>
+					<style>
+						.total_earned{margin-right: 15px;}
+						.points-details {
+							font-size: 14px;
+							color: #141414;
+							margin-top: 10px;
+							margin-bottom: 0;
+						}
+					</style>
+					
+					
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+					<li>
+						<a href="<%=admin_list_url%>/export-gift-transaction-logs">
+							<button type="button" class="btn bg-indigo waves-effect">
+								<%= __('admin.system.export_all'); %>
+							</button>
+						</a>
+					</li>
+				</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __("admin.user.sender_name"); %></th>
+								<th><%= __("admin.user.receiver_name");%></th>
+								<th><%= __("admin.user.payment_method");%></th>
+								<th><%= __("admin.user.gift_transaction_id");%></th>
+								<th><%= __("admin.sms_logs.message");%></th>
+								<th><%= __("admin.user.amount"); %></th>
+								<th><%= __("admin.user.total_amount"); %></th>
+								<th><%= __("admin.user.total_sender_amount"); %></th>
+								<th><%= __("admin.system.transaction_date"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="messageModalLabel"><%= __("admin.sms_logs.message"); %></h5>
+					
+				</div>
+				<div class="modal-body">
+					<p id="modalMessage"></p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<%- contentFor('css') %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+                "language"  :   {
+                    "url"   :   "<%= DATABLE_LANG_CDN %>"
+                },
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: [[6, "desc"]],
+				"lengthMenu": PAGING_LENGTH_MENU,
+				"sDom"		: "ltipr",
+				"serverSide": true,
+				"scrollX"	: true,
+				"columns"	: [
+					{
+						"data"			: 	{},
+						"orderable"		:   false, 
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var sender_name	=	(result.sender_name)	? 	result.sender_name	:"";
+							var sender_mobile_number	=	(result.sender_mobile_number)	? 	result.sender_mobile_number	:"";
+							return `<p>${sender_name}<br>${sender_mobile_number}</p>`;;
+						}
+					},
+
+					{
+						"data"			: 	{},
+						"orderable"		:   false, 
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var receiver_name	=	(result.receiver_name)	? 	result.receiver_name	:"";
+							var receiver_mobile_number	=	(result.receiver_mobile_number)	? 	result.receiver_mobile_number	:"";
+							return `<p>${receiver_name}<br>${receiver_mobile_number}</p>`;;
+						}
+					},
+					{ "data"		:	'payment_method'},
+					{ "data"		:	'gift_transaction_id'},
+					{
+						"data": 'message',
+						"render": function (data) {
+							/**Add a button that opens the modal with the message value*/ 
+							return `<button class="btn btn-secondary open-modal" data-message="${data}" type="button"><%= __("admin.user.view_message"); %></button>`;
+						}
+					},
+					{
+						"data"		:	'amount',
+						"render"	: 	function(amount){
+							let priceData = currencyFormat(amount);
+							return priceData;
+						}
+					},
+					{
+						"data"		:	'total_receiver_amount',
+						"render"	: 	function(total_receiver_amount){
+							total_receiver_amount = currencyFormat(total_receiver_amount);
+							return total_receiver_amount;
+						}
+					},
+					{
+						"data"		:	'total_sender_amount',
+						"render"	: 	function(total_sender_amount){
+							total_sender_amount = currencyFormat(total_sender_amount);
+							return total_sender_amount;
+						}
+					},
+					{
+						"data"		:	'created',
+						"searchable": 	false,
+						"render"	: 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT);
+						}
+					},
+					
+				],
+				"ajax"	:	{
+					url 	: 	"<%=admin_list_url%>",
+					type	: 	"POST",
+					data	: 	function (d) {
+
+						var formdata =  JSON.parse(JSON.stringify($("#searchForm").serializeArray()))
+						d.search_data = formdata
+					},
+					dataSrc	:	function(res){
+						$(".points-details").html('');
+						let paymentMethodCountHtml = '';
+						if(res.gropuByPaymentMethod.walletCount){
+							paymentMethodCountHtml += '<b> <%= PAYMENT_BY_WALLET   %> :</b> <span class="total_earned">' + res.gropuByPaymentMethod.walletCount + '</span>';
+						}
+						if(res.gropuByPaymentMethod.appleCount){
+							paymentMethodCountHtml += '<b>  <%= PAYMENT_BY_APPLE_PAY   %> :</b> <span class="total_earned">' + res.gropuByPaymentMethod.appleCount + '</span>';
+						}
+						if(res.gropuByPaymentMethod.pgCount){
+							paymentMethodCountHtml += '<b>  <%= PAYMENT_BY_PAYMENT_GATEWAY   %> :</b> <span class="total_earned">' + res.gropuByPaymentMethod.pgCount + '</span>';
+						}
+						if(res.gropuByPaymentMethod.codCount){
+							paymentMethodCountHtml += '<b>  <%= PAYMENT_BY_COD   %> :</b> <span class="total_earned">' + res.gropuByPaymentMethod.codCount + '</span>';
+						}
+
+						$(".points-details").append(paymentMethodCountHtml);
+
+						let topSenderHtml = '';
+						if(res.topSenderResult.sender_name){ 
+							topSenderHtml += '<b>Top Sender :</b> <span class="total_earned">' + res.topSenderResult.sender_name + '('+ res.topSenderResult.sender_mobile_number +')</span>';
+						}
+						
+						if(res.topReceipentResult.receipent_name){ 
+							topSenderHtml += '<b>Top Receipent :</b> <span class="total_earned">' + res.topReceipentResult.receipent_name + '('+ res.topReceipentResult.receipent_mobile_number +')</span>';
+						}
+						
+						$(".points-details").append(topSenderHtml);
+						
+						return res.data;
+					}
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});
+
+			// Event listener for button clicks to open the modal
+			$('#datatable-listing').on('click', '.open-modal', function () {
+				var message = $(this).data('message'); // Get the message from the button's data attribute
+				$('#modalMessage').text(message); // Set the message in the modal
+				$('#messageModal').modal('show'); // Show the modal
+			});
+
+			$('#messageModal').modal('hide');
+
+		});
+		
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+		$("#submit_btn").click(function(){
+			dataTable.draw();
+		})
+	</script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+ 
+	<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>
+	

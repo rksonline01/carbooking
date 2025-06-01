@@ -1,0 +1,437 @@
+<% result=(typeof result !==typeof undefined && result) ? result :{}; var isEditable=(typeof is_editable !==typeof
+	undefined && is_editable) ? is_editable :""; var validFrom=(result.code_valid_from) ? result.code_valid_from :"";
+	var validTo=(result.code_valid_to) ? result.code_valid_to :""; %>
+	<div class="container-fluid" id="main-container">
+		<div class="row clearfix">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="card">
+					<div class="header">
+						<h2>
+							<%= (isEditable) ? __("B2B Discount") : __("Add B2B Discount"); %>
+						</h2>
+						<ul class="header-dropdown m-r--5 btn-right-top-margin">
+							<li>
+								<a id="back_btn" href="javascript:history.back()" class="m-l-10">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">keyboard_backspace</i>
+										<%= __("admin.system.back"); %>
+									</button>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="body">
+						<form id="add-promo-code" data-submit-btn-id="promo-add-btn-id" method="post"
+							class="on_click_submit" role="form" enctype="mutlipart/form-data">
+							<!-- Promo Code name and code -->
+							<div class="row clearfix">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="promo_code" class="control-label">
+												<%= __("admin.company.discount_code"); %><span class="required">
+														*</span> :
+											</label>
+											<input name="promo_code" id="promo_code" type="text"
+												class="form-control <%- (isEditable) ? " readonly" :"";%>" value="
+											<%=(result.promo_code) ? result.promo_code :"";%>" <%- (isEditable)
+													? "readonly" :"";%> />
+										</div>
+										<span id="promo_code_error" class="error"></span>
+									</div>
+								</div>
+								<%if(!isEditable){%>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<button type="button" class="btn bg-indigo btn-sm waves-effect"
+												onclick="getRandomString()">Generate A Random Code</button>
+										</div>
+									</div>
+									<%}%>
+							</div>
+							<div class="row clearfix ">
+								<div class="col-md-6">
+									<label for="code_valid_from" class="control-label">
+										<%= __("admin.company.code_valid_from"); %><span class="required"> *</span> :
+									</label>
+									<div class="input-group">
+										<div class="form-line">
+											<input name="code_valid_from" id="code_valid_from" type="text"
+												class="form-control" placeholder="" readonly="true" />
+										</div>
+										<span id="code_valid_from_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="code_valid_to" class="control-label">
+										<%= __("admin.company.code_valid_to"); %><span class="required"> *</span> :
+									</label>
+									<div class="input-group">
+
+										<div class="form-line">
+											<input name="code_valid_to" id="code_valid_to" type="text"
+												class="form-control" placeholder="" readonly="true" />
+										</div>
+										<span id="code_valid_to_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							<div class="row clearfix">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="code_discount_type" class="control-label">
+												<%= __("admin.company.code_document_type"); %><span class="required">
+														*</span> :
+											</label>
+											<select id="code_discount_type" name="code_discount_type"
+												class="form-control show-tick" onchange="showDiscountTypeBlock(this)">
+												<option value="">Select A Code Discount Type</option>
+												<% COUPON_DISCOUNT_TYPE_DROPDOWN.map((code)=>{
+													let selected = "";
+													if(isEditable){
+													selected = (code.coupon_id == result.code_discount_type) ?
+													"selected" : " ";
+													}%>
+													<option value="<%= code.coupon_id %>" <%- selected %>><%=
+															__(code.coupon_name) %>
+													</option>
+													<% }); %>
+											</select>
+										</div>
+										<span id="code_discount_type_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="discount_amount" class="control-label">
+										<%= __("admin.company.discount_amount_percentage"); %><span class="required">
+												*</span> :
+									</label>
+									<div class="input-group">
+										<div class="form-line">
+											<input name="discount_amount" id="discount_amount" type="text"
+												class="form-control" placeholder="" />
+										</div>
+										<span id="discount_amount_error" class="error"></span>
+									</div>
+								</div>
+								
+							</div>
+
+							<div class="row clearfix">
+
+								<div class="col-md-6">
+									<label for="number_of_washes_per_user" class="control-label">
+										<%= __("admin.company.number_of_washes_per_user"); %><span class="required">
+											</span> :
+									</label>
+									<div class="input-group">
+										<div class="form-line">
+											<input name="number_of_washes_per_user" id="number_of_washes_per_user"
+												type="text" class="form-control" placeholder="" />
+										</div>
+										<span id="number_of_washes_per_user_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="number_of_user" class="control-label">
+										<%= __("admin.company.number_of_user"); %><span class="required"> </span> :
+									</label>
+									<div class="input-group">
+
+										<div class="form-line">
+											<input name="number_of_user" id="number_of_user" type="text"
+												class="form-control" placeholder="" />
+										</div>
+										<span id="number_of_user_error" class="error"></span>
+									</div>
+								</div>
+
+								
+							</div>					
+
+
+							
+
+
+							<div class="row clearfix">
+								
+
+								<div class="col-md-6">
+									<label for="maximum_number_of_washes" class="control-label">
+										<%= __("admin.company.maximum_number_of_washes"); %><span class="required">
+												*</span> :
+									</label>
+									<div class="input-group">
+
+										<div class="form-line">
+											<input name="maximum_number_of_washes" id="maximum_number_of_washes"
+												type="text" class="form-control" placeholder="" />
+										</div>
+										<span id="maximum_number_of_washes_error" class="error"></span>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="min_order_value" class="control-label">
+										<%= __("admin.company.min_order_amount"); %><span class="required"> *</span> :
+									</label>
+									<div class="input-group">
+
+										<div class="form-line">
+											<input name="min_order_value" id="min_order_value" type="text"
+												class="form-control" placeholder="" />
+										</div>
+										<span id="min_order_value_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+									<h6><%= __("admin.promocode.select_category"); %><span class="required"> </span> : 
+										
+										(<div class="form-check form-check-inline chk_box"><%= __("admin.promocode.select_all"); %> <input
+											class="form-check-input select_all_category" type="checkbox" onclick="categorySelectAll(this)" style="float: right;margin-left: +0.5em;"></div>)								
+										
+										 </h6>
+									<div class="inline-checkbox-group">
+										<% categories.map((category)=>{%>
+											<div class="col-sm-2 sm_2_box">
+											<div class="form-check">
+												<input class="form-check-input select_category" type="checkbox" name="category_id[]" value="<%=category._id%>" id="inlineCheckbox<%=category._id%>">
+												<label class="form-check-label chk_box_lavel" for="inlineCheckbox<%=category._id%>"><%=category.category_name%></label>
+											</div>
+										</div>
+										<% }); %>
+									</div>
+									<span id="category_id_error" class="error"></span>
+								</div>
+								</div>
+							</div>
+	
+	
+	
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+									<h6><%= __("admin.promocode.select_package"); %><span class="required"> </span> : 
+										(<div class="form-check form-check-inline chk_box"><%= __("admin.promocode.select_all"); %> <input
+											class="form-check-input select_all_package" type="checkbox" onclick="packageSelectAll(this)" style="float: right;margin-left: +0.5em;"></div>)</h6>
+									<div class="inline-checkbox-group">
+										<% packages.map((package)=>{%>
+											<div class="col-sm-2 sm_2_box">
+											<div class="form-check">
+												<input class="form-check-input select_package" type="checkbox" name="package_id[]" value="<%=package._id%>" id="inlineCheckbox<%=package._id%>">
+												<label class="form-check-label chk_box_lavel" for="inlineCheckbox<%=package._id%>"><%=package.package_name%></label>
+											</div>
+										</div>
+										<% }); %>
+									</div>
+									<span id="package_id_error" class="error"></span>
+								</div>
+								</div>
+							</div>
+	
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+									<h6><%= __("admin.promocode.select_subscription"); %><span class="required"> </span> : 
+										(<div class="form-check form-check-inline chk_box"><%= __("admin.promocode.select_all"); %> <input
+											class="form-check-input select_all_subscription" type="checkbox" onclick="subscriptionSelectAll(this)" style="float: right;margin-left: +0.5em;"></div>)</h6>
+									<div class="inline-checkbox-group">
+										<% subscriptions.map((subscription)=>{%>
+											<div class="col-sm-2 sm_2_box">
+											<div class="form-check">
+												<input class="form-check-input select_subscription" type="checkbox" name="subscription_id[]" value="<%=subscription._id%>" id="inlineCheckbox<%=subscription._id%>">
+												<label class="form-check-label chk_box_lavel" for="inlineCheckbox<%=subscription._id%>"><%=subscription.subscription_name%></label>
+											</div>
+										</div>
+										<% }); %>
+									</div>
+									<span id="subscription_id_error" class="error"></span>
+								</div>
+								</div>
+							</div>
+
+
+
+							<button type="button" id="promo-add-btn-id" <%- ADMIN_LOADING_TEXT %> class="btn bg-pink
+								btn-sm waves-effect no_hover btn-submit"><i class="material-icons font-14">save</i>
+								<%= __("Submit"); %>
+							</button>
+							<a href="javascript:location.reload(true);" class="text-decoration-none"><button
+									type="button" class="btn bg-blue-grey btn-sm waves-effect"><i
+										class="material-icons font-14">refresh</i>
+									<%= __("Reset"); %>
+								</button></a>
+							<a href="<%=admin_list_url%>"><button type="button"
+									class="btn bg-brown btn-sm waves-effect"><i
+										class="material-icons font-14">cancel</i>
+									<%= __("Cancel"); %>
+								</button></a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<style>
+		.inline-checkbox-group {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			/* Adjust spacing between checkboxes */
+			align-items: center;
+		}
+	</style>
+	<%- contentFor("css") %>
+		<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>bootstrap-datetimepicker.css">
+		<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css"
+			integrity="sha512-ELV+xyi8IhEApPS/pSj66+Jiw+sOT1Mqkzlh8ExXihe4zfqbWkxPRi8wptXIO9g73FSlhmquFlUOuMSoXz5IRw=="
+			crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+		<%- contentFor("script") %>
+			<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>bootstrap-datetimepicker.min.js"></script>
+			<script type="text/javascript"
+				src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"
+				integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q=="
+				crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<script type="text/javascript">
+
+
+			   function categorySelectAll(source) { 
+				const checkboxes = document.querySelectorAll('.select_category'); 
+				checkboxes.forEach(checkbox => {
+					checkbox.checked = source.checked;
+				});
+				}
+
+				function packageSelectAll(source) { 
+				const checkboxes = document.querySelectorAll('.select_package'); 
+				checkboxes.forEach(checkbox => {
+					checkbox.checked = source.checked;
+				});
+				}
+
+				function subscriptionSelectAll(source) { 
+				const checkboxes = document.querySelectorAll('.select_subscription'); 
+				checkboxes.forEach(checkbox => {
+					checkbox.checked = source.checked;
+				});
+				}
+
+
+				$(document).ready(function () {
+					let defaultTimeZone = DEFAULT_TIME_ZONE;
+					let today = moment().tz(defaultTimeZone).format("YYYY-MM-DD");
+					/**
+					 * Javascript function to submit the form.
+					 */
+					$(".btn-submit").click(function () {
+						var btnId = $(this).attr("id");
+						startTextLoading(btnId);
+						ajax_submit("add-promo-code", function (status, response) {
+							if (status) {
+								window.location.href = response.redirect_url;
+							} else {
+								stopTextLoading(btnId);
+							}
+						});
+					});
+
+
+					$("#code_valid_from").click(function () {
+						let validTo = $("#code_valid_to").val();
+						if (validTo) {
+							let validToDate = moment(validTo, "YYYY-MM-DD");
+							$("#code_valid_from").data("DateTimePicker").maxDate(validToDate);
+						}
+					});
+
+					// Handle clicks on "Valid To"
+					$("#code_valid_to").click(function () {
+						let validFrom = $("#code_valid_from").val();
+						if (validFrom) {
+							let validFromDate = moment(validFrom, "YYYY-MM-DD");
+							$("#code_valid_to").data("DateTimePicker").minDate(validFromDate);
+						}
+					});
+
+					// Initialize the "Valid From" datepicker
+					$("#code_valid_from").datetimepicker({
+						format: "YYYY-MM-DD",
+						minDate: today,
+						date: today,
+						ignoreReadonly: true
+					}).on("dp.change", function (e) {
+						let selectedDate = e.date;
+						$("#code_valid_to").data("DateTimePicker").minDate(selectedDate);
+					});
+
+
+					// Initialize the "Valid To" datepicker
+					$("#code_valid_to").datetimepicker({
+						format: "YYYY-MM-DD",
+						minDate: today,
+						ignoreReadonly: true,
+						useCurrent: false
+					});
+
+
+
+					/**
+					 * Set valid to and valid from value
+					 */
+
+					var validFromDate = "";
+					var validToDate = "";
+
+			<% if (validFrom) { %>
+						validFromDate =	moment("<%=validFrom%>").tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD");
+			<% } %>
+			<% if (validTo) { %>
+						validToDate =	moment("<%=validTo%>").tz(DEFAULT_TIME_ZONE).format("YYYY-MM-DD");
+			<% } %>
+
+						$("#code_valid_to").val(validToDate);
+					$("#code_valid_from").val(validFromDate);
+		
+				});
+
+				/**
+				 * function called to get random string 
+				**/
+				function getRandomString() {
+					$.ajax({
+						"type": "POST",
+						url: "<%=WEBSITE_ADMIN_URL%>promo_codes/get_random_string",
+						"data": {},
+						"success": function (response) {
+							let randomString = response.result;
+							$("#promo_code").val(randomString)
+						}
+					});
+				}
+
+				function showDiscountTypeBlock(select) {
+						let selectedValue = select.value;					
+						if (selectedValue == "<%= COUPON_DISCOUNT_TYPE_PERCENT %>") {
+							$(".fixDiscountTypeBlock").addClass("d-none");
+							$(".percentDiscountTypeBlock").removeClass("d-none");
+						} else if (selectedValue == "<%= COUPON_DISCOUNT_TYPE_FIX %>") {
+							$(".fixDiscountTypeBlock").removeClass("d-none");
+							$(".percentDiscountTypeBlock").addClass("d-none");
+						} else {
+							$(".fixDiscountTypeBlock").addClass("d-none");
+							$(".percentDiscountTypeBlock").addClass("d-none");
+						}
+					}
+
+			</script>

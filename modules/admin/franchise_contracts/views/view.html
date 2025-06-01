@@ -1,0 +1,320 @@
+<%
+var areaData = (typeof result.area !== typeof undefined && result?.area) ? result.area : {};
+var providerData =  (typeof result?.service_providers !== typeof undefined && result?.service_providers) ? result.service_providers : [];
+%>
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.franchise_contracts.view_contract"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<div class="tab-content mt-20">
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								
+								<div class="body table-responsive" id="aniimated-thumbnials">
+									<table  class="row-border hover table table-bordered" cellspacing="0" width="100%"> %>
+										<tr>
+											<th class="text-right"><label for="franchise" class="control-label"><%= __('admin.franchise_contracts.franchise'); %></th>
+											<td><%=(typeof result.franchise !== typeof undefined)	? result.franchise	: 'N/A';%></td>
+										</tr>
+										<tr>
+											<th class="text-right" ><label for="area" class="control-label"><%= __('admin.franchise_contracts.area'); %> </th>
+											<td><%-(typeof result.area_name !== typeof undefined) ? result.area_name	 : 'N/A'%></td>
+										</tr>
+										<tr>
+											<th class="text-right"><%= __('admin.franchise_contracts.start_date'); %></th>
+											<td>
+												<span class="setDateTimeFormat" data-time-format="<%=DATATABLE_DATE_FORMAT%>" data-date-time="<%= (typeof result.start_date !== typeof undefined) ? result.start_date :'DD/MM/YYYY';%>"></span>
+											</td>
+										</tr>
+
+										<tr>
+											<th class="text-right"><%= __('admin.franchise_contracts.end_date'); %></th>
+											<td>
+												<span class="setDateTimeFormat" data-time-format="<%=DATATABLE_DATE_FORMAT%>" data-date-time="<%= (typeof result.end_date !== typeof undefined) ? result.end_date :'DD/MM/YYYY';%>"></span>
+												
+											</td>
+										</tr>
+										<tr>
+											<th class="text-right"><%= __('admin.franchise_contracts.purely_store_commission'); %></th>
+											<td>
+												<%-(typeof result.purely_amount_commission_store !== typeof undefined) ? result.purely_amount_commission_store + __('admin.company.percentage')	 : 'N/A'%>
+												
+											</td>
+										</tr>
+										<tr>
+											<th class="text-right"><%= __('admin.franchise_contracts.purely_wash_commission'); %></th>
+											<td>
+												<%-(typeof result.purely_amount_commission !== typeof undefined) ? result.purely_amount_commission + __('admin.company.percentage')	 : 'N/A'%>
+												
+											</td>
+										</tr>
+										<tr>
+											<th class="text-right"><%= __('admin.system.status'); %></th>
+											<td>
+												<% 
+													var status = result.status ? result.status : "";
+													var end_date = result.end_date ? result.end_date : "";
+													var current_date = new Date();
+										
+													// Generate status label
+													var statusLabel = "";
+													if (status == CONTRACT_STATUS_ACTIVE) {
+														statusLabel = '<span class="label label-success m-l-5 m-t-5">' + __('admin.system.active') + '</span>';
+													} else if (status == CONTRACT_STATUS_TERMINATED) {
+														statusLabel = '<span class="label label-warning m-l-5 m-t-5">' + __('admin.franchise_contracts.terminated') + '</span>';
+													} else {
+														statusLabel = '<span class="label label-danger m-l-5 m-t-5">' + __('admin.franchise_contracts.inactive') + '</span>';
+													}
+										
+													// Check if end_date is valid before comparing
+													if ((status == CONTRACT_STATUS_ACTIVE || status == CONTRACT_STATUS_INACTIVE) && end_date) {
+														let parsedEndDate = new Date(end_date);
+														
+														// Ensure end_date is valid before comparison
+														if (!isNaN(parsedEndDate) && parsedEndDate < current_date) {
+															statusLabel = '<span class="label label-danger m-l-5 m-t-5">' + __('admin.franchise_contracts.expired') + '</span>';
+														}
+													}
+												%>
+												<%- statusLabel %> 
+											</td>
+										</tr>
+										
+										<tr>
+											<th class="text-right"><%= __('admin.system.created'); %></th>
+											<td>
+												<span class="setDateTimeFormat" data-date-time="<%= (typeof result.created !== typeof undefined) ? result.created :'DD/MM/YYYY';%>"></span>
+												
+											</td>
+										</tr>
+										<tr>
+											<th class="text-right"><%= __('admin.franchise_contracts.contract_file'); %></th>
+											<td>
+												<% if (result.contract_file) { %>
+													<a href="<%= FRANCHISE_CONTRACT_URL + result.contract_file %>" download>Download</a>
+												<% } else { %>
+													<span>No file available</span>
+												<% } %>
+											</td>
+										</tr>
+										
+									</table>
+								</div>
+							</div>
+						
+							<div class="col-sm-6">
+								<div class="form-group">
+									<div class="form-line">
+										<div id="map"></div>
+									</div> 
+								</div>
+							</div>
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="row" 	>
+										<div class="header">
+											<h6>
+												<%= __("admin.franchise_contracts.service_providers"); %>
+											</h6>
+										</div>
+										<%if(providerData.length > 0) {%>
+											<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+												<thead>
+													<tr>
+														<th><%= __('admin.user.name'); %></th>
+														<th><%= __('admin.user.email'); %></th>
+														<th><%= __('admin.user.mobile_number'); %></th>
+														<th><%= __('admin.user.registration_date'); %></th>
+													</tr>
+												</thead>
+											</table>
+										<%}else{%>
+											<span class'label' style="margin-left: 15px;" >
+												<%= __("admin.franchise_contracts.no_service_provider_found")%>
+											</span>
+										<%}%>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	#map {
+	  width: 100% !important;  /* Set width to 100% of the container */
+	  height: 350px !important; /* Set a fixed height */
+	}
+  </style>
+
+<%- contentFor("script") %>
+	<script src="https://maps.googleapis.com/maps/api/js?key=<%= google_map_key %>&libraries=places"></script>
+	<script type="text/javascript">
+ 
+		var map
+		var marker
+		var polygon
+		var bounds
+		var path
+		 
+		function initMap() {
+			/**
+			 * Script for google Map start here
+			 */
+			let autocomplete;
+			const google_map_default_lat =		<%= google_map_default_lat %>;
+			const google_map_default_long = 	<%= google_map_default_long %>;
+
+		
+			// Initialize the map
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: { lat:google_map_default_lat, lng: google_map_default_long }, // Default to San Francisco
+				zoom: 11,
+			});
+			
+			
+			 
+			let jsonCoordinatesAreaArray 	= 	null;
+			let pathCoordinatesArea 		= 	null;
+			let currentInfoWindow	 		= 	null;
+			 
+			<%
+			if(typeof areaData !== typeof undefined && areaData){
+				var area = 	areaData;
+				 %>
+					
+					var coordinatesArea 		= 	`<%= JSON.stringify(area.coordinates); %>`;
+					coordinatesArea 			= 	coordinatesArea.replace('""', "");
+					coordinatesArea 			= 	coordinatesArea.replace(/&#34;/g, '"');
+					jsonCoordinatesAreaArray 	= 	JSON.parse(coordinatesArea);
+					
+					pathCoordinatesArea = jsonCoordinatesAreaArray.map(item => ({
+					  lat: parseFloat(item.lat),  // Convert lat to number
+					  lng: parseFloat(item.lng)   // Convert lng to number
+					}));
+				
+					already_polygon = new google.maps.Polygon({
+						paths: pathCoordinatesArea,
+						strokeColor: "#0000FF",
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: "#0000FF",
+						fillOpacity: 0.35,
+					})
+
+					already_polygon.setMap(map)
+					
+					center_polygon = getPolygonCenter(pathCoordinatesArea);
+					
+					infoWindow<%= area._id %> = new google.maps.InfoWindow({
+						content: `<%= area.title %>`,
+						position: center_polygon,
+					});
+					
+					var latlng = new google.maps.LatLng(center_polygon.lat, center_polygon.lng);
+					map.setCenter(latlng);
+					
+					already_polygon.addListener("click", (e) => {
+						
+						/****
+						marker.setPosition(e.latLng);
+						currentLatitude = e.latLng.lat();
+						currentLongitude = e.latLng.lng();
+						$("#latitude").val(currentLatitude);
+						$("#longitude").val(currentLongitude);
+						*****/
+						
+						if (currentInfoWindow) {
+							currentInfoWindow.close();
+						}
+
+						// Open new InfoWindow
+						infoWindow<%= area._id %>.open(map);
+						currentInfoWindow = infoWindow<%= area._id %>; // Update reference
+					});
+				<%
+			}
+			%> 
+		
+		}
+		 
+		function getPolygonCenter(coords) {
+            let latSum = 0, lngSum = 0;
+            coords.forEach(coord => {
+                latSum += coord.lat;
+                lngSum += coord.lng;
+            });
+            return { lat: latSum / coords.length, lng: lngSum / coords.length };
+        }
+		
+		
+		 
+
+		// Initialize the map on page load
+		window.onload = initMap;
+		var dataTable = "";
+
+		var providerData = <%- JSON.stringify(providerData)%>
+		console.log("🚀 -> providerData: ", providerData)
+		$(document).ready(function(){
+			dataTable = $('#datatable-listing').DataTable({
+				"language"	: 	{
+					"url" 	: 	"<%= DATABLE_LANG_CDN %>"
+				},
+				"order"		: 	[[3, "desc" ]],
+				"sDom"		:	"ltipr",
+				"lengthMenu": 	PAGING_LENGTH_MENU,
+				"serverSide":	false,  // Disable server-side processing
+				"scrollX"	: 	true,
+				"data"      :   providerData,  // Use the existing providerData array
+				"columns"	: 	[
+					{
+						"data" 		:	"full_name",
+						"orderable"	: 	false,
+					},
+					{
+						"data"		:	"email",
+						"orderable"	: 	false,
+						
+					},
+					{
+						"data"		:	"mobile_number",
+						"orderable"	: 	false,
+					},
+					{
+						"data"		:	"registration_date",
+						"orderable"	: 	false,
+						"render"	: 	function(registration_date){
+							return moment(registration_date).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT);
+						}
+					},
+				],
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+				}
+			});
+		});
+
+		
+	</script>

@@ -1,0 +1,1874 @@
+[{
+  "_id": {
+    "$oid": "5b598ea27cec7427f578d010"
+  },
+  "title": "Dashboard",
+  "path": "dashboard",
+  "group_path": "dashboard",
+  "icon": "home",
+  "parent_id": 0,
+  "order": 1,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-26T09:04:34.908Z"
+  },
+  "modified": {
+    "$date": "2024-02-27T04:57:45.382Z"
+  },
+  "module_type": "admin",
+  "slug": "dashboard",
+  "only_for_menu": false,
+  "only_for_permission": false,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Dashboard"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "لوحة القيادة"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5eaaa93577440a7aef051f"
+  },
+  "title": "Block Management",
+  "path": "block",
+  "group_path": "block",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 1,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-30T06:05:29.876Z"
+  },
+  "modified": {
+    "$date": "2024-11-19T13:35:43.333Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Block Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة الكتلة"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "title": "System Management",
+  "path": "javascript:void(0)",
+  "group_path": "block,email_template,cms,email_logs,splash_screens,sms_logs,testimonials,cms-content-management,area",
+  "icon": "settings_system_daydream",
+  "parent_id": 0,
+  "order": 13,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-30T07:20:41.390Z"
+  },
+  "modified": {
+    "$date": "2025-01-21T09:14:11.802Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "System Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "ادارة النظام"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5ebcae76209e6ae52d010d"
+  },
+  "title": "Email Templates",
+  "path": "email_template",
+  "group_path": "email_template",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 2,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-30T07:22:22.759Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T12:26:00.591Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Email Templates"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "قوالب البريد الإلكتروني"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "title": "Settings",
+  "path": "javascript:void(0)",
+  "group_path": "settings",
+  "icon": "settings",
+  "parent_id": 0,
+  "order": 21,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-30T07:23:32.889Z"
+  },
+  "modified": {
+    "$date": "2024-11-20T05:56:54.572Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Settings"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إعدادات"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5ebd4376209e6ae52d010f"
+  },
+  "title": "Site Settings",
+  "path": "settings/prefix/Site",
+  "group_path": "settings/prefix/Site",
+  "icon": "settings",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 1,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-30T07:24:51.730Z"
+  },
+  "modified": {
+    "$date": "2024-11-20T05:56:54.572Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Site Settings"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إعدادات الموقع"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5ebd6176209e6ae52d0110"
+  },
+  "title": "Admin Text Settings",
+  "path": "text-setting/admin",
+  "group_path": "text-setting/admin",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5fdfdfdb6d0c56f3e0b470"
+  },
+  "order": 1,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-30T07:25:21.918Z"
+  },
+  "modified": {
+    "$date": "2023-12-29T09:32:35.378Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Admin Text Settings"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إعدادات نص المسؤول"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5f0e8c94f09639e4c74320"
+  },
+  "title": "Master",
+  "path": "javascript:void(0)",
+  "group_path": "master,vehicle_type",
+  "icon": "subject",
+  "parent_id": 0,
+  "order": 14,
+  "is_active": 0,
+  "created": {
+    "$date": "2018-07-30T13:11:40.136Z"
+  },
+  "modified": {
+    "$date": "2024-07-10T12:51:41.350Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Master"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "يتقن"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b5fdfdfdb6d0c56f3e0b470"
+  },
+  "title": "Text Setting",
+  "path": "javascript:void(0)",
+  "group_path": "text-setting",
+  "icon": "text_format",
+  "parent_id": 0,
+  "order": 22,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-07-31T04:04:47.856Z"
+  },
+  "modified": {
+    "$date": "2023-12-29T09:28:39.922Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Text Setting"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إعداد النص"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b62c442d77e324265921f8c"
+  },
+  "title": "Email Setting",
+  "path": "settings/prefix/Email",
+  "group_path": "settings/prefix/Email",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 2,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-08-02T08:43:46.750Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T12:25:37.479Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Email Setting"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إعداد البريد الإلكتروني"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b62c603d77e324265921f8d"
+  },
+  "title": "Front Text Setting",
+  "path": "text-setting/front",
+  "group_path": "text-setting/front",
+  "icon": "None",
+  "parent_id": {
+    "$oid": "5b5fdfdfdb6d0c56f3e0b470"
+  },
+  "order": 2,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-08-02T08:51:15.350Z"
+  },
+  "modified": {
+    "$date": "2023-12-29T09:34:20.343Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Front Text Setting"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إعداد النص الأمامي"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5b69429541ecb75c04001d5a"
+  },
+  "title": "CMS Management",
+  "path": "cms",
+  "group_path": "cms",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 3,
+  "is_active": 1,
+  "created": {
+    "$date": "2018-08-07T06:56:21.984Z"
+  },
+  "modified": {
+    "$date": "2024-11-19T13:35:43.333Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "CMS Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة نظام إدارة المحتوى"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5bcf0adb4d8dba2bf7642c86"
+  },
+  "title": "SMS Settings",
+  "path": "settings/prefix/Twilio",
+  "group_path": "settings/prefix/Twilio",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 3,
+  "is_active": 0,
+  "created": {
+    "$date": "2018-10-23T11:49:47.624Z"
+  },
+  "modified": {
+    "$date": "2024-12-17T07:18:23.584Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "SMS Settings"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إعدادات الرسائل القصيرة"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e12d4e122241b0bfc6e3bbe"
+  },
+  "title": "Access Manager",
+  "path": "javascript:void(0)",
+  "group_path": "admin_role,admin_permissions,admin_module",
+  "icon": "security",
+  "parent_id": 0,
+  "order": 2,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-01-06T06:34:09.630Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T08:54:26.625Z"
+  },
+  "module_type": "admin",
+  "only_for_menu": false,
+  "only_for_permission": false,
+  "slug": "access-Manager",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Access Manager"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "مدير الوصول"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e12d64222241b0bfc6e3be5"
+  },
+  "title": "Manage Roles",
+  "path": "admin_role",
+  "group_path": "admin_role",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5e12d4e122241b0bfc6e3bbe"
+  },
+  "order": 1,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-01-06T06:40:02.259Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T08:54:26.625Z"
+  },
+  "module_type": "admin",
+  "only_for_menu": false,
+  "only_for_permission": false,
+  "slug": "admin_role",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Manage Roles"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة الأدوار"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e2027228f58c05b508faca9"
+  },
+  "title": "Social Setting",
+  "path": "settings/prefix/Social",
+  "group_path": "settings/prefix/Social",
+  "icon": "settings",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 5,
+  "is_active": 1,
+  "created": {
+    "$date": "2020-01-16T09:04:34.626Z"
+  },
+  "modified": {
+    "$date": "2024-11-20T05:56:54.572Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Social Setting"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "الوضع الاجتماعي"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e205e625350991dd368d4ba"
+  },
+  "title": "Email Logs",
+  "path": "email_logs",
+  "group_path": "email_logs",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 8,
+  "is_active": 1,
+  "created": {
+    "$date": "2020-01-16T13:00:18.181Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T12:25:49.245Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Email Logs"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "سجلات البريد الإلكتروني"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e40dea0d6b906075cccb11d"
+  },
+  "title": "Splash Screens",
+  "path": "splash_screens",
+  "group_path": "splash_screens",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 6,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-02-10T04:40:00.414Z"
+  },
+  "modified": {
+    "$date": "2024-11-19T13:40:56.166Z"
+  },
+  "module_type": "admin"
+},
+{
+  "_id": {
+    "$oid": "5e4290e039eb8b1be44e833b"
+  },
+  "title": "Sms Logs",
+  "path": "sms_logs",
+  "group_path": "sms_logs",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 10,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-02-11T11:32:48.575Z"
+  },
+  "modified": {
+    "$date": "2024-11-28T12:48:29.364Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Sms Logs"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "سجلات الرسائل القصيرة"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e57519d117f5578b1623fd0"
+  },
+  "title": "Notification Management",
+  "path": "javascript::void();",
+  "group_path": "notifications,notification_templates",
+  "icon": "notifications",
+  "parent_id": 0,
+  "order": 18,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-02-27T05:20:29.809Z"
+  },
+  "modified": {
+    "$date": "2024-02-28T04:38:42.760Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Notification Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة الإخطارات"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e5751e9117f5578b1623fd1"
+  },
+  "title": "Notification Lists",
+  "path": "notifications",
+  "group_path": "notifications",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5e57519d117f5578b1623fd0"
+  },
+  "order": 1,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-02-27T05:21:45.510Z"
+  },
+  "modified": {
+    "$date": "2024-02-28T04:36:53.624Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Notification Lists"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "قوائم الإخطارات"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "5e575206117f5578b1623fd2"
+  },
+  "title": "Notification Templates",
+  "path": "notification_templates",
+  "group_path": "notification_templates",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5e57519d117f5578b1623fd0"
+  },
+  "order": 2,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-02-27T05:22:14.911Z"
+  },
+  "modified": {
+    "$date": "2021-04-06T06:46:43.557Z"
+  },
+  "module_type": "admin"
+},
+{
+  "_id": {
+    "$oid": "5e689ee4e431116570595e46"
+  },
+  "title": "Locations",
+  "path": "javascript:void(0)",
+  "group_path": "locations,airport_surcharge,restricted_area",
+  "icon": "fullscreen",
+  "parent_id": 0,
+  "order": 29,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-03-11T08:18:44.557Z"
+  },
+  "modified": {
+    "$date": "2021-02-15T10:26:15.308Z"
+  },
+  "module_type": "admin"
+},
+{
+  "_id": {
+    "$oid": "5e6b235257f27f5f41a79a10"
+  },
+  "title": "Front Setting",
+  "path": "settings/prefix/Front",
+  "group_path": "settings/prefix/Front",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 6,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-03-13T06:08:18.499Z"
+  },
+  "modified": {
+    "$date": "2024-11-22T08:34:49.921Z"
+  },
+  "module_type": "admin"
+},
+{
+  "_id": {
+    "$oid": "5e86c53b1882257e742aa3bc"
+  },
+  "title": "Broadcast",
+  "path": "push_notification",
+  "group_path": "push_notification",
+  "icon": "notifications",
+  "parent_id": 0,
+  "order": 26,
+  "is_active": 0,
+  "created": {
+    "$date": "2020-04-03T05:10:19.988Z"
+  },
+  "modified": {
+    "$date": "2024-02-27T12:48:27.224Z"
+  },
+  "module_type": "admin",
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Broadcast"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إذاعة"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "63bc048a74fdff5422e5c8d4"
+  },
+  "title": "Gender",
+  "path": "master/gender",
+  "group_path": "master/gender",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5f0e8c94f09639e4c74320"
+  },
+  "order": 3,
+  "is_active": 0,
+  "created": {
+    "$date": "2023-01-09T12:11:54.603Z"
+  },
+  "modified": {
+    "$date": "2024-07-10T12:51:41.350Z"
+  },
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Gender"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "جنس"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "658bf0fd430f078e6b7506df"
+  },
+  "title": "Location",
+  "path": "javascript:void(0)",
+  "group_path": "country,states,cities",
+  "icon": "place",
+  "parent_id": 0,
+  "order": 20,
+  "is_active": 0,
+  "created": {
+    "$date": "2023-12-27T09:40:13.407Z"
+  },
+  "modified": {
+    "$date": "2024-07-10T12:52:26.161Z"
+  },
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Location"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "موقع"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "658c244019a6748ae0ea8feb"
+  },
+  "title": "State Management",
+  "path": "states",
+  "group_path": "states",
+  "icon": "",
+  "parent_id": {
+    "$oid": "658bf0fd430f078e6b7506df"
+  },
+  "order": 1,
+  "is_active": 0,
+  "created": {
+    "$date": "2023-12-27T13:18:56.502Z"
+  },
+  "modified": {
+    "$date": "2024-07-10T12:52:26.161Z"
+  },
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "State Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة الدولة"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "658d05caf2a15bb80c7c3b5e"
+  },
+  "title": "Country Management",
+  "path": "country",
+  "group_path": "country",
+  "icon": "",
+  "parent_id": {
+    "$oid": "658bf0fd430f078e6b7506df"
+  },
+  "order": 0,
+  "is_active": 0,
+  "created": {
+    "$date": "2023-12-28T05:21:14.413Z"
+  },
+  "modified": {
+    "$date": "2024-07-10T12:52:26.161Z"
+  },
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Country Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة البلاد"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "658d4e6eb27792ba5f445cc1"
+  },
+  "title": "City Management",
+  "path": "cities",
+  "group_path": "cities",
+  "icon": "",
+  "parent_id": {
+    "$oid": "658bf0fd430f078e6b7506df"
+  },
+  "order": 2,
+  "is_active": 0,
+  "created": {
+    "$date": "2023-12-28T10:31:10.049Z"
+  },
+  "modified": {
+    "$date": "2025-02-24T12:31:43.756Z"
+  },
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "City Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة المدينة"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "65af910f8beed805371670a9"
+  },
+  "title": "Sub Admin",
+  "path": "admin_permissions",
+  "group_path": "admin_permissions",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5e12d4e122241b0bfc6e3bbe"
+  },
+  "order": 1,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Sub Admin"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "المشرف الفرعي"
+    }
+  },
+  "is_active": 0,
+  "created": {
+    "$date": "2024-01-23T10:12:31.403Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T08:54:26.625Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67494cb8dc9273ba96a8efe2"
+  },
+  "title": "Faq",
+  "path": "faq",
+  "group_path": "faq",
+  "icon": "quiz",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 5,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Faq"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "Faq"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2024-11-29T05:10:16.040Z"
+  },
+  "modified": {
+    "$date": "2025-03-04T05:19:45.175Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67494e12dc9273ba96a8efe3"
+  },
+  "title": "Slider Management",
+  "path": "slider",
+  "group_path": "slider",
+  "icon": "slideshow",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 9,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Slider Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "Slider Management"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2024-11-29T05:16:02.760Z"
+  },
+  "modified": {
+    "$date": "2025-03-04T05:20:15.348Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "676125a3b8a07c7acd319a9f"
+  },
+  "title": "Contact Setting",
+  "path": "settings/prefix/Contact",
+  "group_path": "settings/prefix/Contact",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 4,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Contact Setting"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2024-12-17T07:17:55.768Z"
+  },
+  "modified": {
+    "$date": "2024-12-17T07:17:55.768Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67613676b8a07c7acd319aa8"
+  },
+  "title": "Home Stats",
+  "path": "settings/prefix/Home",
+  "group_path": "settings/prefix/Home",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 5,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Home Stats"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 0,
+  "created": {
+    "$date": "2024-12-17T08:29:42.969Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T08:53:45.828Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "678757557b00cc0dfceaa7f0"
+  },
+  "title": "User Management",
+  "path": "javascript:void(0)",
+  "group_path": "users",
+  "icon": "person",
+  "parent_id": 0,
+  "order": 2,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "User Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "إدارة المستخدم"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-15T06:36:05.691Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T08:29:34.157Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "678757b97b00cc0dfceaa7f1"
+  },
+  "title": "Customer Management",
+  "path": "users/customer",
+  "group_path": "users",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "678757557b00cc0dfceaa7f0"
+  },
+  "order": 1,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Customer Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "عملاء"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-15T06:37:45.628Z"
+  },
+  "modified": {
+    "$date": "2025-01-16T06:19:19.300Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67877bd8ef3a26a3200c33d5"
+  },
+  "title": "Promo Code Management",
+  "path": "promo_codes",
+  "group_path": "promo_codes",
+  "icon": "style",
+  "parent_id": 0,
+  "order": 23,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Promo Code Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-15T09:11:52.925Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T09:11:52.926Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67878c94fd1d9b744d9bf762"
+  },
+  "title": "Franchise Management",
+  "path": "users/franchise",
+  "group_path": "users",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "678757557b00cc0dfceaa7f0"
+  },
+  "order": 2,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Franchise Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-15T10:23:16.165Z"
+  },
+  "modified": {
+    "$date": "2025-01-15T10:23:16.165Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6788a21824bc905a5f19d92a"
+  },
+  "title": "Service Provider Management",
+  "path": "users/service-provider",
+  "group_path": "users",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "678757557b00cc0dfceaa7f0"
+  },
+  "order": 3,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Service Provider Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "Service Providers Management"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-16T06:07:20.555Z"
+  },
+  "modified": {
+    "$date": "2025-01-16T06:19:28.635Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a1afb6b47b05cfeb31955"
+  },
+  "title": "Subscription Management",
+  "path": "subscription-management",
+  "group_path": "subscription-management",
+  "icon": "inventory",
+  "parent_id": 0,
+  "order": 5,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Subscription Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "Subscription Management"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-17T08:55:23.686Z"
+  },
+  "modified": {
+    "$date": "2025-01-17T09:05:08.036Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "678a1b476b47b05cfeb31956"
+  },
+  "title": "Package Management",
+  "path": "package-management",
+  "group_path": "package-management",
+  "icon": "work",
+  "parent_id": 0,
+  "order": 6,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Package Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-17T08:56:39.668Z"
+  },
+  "modified": {
+    "$date": "2025-01-17T08:56:39.668Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "678f658b90b62c5af4849c96"
+  },
+  "title": "Area Management",
+  "path": "area",
+  "group_path": "area",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 21,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Area Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-21T09:14:51.721Z"
+  },
+  "modified": {
+    "$date": "2025-01-21T09:14:51.722Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6790e46352a9c3b0c3265d4f"
+  },
+  "title": "Product Management",
+  "path": "javascript:void(0)",
+  "group_path": "products,category",
+  "icon": "star",
+  "parent_id": 0,
+  "order": 4,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Product Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "Product Management"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-22T12:28:19.294Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T08:29:54.444Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6790e48552a9c3b0c3265d50"
+  },
+  "title": "Category Management",
+  "path": "category",
+  "group_path": "category",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "6790e46352a9c3b0c3265d4f"
+  },
+  "order": 1,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Category Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-22T12:28:53.791Z"
+  },
+  "modified": {
+    "$date": "2025-01-22T12:28:53.791Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6790e4a452a9c3b0c3265d51"
+  },
+  "title": "Products Management",
+  "path": "products",
+  "group_path": "products",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "6790e46352a9c3b0c3265d4f"
+  },
+  "order": 2,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Products Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-22T12:29:24.911Z"
+  },
+  "modified": {
+    "$date": "2025-01-22T12:29:24.911Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6790f0e577bcf071294d6c37"
+  },
+  "title": "Reports",
+  "path": "javascript:void(0)",
+  "group_path": "gift_transaction_logs",
+  "icon": "report",
+  "parent_id": 0,
+  "order": 24,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Reports"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-22T13:21:41.419Z"
+  },
+  "modified": {
+    "$date": "2025-01-22T13:21:41.420Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6790f10077bcf071294d6c38"
+  },
+  "title": "Gift Transaction Logs",
+  "path": "gift_transaction_logs",
+  "group_path": "gift_transaction_logs",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "6790f0e577bcf071294d6c37"
+  },
+  "order": 1,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Gift Transaction Logs"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-01-22T13:22:08.817Z"
+  },
+  "modified": {
+    "$date": "2025-01-22T13:22:08.817Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67bf10cf1e52b1aa4c8baa70"
+  },
+  "title": "Gift Templates",
+  "path": "master/gift-templates",
+  "group_path": "master/gift-templates",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 6,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Gift Templates"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-02-26T13:02:07.800Z"
+  },
+  "modified": {
+    "$date": "2025-02-26T13:02:07.800Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c13ae6e398de2e8d45e02c"
+  },
+  "title": "Booking Orders",
+  "path": "orders",
+  "group_path": "orders",
+  "icon": "star",
+  "parent_id": 0,
+  "order": 7,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Booking Orders"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "Booking Orders"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-02-28T04:26:14.957Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T08:30:14.380Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67c69072cb5ec3e6a69814ea"
+  },
+  "title": "Points Transaction Logs",
+  "path": "points",
+  "group_path": "points",
+  "icon": "",
+  "parent_id": {
+    "$oid": "6790f0e577bcf071294d6c37"
+  },
+  "order": 2,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Points Transaction Logs"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-03-04T05:32:34.803Z"
+  },
+  "modified": {
+    "$date": "2025-03-04T05:32:34.803Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67d90fb0c0388444c581aebc"
+  },
+  "title": "Popup Ads Management",
+  "path": "popup_ads",
+  "group_path": "popup_ads",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 22,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Popup Ads Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-03-18T06:16:16.155Z"
+  },
+  "modified": {
+    "$date": "2025-03-18T06:16:16.179Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67e26de0f9ddfdd4e75e690c"
+  },
+  "title": "Time Slot Management",
+  "path": "slot-management",
+  "group_path": "slot-management",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebc4976209e6ae52d010c"
+  },
+  "order": 23,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Time Slot Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-03-25T08:48:32.237Z"
+  },
+  "modified": {
+    "$date": "2025-03-25T08:48:32.239Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67f4a3e63214b623395ee623"
+  },
+  "title": "Vat Setting",
+  "path": "settings/prefix/Vat",
+  "group_path": "settings/prefix/Vat",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 5,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Vat Setting"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-08T04:19:50.386Z"
+  },
+  "modified": {
+    "$date": "2025-04-08T04:19:50.386Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67f4ceed06fbceaea8b19d78"
+  },
+  "title": "Travel Time Setting",
+  "path": "settings/prefix/travel_time",
+  "group_path": "settings/prefix/travel_time",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 6,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Travel Time Setting"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-08T07:23:25.882Z"
+  },
+  "modified": {
+    "$date": "2025-04-08T07:23:25.883Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67f7a597f52ef57478644de0"
+  },
+  "title": "Van Fleet Earning",
+  "path": "settings/prefix/van_fleet_earning",
+  "group_path": "settings/prefix/van_fleet_earning",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 11,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Van Fleet Earning"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-10T11:03:51.624Z"
+  },
+  "modified": {
+    "$date": "2025-04-10T11:03:51.624Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67f7a5cef52ef57478644de1"
+  },
+  "title": "Bike Fleet Earning",
+  "path": "settings/prefix/bike_fleet_earning",
+  "group_path": "settings/prefix/bike_fleet_earning",
+  "icon": "",
+  "parent_id": {
+    "$oid": "5b5ebcf476209e6ae52d010e"
+  },
+  "order": 12,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Bike Fleet Earning"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-10T11:04:46.529Z"
+  },
+  "modified": {
+    "$date": "2025-04-10T11:04:46.529Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe187f7932a619b29d2192"
+  },
+  "title": "B2B Management",
+  "path": "javascript:void(0)",
+  "group_path": "company_management",
+  "icon": "business",
+  "parent_id": 0,
+  "order": 3,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "B2B Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-15T08:27:43.765Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T08:27:43.766Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe189e7932a619b29d2193"
+  },
+  "title": "Company Management",
+  "path": "company_management",
+  "group_path": "company_management",
+  "icon": "",
+  "parent_id": {
+    "$oid": "67fe187f7932a619b29d2192"
+  },
+  "order": 1,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Company Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-15T08:28:14.967Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T08:28:14.967Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe34d901972f8204c11586"
+  },
+  "title": "Wallet Transaction Logs",
+  "path": "view-wallet-history",
+  "group_path": "view-wallet-history",
+  "icon": "none",
+  "parent_id": {
+    "$oid": "6790f0e577bcf071294d6c37"
+  },
+  "order": 3,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Wallet Transaction Logs"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-15T10:28:41.646Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T10:28:41.649Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe39d82f00572c57194990"
+  },
+  "title": "Broadcast Management",
+  "path": "javascript:void(0)",
+  "group_path": "custom-notification,email-notification",
+  "icon": "notifications",
+  "parent_id": 0,
+  "order": 7,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Broadcast Management"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": "Broadcast Management"
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-15T10:50:00.812Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T10:56:37.500Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe3a072f00572c57194991"
+  },
+  "title": "Custom Notifications",
+  "path": "custom-notification",
+  "group_path": "custom-notification",
+  "icon": "",
+  "parent_id": {
+    "$oid": "67fe39d82f00572c57194990"
+  },
+  "order": 1,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Custom Notifications"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-15T10:50:47.682Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T10:50:47.682Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe3a612f00572c57194992"
+  },
+  "title": "Email Notifications",
+  "path": "email-notification",
+  "group_path": "email-notification",
+  "icon": "",
+  "parent_id": {
+    "$oid": "67fe39d82f00572c57194990"
+  },
+  "order": 2,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Email Notifications"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-15T10:52:17.255Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T10:52:17.255Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "67fe3f5eb18612bd29d403f6"
+  },
+  "title": "Rating & Reviews",
+  "path": "rating",
+  "group_path": "rating",
+  "icon": "star",
+  "parent_id": 0,
+  "order": 100,
+  "pages_descriptions": {
+    "en": {
+      "language_id": "5a3a13238481824b077b23ca",
+      "title": "Rating & Reviews"
+    },
+    "ar": {
+      "language_id": "657afde6c1915608b8254d57",
+      "title": ""
+    }
+  },
+  "is_active": 1,
+  "created": {
+    "$date": "2025-04-15T11:13:34.053Z"
+  },
+  "modified": {
+    "$date": "2025-04-15T11:13:34.054Z"
+  }
+}]

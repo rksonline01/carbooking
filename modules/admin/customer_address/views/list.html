@@ -1,0 +1,282 @@
+<%
+	var statusType = (typeof status_type !== typeof undefined && status_type)	?	status_type :"";
+	
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="#panel-collapse-id" aria-expanded="false"
+							   aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+                        <form id="searchForm" name="searchForm" post="POST">
+                            <div class="panel-body">
+                            
+                                <div class="row clearfix dataTables_wrapper">
+                                    <!-- Search by Email -->
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input class="form-control" id="column_filter_0" placeholder="<%= __('admin.customer_address.search_by_name'); %>" name="full_name">
+                                            </div>
+                                        </div>
+                                    </div>	
+                                    
+                                    <!-- Search by Status -->
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <select class="form-control show-tick"id="column_filter_1" name="status">
+                                                    <option value=""><%=__("admin.customer_address.search_by_status");%></option>
+                                                    <%
+                                                    if(ACTIVE_DEACTIVE_DROPDOWN && Object.keys(ACTIVE_DEACTIVE_DROPDOWN).length > 0){
+                                                        ACTIVE_DEACTIVE_DROPDOWN.map(searchStatus=>{ %>
+                                                            <option value="<%=searchStatus.status_id%>"><%=__(searchStatus.status_name)%></option>
+                                                    <% 	});
+                                                    } %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>	
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                        <button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+                                            <%= __("admin.system.submit")%>
+                                        </button>
+                                        <button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'customer_address/' + user_id%>">
+                                            <%= __("admin.system.reset")%>
+                                        </button>
+                                    </div>							
+                                </div>
+                            </div>
+                        </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.customer_address.customer_address") %>
+					</h2>
+					<!-- Inline User Details -->
+					<%- include ("../../elements/customer_info_details.html") %>
+					
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a id="back_btn" href="<%=WEBSITE_ADMIN_URL%>users/<%=CUSTOMER_USER_TYPE%>" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th><%= __('admin.customer_address.name'); %></th>
+								<th><%= __('admin.customer_address.country'); %></th>
+								<th><%= __('admin.customer_address.state'); %></th>
+								<th><%= __('admin.customer_address.city'); %></th>
+								<th><%= __('admin.system.status'); %></th>
+								<th><%= __('admin.system.modified'); %></th>
+								<th><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>	
+	<script type="text/javascript">
+		/**
+		* Function to initialize datatable and get server side data
+		*/
+		var dataTable = "";
+		$(document).ready(function() {
+			dataTable = $('#datatable-listing').DataTable({
+                "language"	: 	{
+					"url" 	: 	"<%= DATABLE_LANG_CDN %>"
+				},
+				"order"		: 	[[5, "desc" ]],
+				"sDom"		:	"ltipr",
+				"lengthMenu": 	PAGING_LENGTH_MENU,
+				"serverSide":	true,
+				"scrollX"	: 	true,
+				"columns"	: 	[
+					{
+						"data" 		:	"full_name",
+						"orderable" : false
+					},
+					{
+						"data" 		:	"country_name",
+						"orderable" : false,
+						"searchable" : 	false,
+						"render" 	 : 	function(country_name){
+							return (country_name) ? country_name : "N/A";
+						}
+					},
+					{
+						"data" 		:	"state_name",
+						"orderable" : false,
+						"searchable" : 	false,
+						"render" 	 : 	function(state_name){
+							return (state_name) ? state_name : "N/A";
+						}
+					},
+					{
+						"data" 		:	"city_name",
+						"orderable" : false,
+						"searchable" : 	false,
+						"render" 	 : 	function(city_name){
+							return (city_name) ? city_name : "N/A";
+						}
+					},
+					{
+						"data"		: 	{},
+						"orderable"	:   false,
+						"field_type":   "<%= NUMERIC_FIELD %>",
+						"field_name":   "status",
+						"render"	:	function(result){
+							var is_default 		= (result.is_default)  		? 	result.is_default 		:"";
+							var is_favourite 		= (result.is_favourite)     ? 	result.is_favourite 	:"";
+							
+							let html = '';
+
+							if(is_default == '<%=ACTIVE%>'){
+								html += '<span class="label label-info m-l-5 m-t-5"><%=__("admin.customer_address.default")%></span> <br>'
+							}
+							if(is_favourite == '<%=ACTIVE%>'){
+								html += '<span class="label label-success m-l-5 m-t-5"><%=__("admin.customer_address.favorite")%></span>'
+							}
+
+							if(is_default != '<%=ACTIVE%>' && is_favourite != '<%=ACTIVE%>'){
+								html += 'N/A';
+							}
+							
+							return html;
+						}
+					},
+					{
+						"data"		:	'modified',
+						"render"	: 	function(modified){
+							return moment(modified).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id = (result._id) ? result._id : "";
+							var is_default = (result.is_default) ? result.is_default : '<%=DEACTIVE%>';
+							var is_favorite = (result.is_favourite) ? result.is_favourite : '<%=DEACTIVE%>';
+
+							/** Status Link Label And Class **/
+							var isFavoriteLinkText = (is_favorite === "<%=DEACTIVE%>") ? "<%= __('admin.customer_address.set_favorite'); %>" : "<%= __('admin.system.unset_favorite'); %>";
+							var isFavoriteLinkTitle = (is_favorite === "<%=DEACTIVE%>") ? "<%= __('admin.system.click_to_set_favorite'); %>" : "<%= __('admin.system.click_to_unset_favorite'); %>";
+							var isFavoriteLinkIcon = (is_favorite === "<%=DEACTIVE%>") ? "favorite" : "favorite_border";
+
+							/** Set default link */
+							let defaultLink = '<li>' +
+								'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/<%= user_id %>/set_default/' + id + '" class="waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.system.do_you_want_to_set_address_default"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="<%= __("admin.customer_address.click_to_set_default") %>">' +
+								'<i class="material-icons">check_box</i>' +
+								'<%= __("admin.customer_address.set_default") %>' +
+								'</a>' +
+								'</li>';
+
+							var dropDownButton =
+								'<div class="dropdown btn-group m-l-5 m-t-5">' +
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+								'<%= __("admin.system.action"); %>' +
+								'<span class="caret"></span>' +
+								'</button>' +
+								'<ul class="dropdown-menu min-width-190">' +
+								/** Edit Link **/
+								'<li>' +
+								'<a href="<%=admin_list_url%>/<%= user_id %>/edit/' + id + '" class="waves-effect waves-block">' +
+								'<i class="material-icons">mode_edit</i>' +
+								'<%= __("admin.system.edit"); %>' +
+								'</a>' +
+								'</li>' +
+								/** Set Default Link **/
+								((is_default != '<%=ACTIVE%>') ? defaultLink : '') +
+								/** Is Favorite Link **/
+								'<li>' +
+								'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/<%= user_id %>/update_favorite_status/' + id + '/' + is_favorite + '" class="waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.system.do_you_want_to_change_favorite_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="' + isFavoriteLinkTitle + '">' +
+								'<i class="material-icons">' + isFavoriteLinkIcon + '</i>' +
+								isFavoriteLinkText +
+								'</a>' +
+								'</li>' +
+								'</ul>' +
+								'</div>';
+
+							return dropDownButton;
+
+						}
+					},
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url + '/' +user_id %>",
+					type	: 	"POST",
+                    data	: 	function (d) {
+						var formdata =  JSON.parse(JSON.stringify($("#searchForm").serializeArray()))
+						d.search_data = formdata
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});
+							
+					
+		});
+
+		/**
+		* Javascript function to search datatable
+		*
+		* @param  columnNumber as data table column number
+		*
+		* @return void
+		*/
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+
+        $("#submit_btn").click(function(){
+			dataTable.draw();
+		})
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

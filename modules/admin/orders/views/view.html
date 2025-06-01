@@ -1,0 +1,1262 @@
+<%
+	let productUrl 				= 	(result.product_url) 		? 	result.product_url 			:"";
+	let packageUrl 				= 	(result.package_url) 		? 	result.package_url 			:"";
+	let subscriptionUrl 		= 	(result.subscription_url) 	? 	result.subscription_url 	:"";
+	let timeSlotList 			= 	(result.time_slot_list) 	? 	result.time_slot_list 	:"";
+
+%>
+<div class="container-fluid"  id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.orders.view_order'); %></h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=WEBSITE_ADMIN_URL+'orders'%>" class="wave-effect">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+
+						</li>
+
+						<% 
+						var allowedStatuses = FOR_ADMIN_CANCEL_BOOKING_STATUS;
+						if (allowedStatuses.includes(result?.status)) {
+						%>
+						<li>
+							<a href="javascript:void(0)" class="wave-effect cancel_booking"><button type="button" class="btn bg-danger waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.cancel_order'); %></button></a>
+						</li>
+						<% } %>
+						 
+						
+					</ul>
+				</div>
+				
+				
+				<div class="row clearfix">
+					<div class="col-lg-6 col-md-6">	
+						<div class="body table-responsive" id="aniimated-thumbnials">
+							<h5><%= __('admin.orders.customer_information'); %></h5>
+							<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.customer_name'); %></th>
+									<td><%= ( result.customer_name) || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.customer_mobile'); %></th>
+									<td><%= ( result.customer_phone) || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.customer_email'); %></th>
+									<td><%= ( result.customer_email) || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.customer_type'); %></th>
+								
+									<td><%= ( result.first_booking) && result.first_booking == ACTIVE ? __('admin.orders.new') : __('admin.orders.repeat');%></td>
+								</tr>
+							</table>
+						</div>
+						
+						<div class="body table-responsive" id="aniimated-thumbnials">
+							<h5><%= __('admin.orders.location_information'); %></h5>
+							<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+								<tr>
+									<td  colspan="2"  rowspan="<%=(result.service_provider_id) ? 7 : 5%>">
+										<strong><%= __('admin.order.location'); %></strong> <!-- Location Title -->
+										<%
+										let addressArray = [];
+										if (result?.address_detail) {
+											addressArray = [
+												result.address_detail.full_name,
+												result.address_detail.address_line_1,
+												result.address_detail.address_line_2,
+												result.address_detail.city_name,
+												result.address_detail.state_name,
+												result.address_detail.country_name,
+												result.address_detail.zip_code
+											].filter(Boolean);
+										}
+										%>
+
+										<p><%= addressArray.join(', ') %></p>
+
+										<div id="map_show" style="width: 100%; height: <%=(result.service_provider_id) ? '300px' : '200px'%>; border: 1px solid #ddd;"></div>
+									</td>
+								</tr>
+							</table>
+						</div>
+						
+						<%if(result.service_provider_id){%>
+							<div class="body table-responsive" id="aniimated-thumbnials">
+								<h5><%= __('admin.orders.service_provider_information'); %></h5>
+								<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+
+
+
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.image'); %></th>
+										<td>									
+
+											<% if(result.provider_image){ %>											
+												<a href='<%= USERS_URL + result.provider_image %>' class='items-image' data-lightbox='roadtrip'>
+													<img src='<%=USERS_URL + result.provider_image %>?dim=100x100&type=resize' class='img-thumbnail' ></a>
+
+												<% }else{ %>													
+
+												<img src='<%= WEBSITE_PUBLIC_UPLOADS_PATH %>user-no-image.png?dim=100x100&type=resize' class='img-thumbnail' alt='Profile Image'/>
+												<%} %>
+										</td>
+									</tr>
+
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.provider_name'); %></th>
+										<td><%= ( result.provider_name) || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.provider_mobile'); %></th>
+										<td><%= ( result.provider_phone) || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.provider_email'); %></th>
+										<td><%= ( result.provider_email) || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.rating_and_review'); %></th>
+										<td><a href="<%=WEBSITE_ADMIN_URL+'rating'%>?user=<%= ( result.provider_slug) || 'N/A';%>">
+											<span class="rating" data-score="<%= ( result.provider_rating_count) || '0';%>">
+												</a></td>
+									</tr>
+
+									<tr>
+										<td colspan="3">
+ 
+
+											<form id="note-booking" data-submit-btn-id="note-booking-btn-id" action="<%=admin_list_url%>/note-booking/<%=result._id%>" method="post" class="on_click_submit" role="form">
+
+												<div class="form-group">
+													<div class="form-line">
+														<label for="note" class="control-label"><%= __('admin.system.note'); %>:<span class="required">  </span>
+														</label>
+														<textarea cols="80" rows="5" name="note" class="form-control"><%= ( result.note) || '';%></textarea>
+														</div>
+														</div>
+														
+														 
+														<button type="button" id="note-booking-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+ 
+
+											</form>
+										</td>
+									</tr>
+									
+								</table>
+							</div>
+						<%}%>
+						
+						<%if(result.hasOwnProperty('promo_code_detail') && typeof result.promo_code_detail == typeof {} ){
+							var promoData  = result.promo_code_detail
+							const couponType = promoData?.code_discount_type;
+							let couponName = 'N/A';
+
+							const matchedCoupon = COUPON_DISCOUNT_TYPE_DROPDOWN.find(coupon => coupon.coupon_id === couponType);
+							if (matchedCoupon) {
+								couponName = matchedCoupon.coupon_name;
+							}
+							%>
+							<div class="body table-responsive" id="aniimated-thumbnials">
+								<h5><%= __('admin.orders.promo_code_details'); %></h5>
+								<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.coupon_code'); %></th>
+										<td><%= promoData.promo_code || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.coupon_discount_type'); %></th>
+										<td><%=  __(couponName);%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __(couponName); %></th>
+										<td><%=  (couponType == COUPON_DISCOUNT_TYPE_FIX) ? displayPrice(promoData.discount_value) : `${promoData.discount_percent} %` ;%></td>
+									</tr>
+									
+									<% if(promoData.code_discount_type == COUPON_DISCOUNT_TYPE_PERCENT){ %>
+										<tr>
+											<th class="text-end" width="20%"><%= __('admin.promo_code.max_discount_amount'); %></th>
+											<td><%= `${displayPrice(promoData.max_discount_amount)}`%></td>
+										</tr>
+									<% } %>
+									
+								</table>
+							</div>
+						<%}%>
+						
+					</div>
+						
+					<div class="col-lg-6 col-md-6">	
+						<div class="body table-responsive" id="aniimated-thumbnials">
+							<h5><%= __('admin.orders.order_information'); %></h5>
+							<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.order_number'); %></th>
+									<td><%= ( result.order_number) || 'N/A';%></td>
+								</tr>
+
+
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.booking_type'); %></th>
+									
+									<%if(result.provider_type == SERVICE_PROVIDER_TYPE_VAN_FLEET){%>
+										<td><%=__("admin.system.van_fleet")%></td>
+									<% } else if(result.provider_type == SERVICE_PROVIDER_TYPE_BIKE_FLEET){%>
+										<td><%=__("admin.system.bike_fleet")%></td>											
+									<%}else{%>
+									<td>N/A</td>
+									<%}%>									
+								</tr>
+
+								      
+								<%if(result.total_quantity && result.total_quantity > 0){%>
+								<tr>	
+									<th class="text-end" width="20%"><%= __('admin.orders.total_quantity'); %></th>
+									<td><%= result.total_quantity || 'N/A';%></td>
+								</tr>
+								<%}%>
+								<%if(result.total_selling_amount && result.total_selling_amount > 0){%>
+								<tr>
+								
+									<th class="text-end" width="20%"><%= __('admin.orders.package_price'); %></th>
+									<td><%= displayPrice(result.total_selling_amount) || 'N/A';%></td>
+								</tr>
+								<%}%>
+								<%if(result.total_extra_discount && result.total_extra_discount > 0){%>
+								<tr>	
+									<th class="text-end" width="20%"><%= __('admin.orders.discount'); %></th>
+									<td><%= displayPrice(result.total_extra_discount);%></td>
+								</tr>
+								<%}%>	
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.payment_status'); %></th>
+									<%if(result.payment_status == PAYMENT_UNPAID){%>
+									  <td><span class="label label-success color-red m-l-5 m-t-5"><%=__("admin.system.payment_unpaid")%></span></td>
+									<% }else if(result.payment_status == PAYMENT_PAID){%>
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.payment_paid")%></span></td>
+									<%}else if(result.payment_status == PAYMENT_FAIL){%>
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.payment_failed")%></span></td>
+									<%}else if(result.payment_status == PAYMENT_PARTIAL){%>
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.payment_partial")%></span></td>
+										<%}else if(result.payment_status == PAYMENT_PREPAID){%>
+											<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.payment_prepaid")%></span></td>
+									<%}else{%>
+										<td></td>
+									<%}%>
+								</tr>
+								
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.payment_method'); %></th>
+									<%if(result.payment_by == PAYMENT_BY_WALLET){%>
+									  <td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.wallet")%></span></td>
+									<% }else if(result.payment_by == PAYMENT_BY_COD){%>
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.cod")%></span></td>
+									<%}else if(result.payment_by == PAYMENT_BY_PAYMENT_GATEWAY){%>
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.payment_gateway")%></span></td>
+									<%}else{%>
+										<td></td>
+									<%}%>
+								</tr>
+
+								
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.booking_status'); %></th>
+									<%if(result.status == BOOKING_STATUS_NEW){%>
+									  <td>
+											<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_new")%></span>
+											<a href="javascript:void(0)" class="wave-effect accept_booking"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.accept_booking'); %></button></a>
+										</td>
+									<% }else if(result.status == BOOKING_STATUS_ACCEPTED){%>
+
+
+										<td>
+											<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_accepted")%></span>
+											<a href="javascript:void(0)" data-href="<%= admin_list_url %>/update-booking-status-go-to-location/<%= result._id %>" class="wave-effect confirm_box"data-confirm-message="<%= __("admin.orders.you_want_to_go_to_location_booking"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.go_to_location'); %></button></a>
+										</td>
+
+									<% }else if(result.status == BOOKING_STATUS_GO_TO_LOCATION){%>
+
+										<td>
+											<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_go_to_location")%></span>
+											<a href="javascript:void(0)" data-href="<%= admin_list_url %>/update-booking-reached-on-location/<%= result._id %>" class="wave-effect confirm_box"data-confirm-message="<%= __("admin.orders.you_want_to_reached_on_location_booking"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.reached_on_location_booking'); %></button></a>
+										</td>
+
+									<% }else if((result.status == BOOKING_STATUS_REACHED_LOCATION) || (result.status == BOOKING_STATUS_SERVICE_STARTED)){%>
+
+										<td>
+											<% if(result.status == BOOKING_STATUS_SERVICE_STARTED){ %>
+											<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_started")%></span>
+											<% } %>
+											<% if(result.status == BOOKING_STATUS_REACHED_LOCATION){ %>
+											<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_reached_on_location")%></span>
+											<% } %>
+											
+											<% if(result.is_service_booking == true && (result.status == BOOKING_STATUS_REACHED_LOCATION)) { %>
+
+												<a href="javascript:void(0)" data-href="<%= admin_list_url %>/start-booking/<%= result._id %>" class="wave-effect confirm_box"data-confirm-message="<%= __("admin.orders.you_want_to_start_booking"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.start_booking'); %></button></a>
+
+											<% } %> 
+											
+											<% if(result.is_service_booking == true && (result.status == BOOKING_STATUS_SERVICE_STARTED)){ %>
+
+												<a href="javascript:void(0)" data-href="<%= admin_list_url %>/finish-booking-service/<%= result._id %>" class="wave-effect confirm_box"data-confirm-message="<%= __("admin.orders.you_want_to_finish_booking"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.finish_booking'); %></button></a>
+
+											<% } %>
+
+										</td>
+
+									<%}else if(result.status == BOOKING_STATUS_SERVICE_STARTED){%>
+										<td>
+											<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_started")%></span>
+											<a href="javascript:void(0)" data-href="<%= admin_list_url %>/complete-booking/<%= result._id %>" class="wave-effect confirm_box"data-confirm-message="<%= __("admin.orders.you_want_to_complete_booking"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.complete_booking'); %></button></a>
+										</td>
+
+									<%}else if(result.status == BOOKING_STATUS_COMPLETED){%>
+
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_completed")%></span></td>
+
+									<%}else if(result.status == BOOKING_STATUS_SERVICE_FINISHED){%>
+
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_finished")%></span></td>
+
+									<%}else if(result.status == BOOKING_STATUS_CANCELLED){%>
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_cancelled")%></span></td>
+									<%}else{%>
+										<td>N/A</td>
+									<%}%>
+								</tr>	
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.order_status'); %></th>
+									<%if(result.order_status == ORDER_PLACED){%>
+										<td><span class="label label-success m-l-5 m-t-5"><%=__("admin.system.placed")%></span></td>
+									<%}else{%>
+										<td><span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.pending")%></span></td>
+									<%}%>
+								</tr>
+								
+								<% if(result.is_service_booking){ %>  
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.package.car_size'); %> / <%= __('admin.package.service_duration'); %></th>
+										<%
+										var carType 		
+										var durationType 	
+										if(result?.booking_car_type){
+											carType = CAR_TYPE_DROPDOWN.find(item => item.key == result.booking_car_type);
+										}
+										if(result?.booking_duration){
+											durationType = DURATION_TYPE_DROPDOWN.find(item => item.key == result.booking_duration);
+										}
+
+										var data = `${carType?.value || 'N/A'} / ${durationType?.value || 'N/A'}`
+										%>
+										<td><%= data %></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.booking_from'); %></th>
+										<td><%= result.booking_from || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.travel_start_time'); %></th>
+										<td>
+											<%= convertTimestampOrDurationData(result.booking_start_timestamp) || 'N/A';%> 
+										</td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.booking_travel_time'); %></th>
+										<td><%= convertTimestampOrDurationData(result.booking_travelling_timestamp, true) || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.service_start_time'); %></th>
+										<td>
+											<%= convertTimestampOrDurationData(result.booking_start_timestamp + result.booking_travelling_timestamp) || 'N/A';%> 
+											
+											<%if(result.status == BOOKING_STATUS_NEW){%>
+												<a href="javascript:void(0)" data-action-url="<%=admin_list_url %>/view/update_date_time/<%= result._id %>" data-open-modal="true" class="action-btn">
+													<button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.update_date_time'); %></button>
+												</a>
+											<%}%>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.service_end_time'); %></th>
+										<td><%= convertTimestampOrDurationData(result.booking_end_timestamp) || 'N/A';%></td>
+									</tr>
+									<tr>
+								<% }  %>  
+								
+								
+								</tr>
+
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.city'); %></th>
+									<td>
+										<%= result?.address_detail?.city_name || 'N/A';%>
+									</td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.service_area'); %></th>
+									<td>
+
+                                     <% let area = result?.area_list?.map(area => area.title).join(', '); %>
+
+										<%= area || __('admin.orders.not_available') ;%>
+									</td>
+								</tr>
+
+
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.created'); %></th>
+									<td>
+										<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'DD/MM/YYYY';%>"></span>
+									</td>
+								</tr>
+
+								<% if(result.status == BOOKING_STATUS_CANCELLED){ %>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.canceled_by'); %></th>
+									<td>
+										<%= (result.canceled_by_full_name) ? result.canceled_by_full_name : "" %>
+									</td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.cancel_reason'); %></th>
+									<td>
+										<%= (result.canceledBy.cancel_reason) ? result.canceledBy.cancel_reason : "" %>
+									</td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.booking_cancel_time'); %></th>
+									<td>
+										<span class="setDateTimeFormat" data-date-time="<%= (result.canceledBy.booking_cancel_time) ? result.canceledBy.booking_cancel_time :'DD/MM/YYYY';%>"></span>
+									</td>
+								</tr>
+								<% } %>
+
+								<% if(result.is_rescheduled == ACTIVE){ %>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.rescheduled'); %></th>
+									<td>
+										<%=__("admin.system.yes") %>
+									</td>
+								</tr>
+								<% } %>
+
+								<% if(result.is_change_location == ACTIVE){ %>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.change_location'); %></th>
+									<td>
+										<%=__("admin.system.yes") %>
+									</td>
+								</tr>
+								<% } %>
+
+							</table>
+						</div>
+					</div>
+					
+					<div class="col-lg-6 col-md-6">	 
+						
+					</div>
+					
+				</div>
+				  
+				 
+				<div class="body table-responsive" id="aniimated-thumbnials">					  
+					<%if(result?.hasOwnProperty('my_subscription_details') && typeof result?.my_subscription_details == typeof {}  && result?.user_subscription_id){
+						var subscriptionData  = result.my_subscription_details
+						let imageUrl = SUBSCRIPTION_URL + subscriptionData?.subscription_image;
+						let subscriptionName = subscriptionData?.subscription_name || 'N/A';
+						let startDate = subscriptionData?.start_date || '';
+						let endDate   = subscriptionData?.end_date   || '';
+
+						
+						let carType = CAR_TYPE_DROPDOWN.find(item => item.key == subscriptionData?.car_type)?.value || 'N/A';
+
+						let duration = DURATION_TYPE_DROPDOWN.find(item => item.key == subscriptionData?.duration)?.value || 'N/A';
+						let price    = (subscriptionData?.price) ? displayPrice(subscriptionData?.price): 'N/A';
+						let total_service    = subscriptionData?.total_service || 'N/A';
+						%>
+						<h5><%= __('admin.orders.subscription_details'); %></h5>
+						<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+							<tr>
+								<th class="text-end" width="20%"><%= __('admin.orders.subscription_image'); %></th>
+								<td>
+									<a href ="<%=imageUrl%>" class="items-image" data-lightbox = "roadtrip">
+										<div class="">
+											<img src="<%=imageUrl%>" alt="icon" class='img-thumbnail' height="100px" width="100px"/>
+										</div>
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<th class="text-end" width="20%"><%= __('admin.orders.subscription_name'); %></th>
+								<td><%= subscriptionName %></td>
+							</tr>
+							<tr>
+								<th class="text-end" width="20%"><%= __('admin.orders.subscription_validity'); %></th>
+								<td><span class="setDateTimeFormat" data-date-time="<%= (startDate) ? startDate :'DD/MM/YYYY';%>"></span> - <span class="setDateTimeFormat" data-date-time="<%= (endDate) ? endDate :'DD/MM/YYYY';%>"></span> </td>
+							</tr>
+							
+							<tr>
+								<th class="text-end" width="20%"><%= __('admin.orders.subscription_car_type'); %></th>
+								<td><%= carType %></td>
+							</tr>
+							<tr>
+								<th class="text-end" width="20%"><%= __('admin.orders.subscription_duration'); %></th>
+								<td><%= duration %></td>
+							</tr>
+							<tr>
+								<th class="text-end" width="20%"><%= __('admin.orders.subscription_price'); %></th>
+								<td><%= price %></td>
+							</tr>
+							<tr>
+								<th class="text-end" width="20%"><%= __('admin.orders.subscription_total_service'); %></th>
+								<td><%= total_service %></td>
+							</tr>
+							
+							
+						</table>
+					<%} 
+					
+					var productList = result.order_item_details.filter(v=>v.item_type == ITEM_TYPE_PRODUCT);
+					var packageList = result.order_item_details.filter(v=>v.item_type == ITEM_TYPE_PACKAGE);
+					
+
+					if(productList.length > 0){
+						let i = 0;
+					%>
+					<h5><%= __('admin.orders.store_items'); %></h5>
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th class="" width="5%"><%= __('admin.orders.s_no'); %></th>
+								<th class="" width="15%"><%= __('admin.orders.product_image'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.item_type'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_title'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_category_name'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_cart_quantity'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_sku'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_vat'); %></th>
+								<%if((productList.filter(record => record.hasOwnProperty('total_product_discount') && record.total_product_discount != DEACTIVE )).length > 0){%>
+								<th class="" width="15%"><%= __('admin.orders.discount_amount'); %></th>
+								<%}%>
+								<th class="" width="20%"><%= __('admin.orders.product_price'); %></th>
+
+								 
+								<th class="" width="5%"><%= __('admin.orders.action'); %></th>
+								 
+
+								<!-- <%if((productList.filter(record => record?.is_delivered == ACTIVE)).length > 0){%>
+									<th class="" width="5%"></th>
+								<%}%> -->
+							</tr>
+						</thead>
+						<tbody>
+							<%productList.map(records=>{%>
+
+								<%  
+									
+									let refundTdClass = (records?.refund_issued) ? "grayTdColor" :  "";
+									 
+								 %>  
+
+								<tr>
+									<td><%= ++i %></td>
+									<td class="<%=refundTdClass%>"><%
+										var imageUrl = PRODUCT_URL;
+										
+										var image =	(records.product_image) ?  imageUrl+records.product_image :''; %>
+										<a href ="<%=image%>" class="items-image" data-lightbox = "roadtrip">
+											<div class="">
+												<img src="<%=image%>" alt="icon" class='img-thumbnail' height="100px" width="100px"/>
+											</div>
+										</a>
+									</td>
+									<td class="<%=refundTdClass%>"><%= records.item_type %></td>
+									<td class="<%=refundTdClass%>"><%= records.product_title || 'N/A' %></td>
+									<td class="<%=refundTdClass%>"><%= records.product_category_name || 'N/A'%></td>
+									<td class="<%=refundTdClass%>"><%= records.product_cart_quantity %></td>
+									<td class="<%=refundTdClass%>"><%= records.product_sku || 'N/A' %></td>
+									<td class="<%=refundTdClass%>"><%= records.total_vat_excluded_amount ? displayPrice(records.total_vat_excluded_amount) :  (records.total_vat_included_amount ? displayPrice(records.total_vat_included_amount) : 'N/A') %></td>
+									<%
+										let discountAmount = records?.total_product_discount || DEACTIVE
+									
+										if(discountAmount){
+									%>
+										<td class="<%=refundTdClass%>">
+											<%= (discountAmount) ? displayPrice(discountAmount): 'N/A'%>
+										</td>
+										<%}%>
+									<td class="<%=refundTdClass%>">
+										<%
+											let totalMrp 			= records.total_mrp || DEACTIVE;
+											let totalSellingAmount 	= records.total_selling_amount || DEACTIVE;
+											let	discount =  (records?.total_product_discount || DEACTIVE);
+											
+											if(discount){
+										%>
+											<span class="label label-danger" style="text-decoration-line: line-through;"><%=displayPrice(totalMrp)%></span><br><span class="label label-success"><%=displayPrice(totalSellingAmount)%></span>
+										<%}else{%>	
+											<%= displayPrice(totalSellingAmount) %>
+										<%}%>
+										<% 
+											if(records?.is_delivered == true){
+										%>
+										
+										<div>
+											<span class="label label-success m-l-5 m-t-5">
+												<%= __('admin.system.delivered'); %>:
+											</span>
+											<span class="setDateTimeFormat" data-date-time="<%= (records?.delivered_time) ? records?.delivered_time :'DD/MM/YYYY';%>"></span>
+
+										</div>
+										
+										<% }%>
+									</td>
+									<td class="<%=refundTdClass%>">
+									
+									<%
+										let is_delivered = records?.is_delivered || DEACTIVE
+										let refundCompleted = records?.refund_issued || DEACTIVE
+									
+										if(is_delivered && !refundCompleted){
+									%>
+										<a href="javascript:void(0)" class="wave-effect refund_product_amount" data-id="<%= records._id %>" >
+											<button type="button" class="btn bg-indigo waves-effect">
+												 <%= __('admin.system.refund'); %>
+											</button>
+										</a>
+									<% }%>
+
+									<% 
+									 
+										var allowedDeliveredStatuses = FOR_COMPLETE_BOOKING_STATUS;
+										if (allowedDeliveredStatuses.includes(result?.status)) {
+									 
+										if(records?.is_delivered == false){ %>  
+
+										<a href="javascript:void(0)" data-href="<%= admin_list_url %>/delivered-booking-product/<%= records._id %>/<%= result._id %>" class="wave-effect confirm_box"data-confirm-message="<%= __("admin.orders.you_want_to_product_delivered"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14"></i> <%= __('admin.system.mark_as_delivered'); %></button></a>
+									
+									<% } }%>
+
+									<%  if(records?.refund_issued){
+										let refundAmount = records?.refund_amount || 0;
+									 %>  
+										<span class="label label-indigo"><%= __('admin.system.amount'); %>:	</span> 
+										<span class="label label-success m-l-5 m-t-5"> <%=displayPrice(refundAmount)%></span>
+										 
+										<br> 
+										<span class="label label-indigo">
+											 <%= __('admin.system.note'); %>	:  <%= records?.refund_note || ""  %>
+										</span>
+									<% }%>
+
+								</td>
+
+
+								</tr>
+							<%})%>
+						</tbody>
+					</table>
+					<%}
+					if(packageList.length > 0){
+						let i = 0;
+					%>
+					<h5><%= __('admin.orders.package_items'); %></h5>
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th class="" width="5%"><%= __('admin.orders.s_no'); %></th>
+								<th class="" width="15%"><%= __('admin.orders.product_image'); %></th>
+								<th class="" width="20%"><%= __('admin.orders.product_title'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_car_type'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_duration'); %></th>
+								<th class="" width="10%"><%= __('admin.orders.product_vat'); %></th>
+								<%if((packageList.filter(record => record.hasOwnProperty('total_product_discount') && record.total_product_discount != DEACTIVE )).length > 0){%>
+								<th class="" width="15%"><%= __('admin.orders.discount_amount'); %></th>
+								<%}%>
+								<th class="" width="20%"><%= __('admin.orders.product_price'); %></th>
+							</tr>
+						</thead>
+						<tbody>
+							<%packageList.map(records=>{%>
+								<tr>
+									<td><%= ++i %></td>
+									<td><%
+										var imageUrl = PACKAGE_URL;
+										var image =	(records.product_image) ?  imageUrl+records.product_image :''; %>
+										<a href ="<%=image%>" class="items-image" data-lightbox = "roadtrip">
+											<div class="">
+												<img src="<%=image%>" alt="icon" class='img-thumbnail' height="100px" width="100px"/>
+											</div>
+										</a>
+									</td>
+									<td><%= records.product_title || 'N/A' %></td>
+									<td><%= CAR_TYPE_DROPDOWN.find(item => item.key == records?.car_type)?.value || 'N/A' %></td>
+									<td><%= DURATION_TYPE_DROPDOWN.find(item => item.key == records?.duration)?.value  || 'N/A' %></td>
+									<td><%= records.total_vat_excluded_amount ? displayPrice(records.total_vat_excluded_amount) :  (records.total_vat_included_amount ? displayPrice(records.total_vat_included_amount) : 'N/A') %></td>
+									<%
+										let discountAmount = records?.total_product_discount || DEACTIVE
+									
+										if(discountAmount){
+									%>
+										<td>
+											<%= (discountAmount) ? displayPrice(discountAmount): 'N/A'%>
+										</td>
+										<%}%>
+									<td>
+										<%
+											let totalMrp 			= records.total_mrp || DEACTIVE;
+											let totalSellingAmount 	= records.total_selling_amount || DEACTIVE;
+											let	discount =  (records?.total_product_discount || DEACTIVE);
+											
+											if(discount){
+										%>
+											<span class="label label-danger" style="text-decoration-line: line-through;"><%=displayPrice(totalMrp)%></span><br><span class="label label-success"><%=displayPrice(totalSellingAmount)%></span>
+										<%}else{%>	
+											<%= displayPrice(totalSellingAmount) %>
+										<%}%>
+									</td>
+								</tr>
+							<%})%>
+						</tbody>
+					</table>
+					<%}%>
+				</div>
+
+
+
+
+				<% if (result.images && result.images.length > 0) { %>
+			 
+				<div class="body table-responsive">
+					<h5><%= __('admin.orders.images'); %></h5>
+					<table class="table table-bordered">
+						<tbody>
+							<% if (result.images && result.images.length > 0) { %>
+								<% for (let i = 0; i < result.images.length; i++) { 
+									var imageUrl = PRODUCT_URL;
+									var image = result.images[i].image ? imageUrl + result.images[i].image : '';
+				
+									// Open a new row every 10 images
+									if (i % 10 === 0) { %>
+										<tr>
+									<% } %>
+				
+									<td>
+										<a href="<%= image %>" class="items-image" data-lightbox="roadtrip">
+											<div>
+												<img src="<%= image %>" alt="icon" class='img-thumbnail' height="100px" width="100px"/>
+											</div>
+										</a>
+									</td>
+				
+									<% // Close the row every 10 images or at the last image
+									if ((i + 1) % 10 === 0 || i === result.images.length - 1) { %>
+										</tr>
+									<% } %>
+								<% } %>
+							<% } %>
+						</tbody>
+					</table>
+				</div>
+			<% } %>
+				 
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- Accept booking Modal Start -->
+<div class="modal fade" id="cancelBookingModel" tabindex="-1" role="dialog" style="display: none;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">
+					<%= __('admin.system.cancel_order')%>
+				</h4>
+			</div>
+			<form id="cancel-booking" data-submit-btn-id="cancel-booking-btn-id"
+				action="<%=admin_list_url%>/cancel-booking/<%=result._id%>" method="post" class="on_click_submit"
+				role="form">
+				<div class="modal-body">
+					<div class="row clearfix">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<div class="form-line">
+									<label for="cancel_reason" class="control-label">
+										<%= __('admin.system.cancel_reason'); %><span class="required"> *</span>
+									</label>
+									<input class="form-control show-tick search_by_cancel_reason" id="cancel_reason"
+										name="cancel_reason">
+								</div>
+								<span id="cancel_reason_error" class="error"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="cancel-booking-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit"
+						<%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i>
+						<%= __("admin.system.submit"); %>
+					</button>
+					<button type="button" class="btn bg-blue-grey btn-sm waves-effect"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- Accept booking Modal Start -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" style="display: none;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">
+					<%= __('admin.system.accept_booking')%>
+				</h4>
+			</div>
+			<form id="accept-booking" data-submit-btn-id="accept-booking-btn-id"
+				action="<%=admin_list_url%>/accept-booking/<%=result._id%>" method="post" class="on_click_submit"
+				role="form">
+				<div class="modal-body">
+					<div class="row clearfix">
+						<div class="col-sm-12">
+							<div class="form-group">
+								<div class="form-line">
+									<label for="service_provider_id" class="control-label">
+										<%= __('admin.system.accept_booking'); %><span class="required"> *</span>
+									</label>
+									<select data-live-search="true"
+										class="form-control show-tick selectpicker search_by_status"
+										data-dropup-auto="false" id="service_provider_id" name="service_provider_id">
+
+										<option value="">
+											<%=__("vendor.orders.select_service_provider");%>
+										</option>
+										<%-delivery_partner%>
+									</select>
+								</div>
+								<span id="service_provider_id_error" class="error"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="accept-booking-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit"
+						<%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i>
+						<%= __("admin.system.submit"); %>
+					</button>
+					 
+					<button type="button" class="btn bg-blue-grey btn-sm waves-effect"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Accept booking Modal Start -->
+<div class="modal fade" id="myModalFefund" tabindex="-1" role="dialog" style="display: none;">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">
+					<%= __('admin.system.refund_product_amount')%>
+				</h4>
+			</div>
+			<form id="refund-amount" data-submit-btn-id="refund-amount-btn-id"
+				action="<%=admin_list_url%>/refund_product_amount/{product_id}/<%=result._id%>" method="post"
+				class="on_click_submit" role="form">
+				<div class="modal-body">
+					<div class="row clearfix">
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="amount" class="control-label">
+											<%= __("admin.wallet.amount"); %> <span class="required"> *</span>
+										</label>
+										<input name="amount" id="amount" type="text" class="form-control" />
+									</div>
+									<span id="amount_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="note" class="control-label">
+											<%= __("admin.wallet.note"); %> <span class="required"> *</span>
+										</label>
+										<textarea name="note" id="note" rows="3" class="form-control"></textarea>
+
+									</div>
+									<span id="note_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="refund-amount-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit"
+						<%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i>
+						<%= __("admin.system.submit"); %>
+					</button>
+					<a href="<%=admin_list_url%>/view/<%=result._id%>"><button type="button"
+							class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i>
+							<%= __("admin.system.cancel"); %>
+						</button></a>
+
+					<button type="button" class="btn bg-blue-grey btn-sm waves-effect"
+						data-bs-dismiss="modal">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<div id="form_modal" class="modal fade" tabindex="-1" role="dialog" style="display: none;">
+</div>
+	
+<!-- <%- contentFor("css") %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-raty.js"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= google_map_key %>&libraries=places"></script> -->
+
+
+
+<%- contentFor('css') %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>	
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>jquery-raty.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+	<script src="https://maps.googleapis.com/maps/api/js?key=<%= google_map_key %>&libraries=places,geometry,drawing"></script> 
+
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$('#myModal').modal({backdrop: 'static', keyboard: false}, 'show');
+		$('#cancelBookingModel').modal({backdrop: 'static', keyboard: false}, 'show');
+	 	 
+		$(".accept_booking").on('click',function(){
+			
+			$('#myModal').modal('show');
+		});
+
+		$(".cancel_booking").on('click',function(){
+			
+			$('#cancelBookingModel').modal('show');
+		});
+
+		$(".refund_product_amount").on('click',function(){
+			let product_id = $(this).data('id');
+			let actionUrl = $('#refund-amount').attr('action' );
+			let url = actionUrl.replace('{product_id}', product_id)
+			$('#refund-amount').attr('action', url)
+			
+			$('#myModalFefund').modal('show');
+		});
+
+		/**
+		 * Function to submit form
+		 */
+		$('#accept-booking-btn-id').click(function(){
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit("accept-booking",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+
+		/**
+		 * Function to submit form
+		 */
+		$('#cancel-booking-btn-id').click(function(){
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit("cancel-booking",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+		
+		/**
+		 * Function to submit form
+		 */
+		$('#refund-amount-btn-id').click(function(){
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit("refund-amount",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+
+		/**
+		 * Function to submit form
+		 */
+		$('#note-booking-btn-id').click(function(){
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit("note-booking",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+	});
+	
+</script>
+<script type="text/javascript">
+   
+    var address_latitude = parseFloat('<%= result?.address_detail?.latitude || "0" %>') || <%= google_map_default_lat %>;
+    var address_longitude = parseFloat('<%= result?.address_detail?.longitude || "0" %>') || <%= google_map_default_long %>;
+
+    var sp_address_latitude = parseFloat('<%= result?.current_sp_location?.latitude || "0" %>') ;
+    console.log("🚀 ~ sp_address_latitude:", sp_address_latitude)
+    var sp_address_longitude = parseFloat('<%= result?.current_sp_location?.longitude || "0" %>');
+    console.log("🚀 ~ sp_address_longitude:", sp_address_longitude)
+
+	var map;
+	var marker;
+    var driverMarker, customerMarker;
+    var infoWindows = [];
+	
+
+    function initMap() {
+        // Initialize map centered on the destination
+        map = new google.maps.Map(document.getElementById("map_show"), {
+            center: { lat: address_latitude, lng: address_longitude },
+            zoom: 20,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        // Destination marker (non-draggable)
+      /*  marker = new google.maps.Marker({
+            position: { lat: address_latitude, lng: address_longitude },
+            map: map,
+            draggable: false,
+            animation: google.maps.Animation.DROP
+        });*/
+		 
+        // ROUTE: From service provider to address
+        let startLatLng = {
+            lat: sp_address_latitude,
+            lng: sp_address_longitude
+        };
+
+        let endLatLng = {
+            lat: address_latitude,
+            lng: address_longitude
+        };
+
+		
+		const driverInfo = new google.maps.InfoWindow({
+			content: "<b>Driver</b>"
+		});
+		// Add custom "Start" marker (Car icon)
+		const startMarker = new google.maps.Marker({
+			position: startLatLng,
+			map: map,
+			icon: {
+				url: "https://maps.google.com/mapfiles/kml/shapes/cabs.png",
+				scaledSize: new google.maps.Size(20, 20)
+			},
+			//title: "Driver (Start Point)"
+		});
+
+		startMarker.addListener("click", function () {
+			driverInfo.open(map, startMarker);
+		});
+
+		
+
+		const customerInfo = new google.maps.InfoWindow({
+			content: "<b>Customer</b>"
+		});
+		// Add custom "End" marker (e.g., a house icon or label)
+		const endMarker = new google.maps.Marker({
+			position: endLatLng,
+                map: map,
+                 
+                title: "Customer (End Point)"
+		});
+
+		endMarker.addListener("click", function () {
+			customerInfo.open(map, endMarker);
+		});
+
+
+        // Only attempt directions if valid coordinates are present
+        if (
+            startLatLng.lat !== 0 && startLatLng.lng !== 0 &&
+            endLatLng.lat !== 0 && endLatLng.lng !== 0
+        ) {
+            let directionsService = new google.maps.DirectionsService();
+            let directionsRenderer = new google.maps.DirectionsRenderer({
+                suppressMarkers: true,
+                polylineOptions: {
+                    strokeColor: "#0F53FF",// Line opacity
+        			strokeWeight: 5          // Increase this value to make the line thicker
+                }
+            });
+
+            directionsRenderer.setMap(map);
+ 
+				
+            directionsService.route({
+                origin: startLatLng,
+                destination: endLatLng,
+                travelMode: google.maps.TravelMode.DRIVING
+            }, function (response, status) {
+                if (status === google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(response);
+                } else {
+                    console.error("Directions request failed due to: " + status);
+                }
+            });
+        } else {
+            console.warn("Skipping route — invalid coordinates");
+        }
+
+        // AREA POLYGONS
+        let pathCoordinatesArea = null;
+        let currentInfoWindow = null;
+
+        <% let booking_area_id = result.booking_area_id ? result.booking_area_id : null;
+           let areaIds = null;
+           if (booking_area_id) {
+			areaIds = result.area_list.find(item => item._id.equals(booking_area_id));
+           }
+
+           if (Array.isArray(result.area_list) && result.area_list.length > 0) { %>
+
+            <% result.area_list.forEach(function(areaIds, index) { %>
+                var coordinatesArea = <%- JSON.stringify(areaIds.coordinates) %>;
+
+                pathCoordinatesArea = coordinatesArea.map(item => ({
+                    lat: parseFloat(item.lat),
+                    lng: parseFloat(item.lng)
+                }));
+
+                var polygon = new google.maps.Polygon({
+                    paths: pathCoordinatesArea,
+                    strokeColor: "#0000FF",
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: "#0000FF",
+                    fillOpacity: 0.35
+                });
+
+                polygon.setMap(map);
+
+                var center_polygon = getPolygonCenter(pathCoordinatesArea);
+
+                var infoWindow = new google.maps.InfoWindow({
+                    content: `<%= area.title %>`,
+                    position: center_polygon
+                });
+
+                infoWindows.push(infoWindow);
+
+                polygon.addListener("click", function () {
+                    if (currentInfoWindow) {
+                        currentInfoWindow.close();
+                    }
+                    infoWindow.open(map);
+                    currentInfoWindow = infoWindow;
+                });
+
+            <% }); %>
+
+        <% } %>
+    }
+
+    // Utility: Get center of polygon
+    function getPolygonCenter(coords) {
+        let latSum = 0, lngSum = 0;
+        coords.forEach(coord => {
+            latSum += coord.lat;
+            lngSum += coord.lng;
+        });
+        return {
+            lat: latSum / coords.length,
+            lng: lngSum / coords.length
+        };
+    }
+
+    // Initialize map on window load
+    window.onload = initMap;
+ 
+
+setTimeout(function() {
+	location.reload();
+}, 30000);	
+
+ 
+
+$(document).ready(function () {
+    $('span.rating').each(function () {
+        let score = $(this).data('score');
+        initRating(this, score);
+    });
+});
+
+function initRating(score) {
+	$(score).raty({
+		half        : true,
+		halfShow    : true,
+		number      : 5,
+		readOnly    : true,
+		score       : score ? score : 0,
+		starHalf    : '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-half.png',
+		starOff     : '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-off.png',
+		starOn      : '<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/img/star-on.png',
+	});
+}
+</script>
+ 

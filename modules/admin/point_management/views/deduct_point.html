@@ -1,0 +1,96 @@
+
+
+<%
+	let userId		=	(typeof user_id !== typeof undefined) ?  user_id : "";
+	let formUrl 	=	admin_list_url +'/deduct_point' + ((userId) ? `?user_id=${userId}` : '');
+%>
+<div class="row clearfix">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<form id="deduct-point" action="<%=formUrl%>" data-submit-btn-id="deduct-point-btn-id" method="post" class="on_click_submit" role="form">
+			<div class="modal-dialog  modal-md" role="document">
+				<div class="modal-content">
+					<div class="modal-header modal-header-seperator p-l-20 p-b-0">
+						<h2 class="modal-title">
+							<%= __("admin.points.deduct_points"); %>
+						</h2>
+					</div>
+					<div class="modal-body padding-20">
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="customer" class="control-label">
+											<%= __("admin.points.customer"); %> <span class="required"> *</span>
+										</label>
+										<select data-live-search="true" class="form-control show-tick selectpicker search_by_status " data-dropup-auto="false" id="customer" name="customer" >
+											<option value=""><%= __("admin.points.select_customer"); %></option>
+											<%- customer_list %>
+										</select>
+									</div>
+									<span id="customer_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="point" class="control-label">
+											<%= __("admin.points.deduction_point"); %> <span class="required"> *</span>
+										</label>
+										<input name="point" id="point" type="text" class="form-control" />
+									</div>
+									<span id="point_error" class="error"></span>
+								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="note" class="control-label">
+											<%= __("admin.points.note"); %> <span class="required"> *</span>
+										</label>
+										<textarea name="note" id="note" rows="3" class="form-control"></textarea>
+									</div>
+									<span id="note_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer modal-footer-seperator justify-content-end">
+						<button type="button" id="deduct-point-btn-id" class="btn btn-success btn-sm waves-effect col-white btn-submit" <%- ADMIN_LOADING_TEXT %> >
+							<%= __("admin.system.submit"); %>
+						</button>
+						<button type="button" class="btn btn-sm waves-effect bg-brown" data-bs-dismiss="modal" aria-hidden="true">
+							<%= __("admin.system.cancel"); %>
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+ 
+<script src="<%=WEBSITE_ADMIN_JS_PATH%>admin.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+
+<script type="text/javascript">
+	$('.btn-submit').click(function(){
+		var btnId = $(this).attr('id');
+		startTextLoadingInPopUP(btnId);
+		ajax_submit('deduct-point',function(status,response){
+			if(status){
+				stopTextLoadingInPopUP(btnId);
+				functionHideModel()
+				$("#overlay1").show();
+				setTimeout(function(){
+					$("#overlay1").hide();
+					if(typeof dataTable !== typeof undefined) dataTable.ajax.reload(null, false);
+					if(response.status && response.message) notice(response.status,response.message);
+				},1000)
+			}else{
+				// notice(response.status,response.message);
+				stopTextLoadingInPopUP(btnId);
+			}
+		});
+	});
+</script>

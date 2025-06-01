@@ -1,0 +1,64 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.product.add_product"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					<form id="add-product" data-submit-btn-id="product-add-btn-id" method="post" class="on_click_submit" role="form" enctype="mutlipart/form-data">
+						<!-- Tab panes -->
+							
+                        <div class="tab-content mt-20">			
+                            <div class="row clearfix">
+                                <div class="col-sm-12 align-center">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label for="product_video" class="control-label">Select Video<span class="required"> * </span> : </label>
+                                            <input type="file" id="profile_image" class="form-control jfilestyle" name="product_video"  data-input="false" />
+                                            <input type="hidden" name="product_id" value="''">
+                                        </div>
+                                        <span id="product_video_error" class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="button" id="testimonial-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>        
+<script type="text/javascript">
+
+    /**
+     * Function to submit form
+     */
+    $('.btn-submit').click(function(){
+        var btnId = $(this).attr('id');
+        startTextLoading(btnId);
+        submit_multipart_form('add-product',function(status,response){
+            if(status){
+                window.location.href = response.redirect_url;
+            }else{
+                stopTextLoading(btnId);
+            }
+        });
+    });
+
+
+</script>

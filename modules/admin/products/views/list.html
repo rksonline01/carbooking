@@ -1,0 +1,417 @@
+<%
+	var imagePath 		= (typeof image_path !== typeof undefined && image_path)	?	image_path 	:"";
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id"
+								data-parent="#panel-group-id" href="#panel-collapse-id" aria-expanded="false"
+								aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm" name="searchForm" >
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									 
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="product_title"  placeholder="<%= __("admin.product.search_by_product_title"); %>" name="product_title">
+											</div>
+										</div>
+									</div>
+									<!-- Search by Date Range -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" name="search_by_registration_date"  placeholder="<%= __("admin.product.search_by_created_date"); %>">
+											</div>
+											<input class="form-control" id="from_date" type="hidden" name="from_date">
+											<input class="form-control" id="to_date" type="hidden" name="to_date">
+										</div>
+									</div>
+									
+									<!-- Search by status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="status_search" name="status" >
+													<option value=""><%=__("admin.user.search_by_status");%></option>
+													<%
+													if(typeof ACTIVE_DEACTIVE_DROPDOWN!== typeof undefined && ACTIVE_DEACTIVE_DROPDOWN.length > 0){
+														ACTIVE_DEACTIVE_DROPDOWN.map(searchStatus=>{%>
+															<option value="<%=searchStatus.status_id%>"><%=__(searchStatus.status_name)%></option>
+													<% 	});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                        <button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+											<%= __("admin.system.submit")%>
+										</button>
+										<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+"products"%>">
+											<%= __("admin.system.reset")%>
+										</button>
+									</div>
+									
+								</div>	
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.product.product_management"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+                            <a href="<%=admin_list_url%>/add">
+								<button type="button" class="btn bg-pink waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="15%"><%= __("admin.product.main_image_name"); %></th>
+								<th><%= __("admin.product.product_title"); %></th>
+								<th><%= __("admin.product.quantity"); %></th>
+								<th><%= __("admin.system.status"); %></th>
+								<th><%= __("admin.system.created"); %> </th>
+								<th><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="stockManageModel" tabindex="-1" role="dialog" style="display: none;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">
+						<%= __('admin.system.quantity')%>
+					</h4>
+				</div>
+				<form id="add-edit-stock" data-submit-btn-id="add-edit-stock-btn-id" action="<%= admin_list_url %>/stock_manage" method="post" role="form">
+					<div class="modal-body">
+						<div class="row clearfix">
+
+							<input type="hidden"  class="product_id" id="product_id"name="product_id">
+
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="quantity" class="control-label">
+											<%= __('admin.system.quantity'); %><span class="required"> *</span>
+										</label>
+										<input class="form-control show-tick" id="quantity"
+											name="quantity">
+									</div>
+									<span id="quantity_error" class="error"></span>
+								</div>
+							</div>
+
+							<div class="col-xs-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="quantity" class="control-label">
+											<%= __('admin.system.action'); %><span class="required"> *</span>
+										</label>
+										<select class="form-control show-tick" id="action" name="action" >
+											<option value=""><%=__("admin.user.please_select_action");%></option>
+											<%
+											if(typeof STOCK_ACTION_TYPE!== typeof undefined && STOCK_ACTION_TYPE.length > 0){
+												STOCK_ACTION_TYPE.map(data=>{%>
+													<option value="<%=data.key%>"><%=__(data.value)%></option>
+											<% 	});
+											} %>
+										</select>
+									</div>
+									<span id="action_error" class="error"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="add-edit-stock-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit"
+							<%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i>
+							<%= __("admin.system.submit"); %>
+						</button>
+						<button type="button" class="btn bg-blue-grey btn-sm waves-effect"
+							data-bs-dismiss="modal">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+
+
+
+
+
+
+</div>
+
+<%- contentFor("css") %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable 	="";
+		$(document).ready(function() {
+
+			
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: 	[[ 1, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{ 
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imageHtml	=	"";
+							var id 			=	(result._id)				? 	result._id 				:'';
+							let productImage 	= 	(result.main_image_name) ? 	result.main_image_name 	:"";
+							var imageUrl 		= 	'<%=PRODUCT_URL%>';
+						
+
+							if(productImage){
+								imageHtml+= "<a href='"+imageUrl+""+productImage+"' class='items-image' data-lightbox='roadtrip'><img src='"+imageUrl+""+productImage+"?dim=100x100&type=resize'></a>";
+							}else{
+								imageHtml += "<img src='"+imageUrl+"?dim=100x100&type=resize' class='img-thumbnail' alt='Profile Image'/>";
+							}
+
+							return imageHtml;
+						}
+					},
+					{ 
+						"data"			: {},
+						"field_name"	: "product_title",
+						render : function(result){
+							return result.product_title;
+						} 
+					},
+					{ 
+						"data"			: {},
+						"field_name"	: "quantity",
+						render : function(result){
+							var rquantity	=	(result.quantity)	?	result.quantity		: "<%= DEACTIVE %>";
+							return rquantity;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"searchable"	: false,
+						"render": function(result){
+							var status 		= (result && result.is_active)		?	result.is_active		: "<%= DEACTIVE %>";	/** Active Status **/
+							var isSold 		= (result && result.is_sold)		?	result.is_sold			: "<%= DEACTIVE %>";
+							var quantity 	= (result && result.quantity)		?	result.quantity			: "<%= DEACTIVE %>";
+
+							var statusTab	= "";
+							if(status == '<%=ACTIVE%>'){
+								statusTab	+= '<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.active")%></span><br>';
+							}
+
+							if(status == '<%=DEACTIVE%>'){
+								statusTab	+= '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.inactive")%></span><br>';
+							}
+ 	
+							return statusTab;
+						}
+					},
+					{
+						"data"		 : 'created',
+						"searchable" : 	true,
+						"orderable"	 :   false,
+						"render" 	 : 	function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){	
+							var id 				= 	(result._id)		?	result._id				: "";
+							/** Active or Inactive Status **/
+							var status			=	(result.is_active)	?	result.is_active		: "<%= DEACTIVE %>";
+							 
+							var isSold 			= 	(result.is_sold)	?	result.is_sold			: "<%= DEACTIVE %>";
+							var isExpired 		= 	(result.is_expired)	?	result.is_expired		: "<%= DEACTIVE %>";
+
+							var statusConfirmMsg =	"<%= __('admin.product.do_you_want_to_change_status'); %>" ;
+							var statusLinkTitle =	(status =='<%= DEACTIVE %>') 	?  	"<%= __('admin.system.activate'); %>"  : "<%= __('admin.system.deactivate'); %>" ;
+							var statusLinkIcon  =	(status == '<%= DEACTIVE %>') 	?	"done"	: "block";
+
+							  
+							var dropDownButton 	=	''+
+							'<div class="btn-group m-l-5 m-t-5">'+	
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'+
+									'<%= __("admin.system.action"); %>'+
+									'<span class="caret"></span>'+
+								'</button>'+	
+								'<ul class="dropdown-menu min-width-190">'+
+									/**Edit Link**/
+									'<li>'+
+										'<a href="<%=admin_list_url%>/edit/'+id+'" class="waves-effect waves-block">'+
+											'<i class="material-icons">edit</i>'+
+											'<%= __("admin.system.edit"); %>'+
+										'</a>'+
+									'</li>'+
+
+									
+									 
+									/** View Link **/
+									'<li>'+
+										'<a href="<%=admin_list_url%>/view/'+id+'" class="waves-effect waves-block">'+
+											'<i class="material-icons">find_in_page</i>'+
+											'<%= __("admin.system.view"); %>'+
+										'</a>'+
+									'</li>'+
+
+
+
+									/** stock manage **/
+									'<li>'+
+									  '<a href="javascript:void(0)" class="waves-effect waves-block stock_manage" onclick="stockManageModel(this)" data-id="'+id+'"><i class="material-icons">edit</i> <%= __("admin.system.stock_manage"); %></a>'+
+									'</li>';
+								
+										/** Active ro Inactive Status ***/
+										dropDownButton 	+= '<li>'+
+											'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/update_product_status/'+id+'/'+status+'" class=" waves-effect waves-block confirm_box" data-confirm-message="'+statusConfirmMsg+'" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+statusLinkTitle+'">'+
+												'<i class="material-icons">'+statusLinkIcon+'</i>'+
+												statusLinkTitle+
+											'</a>'+
+										'</li>';
+										  
+								dropDownButton 	+= '</ul>'+	
+							'</div>';
+							return dropDownButton;
+						}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>",
+					type	: 	"POST",
+					data	: 	function (d) {
+						d.product_title = $("#product_title").val();
+						d.from_date = $("#from_date").val();
+						d.to_date = $("#to_date").val();
+						d.status_search = $("#status_search").val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});				
+		});
+
+		function stockManageModel(element) {	
+			var productId = $(element).attr('data-id');			
+             console.log(productId); 
+            $('#product_id').val(productId);
+			$('#stockManageModel').modal('show');
+		   };
+
+		
+		/**
+		* Search
+		*
+		* @param  null
+		*
+		* @return void
+		*/
+
+		$("#submit_btn").click(function(){
+			dataTable.draw();
+		})
+
+
+
+		/**
+		 * Function to submit form
+		 */
+		 $('.btn-submit').click(function(){		
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			ajax_submit('add-edit-stock',function(status,response){
+				if(status){
+				stopTextLoadingInPopUP(btnId);
+				functionHideModel()
+				$("#overlay1").show();
+				setTimeout(function(){
+					$("#overlay1").hide();
+					if(typeof dataTable !== typeof undefined) dataTable.ajax.reload(null, false);
+					if(response.status && response.message) notice(response.status,response.message);
+				},1000);
+				window.location.reload();
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+
+
+
+
+	</script>
+	<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

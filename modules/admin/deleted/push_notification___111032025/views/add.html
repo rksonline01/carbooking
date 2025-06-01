@@ -1,0 +1,216 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.add'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+				<!-- Multilanguage tabs -->
+						<%- include ('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					
+					<form id="add-push_notification" data-submit-btn-id="push-notification-edit-btn-id" method="post" class="on_click_submit" role="form" autocomplete="off" >
+					<div class="tab-content mt-20">	
+						<div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-line selected_user_ids valid_location_div">
+                                        <label for="selected_user_ids" class="control-label"><%= __('admin.push_notification.select_users'); %> <span class="required">(Note : <%= __('admin.system.please_search_by_email'); %>)</span></label>
+                                        <select id="selected_user_ids" name="selected_user_ids" multiple="true" class="form-control selectpicker with-ajax js-example-data-ajax" data-live-search="true" title="<%=__('admin.push_notification.please_select_users');%>">
+                                            
+                                        </select>
+                                    </div>
+                                    <span id="selected_user_ids_error" class="error" ></span>
+                                </div>
+                            </div>
+						</div>
+
+						<select class="js-data-example-ajax" data-live-search="true" onkeypress="getUserList()">
+						</select>
+
+						<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ %>
+				<% language_list.forEach(function(languages){ %>
+					<% 
+						languageId 		= (languages._id) ?  languages._id : '';
+						languageCode 	= (languages.lang_code) ?  languages.lang_code : '';
+					%>
+					<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade_lang in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "active" : ""; %>" id="multi_lang_<%= languageCode; %>">
+						
+						<div class="row clearfix">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<div class="form-line">
+										<label for="message" class="control-label">
+										<%= __("admin.push_notification.message"); %>
+										<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+											<span class="required"> * </span>:
+										<% } %> 
+										:</label>
+										<input type="hidden" name="notification_descriptions[<%= languageCode %>][language_id]" value="<%= languageId; %>"/>
+													
+										<textarea rows="4"  id="message_<%= languageId; %>" class="form-control no-resize"   name="notification_descriptions[<%= languageCode %>][message]"   ></textarea>
+										<!-- <textarea rows="4"  id="message" class="form-control no-resize ckeditor"  name="message"></textarea> -->
+									</div>
+									<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+										<span id="notification_descriptions_<%=languageCode %>_message_error" class="error"></span>
+									<% } %>
+													
+									
+								</div>
+							</div>
+						</div>
+					</div>
+					<% }); %>
+					<% } %>
+					</div>	
+						<button type="button"  id="push-notification-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<%- contentFor("script") %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	
+	<!-- <script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script> -->
+
+	<script type="text/javascript">
+		
+		// <!-- CKEDITOR.replace('description', { -->
+	    //  	<!-- filebrowserUploadUrl: '<%= WEBSITE_ADMIN_URL%>ckeditor_uploader/', -->
+		// <!-- }); -->
+		
+		
+       
+	
+		$(document).ready(function(){
+		   
+			/**
+			 * Function to submit form
+			 */
+			$(".btn-submit").click(function(){
+				var btnId = $(this).attr("id");
+				startTextLoading(btnId);
+				ajax_submit("add-push_notification",function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						stopTextLoading(btnId);
+					}
+				});
+			});	
+			getUserList()
+		});
+
+
+		let addedValues = [];
+        function getUserList(){
+
+			$(".js-example-data-ajax").select2({				
+
+				ajax: {
+					url: "<%=admin_list_url%>/get_user_list_type_wise",
+					contentType: 'application/json',
+					dataType: 'json',
+					delay:100,
+					data: function (params) {
+						return {
+							q: params.term, // search term
+							page: params.page
+						};
+					},
+					processResults: function (data, params) {
+					// parse the results into the format expected by Select2
+					// since we are using custom formatting functions we do not need to
+					// alter the remote JSON data, except to indicate that infinite
+					// scrolling can be used
+					params.page = params.page || 1;
+
+					return {
+						results: data.result
+					};
+					},
+					cache: true
+				},
+				placeholder: 'Search for a repository',
+				minimumInputLength: 1,
+				templateResult: formatResult
+			});
+
+			function formatResult(result) {
+
+				return result.full_name;
+			};
+			
+			
+            /** 
+            **get user list type wise for ajax type 
+            ***
+		    // $(".selectpicker").selectpicker('destroy')
+            $(".selectpicker").selectpicker().ajaxSelectPicker({
+                ajax: {
+                    url: '<%=admin_list_url%>/get_user_list_type_wise',
+                    type: 'POST',
+                    dataType: 'json',
+                    data    : function() { // This is a function that is run on every request
+                        return {
+                            q       :   '{{{q}}}',
+                            user_type :   $("#user_type").val()//this is an input text HTML
+                        };
+                    }
+                
+                },
+				minLength: 3,
+				cache:false,
+				clearOnEmpty:true,
+                preprocessData: function (data) {
+					var dropdownList = (typeof data.result != typeof undefined && data.result) ? data.result : [];
+					var i, l = dropdownList.length, selectOptions = [], array= {};
+					
+                    if (l) {
+						
+                        for (i = 0; i < l; i++) {
+							
+							// if (addedValues.indexOf(dropdownList[i]._id) === -1) {
+								array = $.extend(true, data[i], {
+									text: dropdownList[i].full_name + " (" + dropdownList[i].email + ")",
+									value: dropdownList[i]._id,
+								});
+								// Push the new object to the options array and the tracking array
+								selectOptions.push(array);
+								addedValues.push(dropdownList[i]._id);
+							// }
+						
+                        }
+                    }
+
+                    return selectOptions;
+                }
+            });
+			$(".selectpicker").selectpicker('render')
+			// $(".selectpicker").selectpicker('destroy')*/
+			
+			
+        }
+
+		
+    </script>

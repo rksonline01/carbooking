@@ -1,0 +1,575 @@
+<%
+	var SearchType 		= (typeof type !== typeof undefined && type)	?	type 	:"";
+	var userId = (SearchType) ? SearchType.user_id : "";
+	var userType = (SearchType) ? SearchType.user_type : "";
+	
+%>
+<div class="container-fluid" id="main-container">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="#panel-collapse-id" aria-expanded="false" aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __('admin.system.search'); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm"  method="POST" name="searchForm" >
+							<input type="hidden" name="search_open" id="search_open" value="0">
+							<div class="panel-body">
+								<div class="row clearfix dataTables_wrapper">
+									<!-- Search by Order ID -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_0" placeholder="<%= __('admin.orders.search_by_order_number'); %>" name="order_number">
+											</div>
+										</div>
+									</div>
+									
+									<!-- Search by Order ID -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_1" placeholder="<%= __('admin.orders.search_by_customer_name'); %>" name="customer_name">
+											</div>
+										</div>
+									</div>
+									<!-- Search by car type  -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="booking_car_type" name="booking_car_type">
+													<option value=""><%=__("admin.system.search_by_car_type");%></option>
+													<%
+													if(typeof CAR_TYPE_DROPDOWN!== typeof undefined && CAR_TYPE_DROPDOWN.length > 0){
+														CAR_TYPE_DROPDOWN.map(item=>{%>
+
+																<option value="<%=item.key%>"><%=__(item.value)%></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- Search by duration -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="booking_duration" name="booking_duration">
+													<option value=""><%=__("admin.system.search_by_duration");%></option>
+													<%
+													if(typeof DURATION_TYPE_DROPDOWN!== typeof undefined && DURATION_TYPE_DROPDOWN.length > 0){
+														DURATION_TYPE_DROPDOWN.map(item=>{%>
+																<option value="<%=item.key%>"><%=__(item.value)%></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- Search by payment status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="payment_status" name="payment_status">
+													<option value=""><%=__("admin.system.search_payment_status");%></option>
+													<%
+													if(typeof PAYMENT_STATUS_DROPDOWN!== typeof undefined && PAYMENT_STATUS_DROPDOWN.length > 0){
+														PAYMENT_STATUS_DROPDOWN.map(item=>{%>
+																<option value="<%=item.key%>"><%=__(item.value)%></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- Search by booking status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="status" name="status">
+													<option value=""><%=__("admin.system.search_booking_status");%></option>
+													<%
+													if(typeof BOOKING_STATUS_DROPDOWN!== typeof undefined && BOOKING_STATUS_DROPDOWN.length > 0){
+														BOOKING_STATUS_DROPDOWN.map(item=>{%>
+																<option value="<%=item.key%>"><%=__(item.value)%></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- Search by Order status -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="order_status" name="order_status">
+													<option value=""><%=__("admin.system.search_order_status");%></option>
+													<%
+													if(typeof ORDER_STATUS_DROPDOWN!== typeof undefined && ORDER_STATUS_DROPDOWN.length > 0){
+														ORDER_STATUS_DROPDOWN.map(item=>{%>
+																<option value="<%=item.key%>"><%=__(item.value)%></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									<!-- Search by Booking From -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="booking_from" name="booking_from">
+													<option value=""><%=__("admin.system.search_booking_from");%></option>
+													<%
+													if(typeof BOOKING_FROM_DROPDOWN!== typeof undefined && Object.keys(BOOKING_FROM_DROPDOWN).length > 0){
+														Object.keys(BOOKING_FROM_DROPDOWN).map(item=>{%>
+																<option value="<%=item%>"><%= BOOKING_FROM_DROPDOWN[item] %></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+ 
+									<!-- Search by Booking Date Range -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="date-range-picker" name="registration_date"  placeholder="<%= __('admin.order.search_by_booking_date'); %>">
+											</div>
+											<input class="form-control hide" id="from_date" type="hidden" name="from_date">
+											<input class="form-control hide" id="to_date" type="hidden" name="to_date">
+										</div>
+									</div>
+
+									<!-- Search by city -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_2" placeholder="<%= __('admin.orders.search_by_city_name'); %>" name="city_name">
+											</div>
+										</div>
+									</div>
+
+									<!-- Search by provider -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<input class="form-control" id="column_filter_3" placeholder="<%= __('admin.orders.search_by_provider_name'); %>" name="provider_name">
+											</div>
+										</div>
+									</div>
+
+								 
+									<!-- Search by service area -->
+									<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+										<div class="form-group">
+											<div class="form-line">
+												<select class="form-control show-tick search_by_status" id="booking_area_id" name="booking_area_id">
+													<option value=""><%=__("admin.system.search_by_service_area");%></option>
+													<%
+													if(typeof areaListResult!== typeof undefined && areaListResult.length > 0){
+														areaListResult.map(item=>{%>
+																<option value="<%=item._id%>"><%=__(item.title)%></option>
+															<%
+														});
+													} %>
+												</select>
+											</div>
+										</div>
+									</div>
+									 
+									
+								</div>
+								<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+									<button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+										<%= __("admin.system.submit")%>
+									</button>
+									<button type="button" id="reset" class="btn btn-sm waves-effect bg-brown" data-href="<%=admin_list_url%>">
+										<%= __("admin.system.reset")%>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%-__("admin.orders.orders_management"); %>
+					</h2>
+					<% if (typeof user_id !== "undefined" && user_id) { %>
+						<!-- Inline User Details -->
+						<%- include ("../../elements/customer_info_details.html") %>
+					<% } %>
+					
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+                        <!-- <li>
+							<a href="<%=admin_list_url%>/add" >
+								<button type="button" class="btn bg-indigo waves-effect" id="addUser">
+									<i class="material-icons font-14">add</i> <%= __("vendor.orders.add_product") %>
+								</button>
+							</a>
+						</li> -->
+
+						<%if(userId && userType){%>
+							<li>
+								<a href="<%=WEBSITE_ADMIN_FILES_URL+'users/'+userType%>/view/<%=userId%>">
+									<button type="button" class="btn bg-indigo waves-effect">
+										<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+									</button>
+								</a>
+							</li>
+						<%}%>
+						
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border full-length-header hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="15%"><%= __('admin.orders.order_number'); %></th>
+								<th width="10%"><%= __('admin.orders.customer_name'); %></th>
+								<th width="5%"><%= __('admin.orders.provider_name'); %></th>
+								<th width="7%"><%= __('admin.orders.total_price')%></th>
+								<th width="10%"><%= __('admin.package.car_type'); %> / <%= __('admin.package.duration'); %></th>
+								<th width="15%"><%= __('admin.system.status'); %></th>
+								<th width="10%"><%= __('admin.system.delivery_date'); %></th>
+								<th width="10%"><%= __('admin.system.created'); %></th>
+								<th width="5%"><%= __('admin.system.action'); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+
+	<script type="text/javascript">
+	
+		var optionMaxDate = false;
+	
+		// $(".show-tick").select2();
+
+		var PRODUCT_URL	=	<%- JSON.stringify(PRODUCT_URL);%>;
+		/**
+		* Function to initialize datatable and get server side data
+		*/
+		var dataTable 	= "";
+		$(document).ready(function() {
+			
+			let timeoutId = setTimeout(function() {
+			  location.reload();
+			}, 30000);
+			
+
+			dataTable = $('#datatable-listing').DataTable({
+				"bStateSave"	: true,
+				"fnStateSave"	: function (oSettings, oData) {
+					localStorage.setItem( 'DataTables', JSON.stringify(oData) );
+				},
+				"fnStateLoad"	: function (oSettings) {
+					return JSON.parse( localStorage.getItem('DataTables'));
+				},
+				"order"		: [[7, "desc" ]],
+				"sDom"		: "ltipr",
+				"lengthMenu": PAGING_LENGTH_MENU,
+				"serverSide": true,
+				"scrollX"	: true,
+				"language"		: {
+					"url"		: "<%=DATABLE_LANG_CDN%>",
+				},
+				"columns"	: [
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"render"		: function(result){
+							
+							var returnString	= 	(result.order_number) ? '<a href="<%=admin_list_url%>/view/'+result._id+'" class="">'+ result.order_number +
+										'</a>' : 'N/A';						
+
+
+
+							returnString +=	'<br/>';
+							returnString +=	'<%=__("admin.system.booking_service")%>:';
+							if(result.is_service_booking){
+								returnString +=	'<%= __("admin.system.yes")%>';
+							}
+							else {
+								returnString +=	'<%= __("admin.system.no")%>';
+							}
+							
+							returnString +=	'<br/>';
+							returnString +=	'<%=__("admin.system.is_store_order")%>:';
+							if(result.is_store_order){
+								returnString +=	'<%= __("admin.system.yes")%>';
+							}
+							else {
+								returnString +=	'<%= __("admin.system.no")%>';
+							}
+							return returnString;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"	: false,
+						"render"		: function(result){
+							var returnString	= 	(result.customer_name) + "<br/>" + (result.customer_phone);
+							return returnString;
+						}
+					},
+					{
+						"data" 		: {},
+						"orderable"	: false,
+						"render": function(result){
+							if((result.provider_name) && (result.provider_mobile_number)){
+								var returnString	= 	(result.provider_name) + "<br/>" + (result.provider_mobile_number);
+								return returnString;
+							}else{
+								var returnString	= 	"N/A";
+							return returnString;
+							}							
+
+						}
+					},
+					{
+						"data" 		: "total_selling_amount",
+						"orderable"	: false,
+						"render"	: function(total_selling_amount){
+							total_selling_amount = total_selling_amount || 0;
+							return currencyFormat(total_selling_amount);
+						}
+					},
+					{
+						"data"		: {},
+						"orderable"	: false,
+						"render"	: function(result){
+
+							var returnString	= 	'';
+							if(result.is_service_booking){
+								if(result.booking_car_type){
+								var carObject 	= 	<%- JSON.stringify(CAR_TYPE_DROPDOWN) %>;
+								const carType = carObject.find(item => item.key == result.booking_car_type);
+								returnString	+= 	carType.value;
+							}							
+							returnString	+= 	'<br/>';
+							if(result.booking_duration){
+								var durationObject 	= 	<%- JSON.stringify(DURATION_TYPE_DROPDOWN) %>;
+								const durationType = durationObject.find(item => item.key == result.booking_duration);
+								returnString	+= 	durationType.value;
+							}
+							} else {
+								returnString +=	'N/A';
+							}							
+							
+							return returnString;
+						}
+					},
+					
+					
+					 
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"render"		: function(result){
+							let orderStatus 	= result.order_status 	|| 0;
+							let paymentStatus 	= result.payment_status || 0;
+							let bookingStatus 	= result.status || 0;
+								
+							var statusTab	=	'Order Status:'	
+							statusTab	+= (orderStatus == '<%=ORDER_PLACED%>')	? '<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.placed")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.pending")%></span>';
+							
+							
+							var paymenTab	= "Payment Status:";
+							if(paymentStatus == '<%=PAYMENT_UNPAID%>'){
+								paymenTab += `<span class="label label-success color-red m-l-5 m-t-5"><%=__("admin.system.payment_unpaid")%></span>`;
+							}else if(paymentStatus == '<%=PAYMENT_PAID%>'){
+								paymenTab += `<span class="label label-success  m-l-5 m-t-5"><%=__("admin.system.payment_paid")%></span>`;
+
+							}else if(paymentStatus == '<%=PAYMENT_FAIL%>'){
+								paymenTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.payment_failed")%></span>`;
+							}else if(paymentStatus == '<%=PAYMENT_PARTIAL%>'){
+								paymenTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.payment_partial")%></span>`;
+							}else if(paymentStatus == '<%=PAYMENT_PREPAID%>'){
+								paymenTab += `<span class="label label-success  m-l-5 m-t-5"><%=__("admin.system.payment_prepaid")%></span>`;
+							}
+							
+							
+							
+							var bookingStatusTab = "Booking Status:";
+							if(bookingStatus == '<%=BOOKING_STATUS_NEW%>'){
+								bookingStatusTab += `<span class="label label-success  color-yellow m-l-5 m-t-5"><%=__("admin.system.booking_new")%></span>`;
+							}else if(bookingStatus == '<%=BOOKING_STATUS_ACCEPTED%>'){
+								bookingStatusTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_accepted")%></span>`;
+							}else if(bookingStatus == '<%=BOOKING_STATUS_GO_TO_LOCATION%>'){
+								bookingStatusTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.go_to_location")%></span>`;
+							}else if(bookingStatus == '<%=BOOKING_STATUS_REACHED_LOCATION%>'){
+								bookingStatusTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.reached_on_location")%></span>`;
+							}else if(bookingStatus == '<%=BOOKING_STATUS_SERVICE_STARTED%>'){
+								bookingStatusTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.service_started")%></span>`;
+							}else if(bookingStatus == '<%=BOOKING_STATUS_SERVICE_FINISHED%>'){
+								bookingStatusTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.service_finished")%></span>`;
+							}else if(bookingStatus == '<%=BOOKING_STATUS_COMPLETED%>'){
+								bookingStatusTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_completed")%></span>`;
+							}else if(bookingStatus == '<%=BOOKING_STATUS_CANCELLED%>'){
+								bookingStatusTab += `<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.booking_cancelled")%></span>`;
+							}
+							
+							return statusTab +" <br>"+ paymenTab+" <br>"+ bookingStatusTab;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"render"		: function(result){
+							if(result.booking_date && result.booking_time){
+								return result.booking_date+" "+result.booking_time;
+							}
+							else {
+								return 'N/A';
+							}
+						
+						}
+					},
+					{
+						"data"	 : 'created',
+						"render" : function(created){
+							return moment(created).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"searchable"	: false,
+						"render" 		: function(result){
+							var id 				= result._id			 || "";
+							var status			= result.is_active		 || "<%=DEACTIVE%>";
+							var orderId 		= result.unique_order_id || "";
+							var userId		    = result.user_id 	     || "";
+							var orderStaus		= result.order_status    || "";
+
+							/** Status Link Label And Class **/
+							var statusLinkText  = (status == "<%= DEACTIVE %>") ? "<%= __('admin.system.active'); %>"			 :"<%= __('admin.system.deactive'); %>" ;
+							var statusLinkTitle = (status == "<%= DEACTIVE %>") ? "<%= __('admin.system.click_to_activate'); %>" :"<%= __('admin.system.click_to_deactivate'); %>" ;
+							var statusLinkIcon  = (status == "<%= DEACTIVE %>") ? "done"	: "block";
+
+							var dropDownButton 	=	''+
+							'<div class="dropdown btn-group open m-l-5 m-t-5">'+
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"  aria-expanded="false">'+
+									'<%= __("admin.system.action"); %>'+
+									' <span class="caret"></span>'+
+								'</button>'+
+								'<ul class="dropdown-menu min-width-190">'+
+									/** Edit Link **/
+									// '<li>'+
+									// 	'<a href="<%=admin_list_url%>/edit/'+id+'" class="dropdown-item waves-effect waves-block">'+
+									// 		'<i class="material-icons">mode_edit</i>'+
+									// 		'<%= __("admin.system.edit"); %>'+
+									// 	'</a>'+
+									// '</li>'+
+									/** View Link **/
+									'<li>'+
+										'<a href="<%=admin_list_url%>/view/'+id+'" class="dropdown-item waves-effect waves-block">'+
+											'<i class="material-icons">find_in_page</i>'+
+											'<%= __("admin.system.view"); %>'+
+										'</a>'+
+									'</li>';
+									/** Change Status **/
+									// '<li>'+
+									// 	'<a  href="<%=admin_list_url%>" data-action-url="<%=admin_list_url%>/change_status/'+id+'/'+customerId+'/'+orderId+'" data-open-modal="true" class="action-btn waves-effect waves-block">'+
+									// 		'<i class="material-icons">change_circle</i>'+
+									// 		' <%= __("admin.system.change_status"); %>'+
+									// 	'</a>'+
+									// '</li>'+
+									/** Delivery partner Assign **/
+									// '<li>'+
+									// 	'<a  href="<%=admin_list_url%>" data-action-url="<%=admin_list_url%>/assign_delivery_partner/'+id+'" data-open-modal="true" class="action-btn waves-effect waves-block">'+
+									// 		'<i class="material-icons">change_circle</i>'+
+									// 		' <%= __("admin.system.partner_assign"); %>'+
+									// 	'</a>'+
+									// '</li>';
+									/** Status Link  **/
+									// '<li>'+
+									// 	'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/update-status/'+id+'/'+status+'" class=" waves-effect waves-block confirm_box" data-confirm-message="<%= __("vendor.orders.you_want_to_change_product_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+statusLinkTitle+'">'+
+									// 		'<i class="material-icons">'+statusLinkIcon+'</i>'+
+									// 		statusLinkText+
+									// 	'</a>'+
+									// '</li>'
+
+								dropDownButton +='</ul> </div>';
+							
+							return dropDownButton;
+						}
+					},
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>?user_id=<%=userId%>&user_type=<%=userType%>",
+					type	: 	"POST",
+					data	: 	function (d) {
+						var formdata =  JSON.parse(JSON.stringify($("#searchForm").serializeArray()))
+						d.search_data = formdata
+					},
+					dataSrc	: function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});
+
+
+		});
+
+		$("#submit_btn").click(function(){
+			dataTable.draw();
+		})
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query);
+		}//end searchDatatable()
+
+		
+
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>
+<script type="text/javascript" src="<%= WEBSITE_ADMIN_JS_PAGE_PATH %>date_range_picker/config.js"></script>

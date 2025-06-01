@@ -1,0 +1,152 @@
+<%
+	var result				= (typeof result !== typeof undefined && result) 	? result				:{};
+	var status				= (result.status)									? result.status			:"";
+	var validityType		= (result.validity_type)							? result.validity_type	:"";
+	var couponsUsed			= (result.coupons_used)								? result.coupons_used	:0;
+	var couponsCount		= (result.coupons_count)							? result.coupons_count	:0;
+	var statusTitle			= (PROMO_CODE_STATUS_DROPDOWN[result.status] && PROMO_CODE_STATUS_DROPDOWN[result.status]["title"])			? PROMO_CODE_STATUS_DROPDOWN[result.status]["title"] 		:"";
+	var statusLabelClass	= (PROMO_CODE_STATUS_DROPDOWN[result.status] && PROMO_CODE_STATUS_DROPDOWN[result.status]["label_class"])	? PROMO_CODE_STATUS_DROPDOWN[result.status]["label_class"]	:"";
+	var weekDays			= (result.week_days)							? result.week_days	:[];
+	var packageDetails		= (result.packageDetails)						? result.packageDetails	:[];
+	var subscriptionDetails	= (result.subscriptionDetails)					? result.subscriptionDetails	:[];
+	var categoryDetails		= (result.categoryDetails)						? result.categoryDetails	:[];
+
+
+	%>	
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('Promo code details');%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __('Back'); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0">
+						<tr>
+							<th class="text-right" width="30%"><%= __('Promo Code'); %></th>
+							<td><%= (result.promo_code) ? result.promo_code :'';%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('Description'); %></th>
+							<td><%= (result.code_description) ? result.code_description :'';%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('Validity'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.code_valid_from) ? result.code_valid_from : 'N/A';%>"></span> - <span class="setDateTimeFormat" data-date-time="<%= (result.code_valid_to) ? result.code_valid_to : 'N/A';%>"></span></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('Code Discount Type'); %></th>
+							<td><%= (result.code_discount_type) ? result.code_discount_type :'';%></td>
+						</tr>
+						<% if(result.code_discount_type == COUPON_DISCOUNT_TYPE_FIX){ %>
+						<tr>
+							<th class="text-right"><%= __('Minimum Order Amount'); %></th>
+							<td><%= (result.min_order_value) ? displayPrice(result.min_order_value) :'';%></td>	
+						</tr>
+						<% }else{ %>
+							<tr>
+								<th class="text-right"><%= __('Minimum Order Amount'); %></th>
+								<td><%= (result.min_order_value) ? displayPriceInPersent(result.min_order_value) :'';%></td>	
+							</tr>
+						<% } %>
+						<% if(result.code_discount_type == COUPON_DISCOUNT_TYPE_FIX){ %>
+						<tr>
+							<th class="text-right"><%= __('Discount Value'); %></th>
+							<td><%= (result.discount_value) ? displayPrice(result.discount_value) :'' %></td>
+						</tr>
+						<% }else{ %>
+							<tr>
+								<th class="text-right"><%= __('Discount Percent'); %></th>
+								<td><%= (result.discount_percent) ? displayPriceInPersent(result.discount_percent) :'' %></td>
+							</tr>
+							<tr>
+								<th class="text-right"><%= __('Maximum Discount Amount'); %></th>
+								<td><%= (result.max_discount_amount) ? result.max_discount_amount :'' %></td>
+							</tr>
+						<% } %>
+
+						<tr>
+							<th class="text-right"><%= __('Quantity'); %></th>
+							<td><%= (result.quantity) ? result.quantity :'N/A';%></td>
+						</tr>
+						<%if(weekDays.length >0){%>
+						<tr>
+							<th class="text-right"><%= __('Week Days'); %></th>
+							<td>
+								<%
+								let filteredValues = WEEK_DAYS_DROPDOWN.filter(day => weekDays.includes(day.key)).map(day => day.value);
+								%>
+								<span> <%= (filteredValues) ? filteredValues : 'N/A'; %> </span><br>
+							</td>
+						</tr>
+						<%}%>
+						<tr>
+							<th class="text-right"><%= __('Start Hours'); %></th>
+							<td><%= (result.start_hours) ? result.start_hours+":00" :'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('End Hours'); %></th>
+							<td><%= (result.end_hours) ? result.end_hours+":00" :'N/A';%></td>
+						</tr>
+						
+						<%if(categoryDetails.length > 0){%>
+							<tr>
+								<th class="text-right"><%= __('Category'); %></th>
+								<td>
+									<%categoryDetails.map(category => {%>
+										<span> <%= (category.category_name) ? category.category_name :'N/A';%></span><br>
+									<%})%>
+								</td>
+							</tr>
+						<%}%>
+
+						<%if(categoryDetails.length > 0){%>
+						<tr>
+							<th class="text-right"><%= __('Package'); %></th>
+							<td>
+								<%packageDetails.map(package => {%>
+									<span> <%= (package.package_name) ? package.package_name :'N/A';%></span><br>
+								<%})%>
+							</td>
+						</tr>
+						<%}%>
+						<%if(packageDetails.length > 0){%>
+						<tr>
+							<th class="text-right"><%= __('Subscription'); %></th>
+							<td>
+								<%subscriptionDetails.map(package => {%>
+								 <span> <%= (package.subscription_name) ? package.subscription_name :'N/A';%></span><br>
+								<%})%>
+							</td>
+						</tr>
+						<%}%>
+						<%if(result.cupon_type){%>
+						<tr>
+							<th class="text-right"><%= __('Coupun Type'); %></th>
+							<td>
+								<%
+								let couponName = CUPON_TYPE_DROPDOWN.filter(day => result.cupon_type == day.coupon_id).map(day => day.coupon_name);
+								%>
+								<span><%= __(couponName[0]); %></span><br>
+							
+							</td>
+						</tr>
+						<%}%>
+						<tr>
+							<th class="text-right"><%= __('Status'); %></th>
+							<td><label class="label <%-statusLabelClass%>"><%-statusTitle%></label></td>
+						</tr>						
+					 
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

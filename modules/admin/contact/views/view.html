@@ -1,0 +1,124 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.system.view'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive">
+					<table class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.contact.name'); %></th>
+							<td><%=(typeof result !== typeof undefined &&  result.name) ? result.name : 'N/A'%>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.contact.email'); %></th>
+							<td><%- (typeof result !== typeof undefined &&  result.email) ? '<a href="mailto:'+result.email+'">'+result.email+'</a>' : 'N/A'%>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.contact.phone'); %></th>
+							<td>
+								<%
+									var phoneNumber = 	(typeof result !== typeof undefined &&  result.phone)	?	result.phone	:"";
+								%>
+								<%=phoneNumber%>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.contact.details'); %></th>
+							<td><span><%-(typeof result !== typeof undefined &&  result.message) ? result.message : 'N/A'%></span>
+							</td>
+						</tr>
+						<% if(result.is_reply === ACTIVE) { %>	
+							<tr>
+								<th class="text-right"><%= __('admin.contact.reply_message_label'); %></th>
+								<td> <%=(typeof result !== typeof undefined &&  result.reply_message) ? result.reply_message : 'N/A'%> </td>	
+							</tr>
+						<% } %>	
+						<tr>
+							<th class="text-right"><%= __('admin.system.created'); %></th>
+							<td><span class="setDateTimeFormat"
+									data-date-time="<%= (typeof result !== typeof undefined &&  result.created) ? result.created : 'N/A';%>"></span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- contact reply form  -->
+<% if(result.is_reply === DEACTIVE) { %>
+	<div class="container-fluid" id="main-container">
+		<div class="row clearfix">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="card">
+					<div class="header">
+						<h2>
+							<%=__('admin.contact.Reply_message'); %>
+						</h2>					
+					</div>
+					<div class="body">
+						<form id="contact-reply" data-submit-btn-id="user-add-btn-id" method="post" class="on_click_submit" role="form" autocomplete="off">
+							
+											 
+						  <!--  reply message -->
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="reply_message" class="control-label"><%= __('admin.contact.reply_message_value'); %> <span class="required"> *</span>:</label>
+										   <textarea rows="4" id="reply_message" class="form-control no-resize"  name="reply_message"></textarea>
+										</div>
+										<span id="reply_message_error" class="error"></span>
+									</div>
+								</div>							
+							</div>
+	
+	
+							
+							<button type="button"  id="user-add-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.contact.Reply_message'); %></button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<% } %>
+<script type="text/javascript">
+	$(document).ready(function(){
+		/**
+		 * Function to submit form
+		 */	
+		
+		$(".btn-submit").click(function(){
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);									
+			ajax_submit("contact-reply",function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+				}
+			});
+		});
+				
+
+ });
+	
+</script>

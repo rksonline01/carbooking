@@ -1,0 +1,120 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.area.assign_service_provider"); %> ( <%= (mapResult.title) ? mapResult.title : "" %> )
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>"><button type="button" class="btn bg-indigo waves-effect"><i
+										class="material-icons font-14">keyboard_backspace</i>
+									<%= __("admin.system.back"); %>
+								</button></a>
+						</li>
+					</ul>
+				</div>
+		
+
+
+
+				<div class="body">
+					<form id="assign-service-provider" data-submit-btn-id="user-add-btn-id" method="post"
+						class="on_click_submit" role="form">
+						<div class="row clearfix">
+							<div class="col-sm-6">
+								<!-- <div class="header">
+									<h2>
+										<%=__("admin.system.service_provider"); %>
+									</h2>
+								</div> -->
+								<% result.forEach(function(item, index) { var areaId1=(item.area_id) ? item.area_id : ""
+									; if(areaId1 !=area_id ){ %>
+									<div class="col-sm-12">
+										<div class="materialize_checkbox"><input id="checkall0_<%= index %>" name="service_provider_ids[]" value="<%= item._id%>" class="filled-in checkBox chk-col-green checkall0_<%= index %>"
+												type="checkbox"><label for="checkall0_<%= index %>">
+												<%= item.full_name %> (<%= item.email %>)
+											</label>
+										</div>
+									</div>
+									<% } }); %>
+							</div>
+
+							<div class="col-sm-6">
+								<!-- <div class="header">
+									<h2>
+										<%=__("admin.system.service_provider"); %>
+									</h2>
+								</div> -->
+								<% result.forEach(function(provider, index) { 
+									var providerAreaId=(provider.area_id) ?
+									provider.area_id : "" ; 
+									if(providerAreaId==area_id){ %>
+									<div class="col-sm-12">
+										<div class="materialize_checkbox"><input id="checkall00_<%= index %>" name="service_provider_ids[]" value="<%= provider._id %>"  class="filled-in checkBox chk-col-green checkall00_<%= index %>"
+												type="checkbox" checked><label for="checkall00_<%= index %>">
+												<%= provider.full_name %> (<%= provider.email %>) 
+											</label>
+										</div>
+									</div>
+									<% } }); %>
+							</div>
+						</div>
+
+                       <%if(result.length > 0) { %>
+						<button type="button" id="user-add-btn-id" <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm
+							waves-effect btn-submit"><i class="material-icons font-14">save</i>
+							<%= __("admin.system.submit"); %>
+						</button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button"
+								class="btn bg-blue-grey btn-sm waves-effect"><i
+									class="material-icons font-14">refresh</i>
+								<%= __("admin.system.reset"); %>
+							</button></a>
+							<% } else { %>
+								<div class="row clearfix">
+									<div class="col-sm-2">
+								<%= __("admin.system.service_provider_not_available"); %>
+							</div>
+						</div>
+								<% } %>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%- contentFor("script") %>
+
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				/**
+				 * Function to submit form
+				 */
+
+				$(".btn-submit").click(function () {
+
+					var btnId = $(this).attr("id");
+					startTextLoading(btnId);
+					ajax_submit("assign-service-provider", function (status, response) {
+						if (status) {
+							window.location.href = response.redirect_url;
+						} else {
+							stopTextLoading(btnId);
+						}
+					});
+				});
+
+
+
+
+
+			});
+
+
+
+
+		</script>

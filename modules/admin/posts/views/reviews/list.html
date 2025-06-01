@@ -1,0 +1,316 @@
+<%
+	var statusType 		= (typeof status_type !== typeof undefined && status_type)	?	status_type :"";
+	var imagePath 		= (typeof image_path !== typeof undefined && image_path)	?	image_path 	:"";
+%>
+
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id" href="javascript:void(0)" aria-expanded="false"
+							   aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i> <%= __("admin.system.search"); %>
+								<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<div class="panel-body">
+							<div class="row clearfix dataTables_wrapper">
+								<!-- Search by reviews -->
+								<div class="col-xs-12 col-md-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_5"  onkeyup="searchDatatable(5)" placeholder="<%= __('admin.posts.search_by_review'); %>">
+										</div>
+									</div>
+								</div>
+								<!-- Search by Status -->
+								<div class="col-xs-12 col-md-4">
+									<div class="form-group"> 
+										<div class="form-line">
+											<select class="form-control show-tick search_by_status" id="column_filter_status" name="status">
+												<option value=""><%=__("admin.user.search_by_status");%></option>
+												<%
+													if(typeof ACTIVE_DEACTIVE_STATUS_SEARCH_DROPDOWN!== typeof undefined && ACTIVE_DEACTIVE_STATUS_SEARCH_DROPDOWN.length > 0){
+														ACTIVE_DEACTIVE_STATUS_SEARCH_DROPDOWN.map(searchStatus=>{
+															%>
+															<option value="<%=searchStatus.status_id%>"><%=searchStatus.status_name%></option>
+													<% 	});
+												} %>
+											</select>
+											<input class="form-control hide" value="" id="status_search" type="text">
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-4">
+									<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger" data-href="<%=WEBSITE_ADMIN_URL+'posts/reviews' %>">
+										<%= __("admin.system.reset")%>
+									</button>
+								</div>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.posts.reviews_management"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">						
+						<!--<li>
+							<a href="<%=admin_list_url%>/reviews/add" class="m-l-10">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.posts.add_review"); %>
+								</button>
+							</a>
+						</li>-->
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="5%"><%= __("admin.system.sno"); %></th>
+								<th width="10%"><%= __("admin.ads.main_image_name"); %></th>
+								<th width="15%"><%= __("admin.posts.post_title"); %></th>
+								<th width="15%"><%= __("admin.posts.user_email"); %></th>
+								<th width="15%"><%= __("admin.posts.user_name"); %></th>
+								<th width="15%"><%= __("admin.posts.review"); %></th>
+								<th width="15%"><%= __('Rating'); %></th>
+								<th width="10%"><%= __("admin.system.status"); %></th>
+								<th width="15%"><%= __("admin.system.modified"); %></th>
+								<th width="10%"><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor('css') %>
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+	<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+
+<%- contentFor("script") %>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+	<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>jquery.raty/js/jquery.raty.min.js"></script>
+
+	<script type="text/javascript">		
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"order"		: 	[[ 8, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"orderable"		:   false,
+						//"searchable"	: 	false,	
+						"data": "id",
+						render: function (data, type, row, meta) {
+							return meta.row + meta.settings._iDisplayStart + 1;
+						}
+					},
+					{ 
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var imageHtml	=	"";
+							let isNoImage 	= 	(result.is_noimage)					? 	result.is_noimage 				:"<%= DEACTIVE %>";
+							var imagePath	=	(result['<%=IMAGE_FIELD_NAME%>']) 	? 	result['<%=IMAGE_FIELD_NAME%>'] :'';
+							console.log(isNoImage)
+							if( isNoImage == "<%= ACTIVE %>" ){
+								return "<img src='"+imagePath+"?dim=150x100&type=resize' class='img-thumbnail' alt='Profile Image'/>";
+							}
+							else{
+								var id 			=	(result._id)				? 	result._id 				:'';
+								imageName		=	(result.main_image_name)	? 	result.main_image_name 	:'';
+								return "<a href='<%=imagePath['image_url_original']%>"+imageName+"'  class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imagePath+"?dim=150x100&type=resize' class='img-thumbnail'  alt='Product Image'/></a>";
+							}
+						}
+					},
+					{ 
+						"data"		: 'productDetails',
+						"orderable"	:   false, 
+					},
+					{ 
+						"data"		: {},
+						"orderable"	:   false,
+						"render" 	: 	function(result){
+							return (result.email)	?	result.email	:	'N/A' ;
+						}
+					},
+					{ 
+						"data"		: {},
+						"orderable"	:   false,
+						"render" 	: 	function(result){
+							return (result.full_name) ? result.full_name.replace(/\w/, c => c.toUpperCase()) : 'N/A' ;
+						}
+					},
+					{ 
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	true,
+						"field_name"	:	"review",
+						"render" 		: 	function(result){
+							return (result.review)	?	result.review	:	'N/A' ;
+						}
+					},
+					{
+						"data" 		: {},
+						"orderable"	: false,
+						"render" 	: function(result){			
+										
+							let rating 	= result.rating ? result.rating : 0 ;						 						
+							return '<div class="click" id="click_'+result._id+'" data-rating="'+rating+'"></div>';
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,					
+						"render": function(result){
+							var status 	= 	(result && result.status)	?	result.status	:"";
+							var is_approved = 	(result && result.is_approved)	?	result.is_approved	:"";
+							
+							/** Active Status **/
+							var statusTab	 = 	(status == "<%=ACTIVE%>")  		? 	'<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.active")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.deactive")%></span>';
+							statusTab		+=	'<br/>';
+
+							/** Approved **/
+							statusTab	+= 	(is_approved == "<%=ACTIVE%>")  ? 	'<span class="label label-success m-l-5 m-t-5"><%=__("admin.system.approved")%></span>': '<span class="label label-danger m-l-5 m-t-5"><%=__("admin.system.unapproved")%></span>';
+							statusTab		+=	'<br/>';
+
+							return statusTab;
+						}
+					},
+					{
+						"data"			: 	'modified',
+						"searchable"	: 	false,
+						"render" 		: 	function(modified){
+							return moment(modified).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: {},
+						"orderable"		: false,
+						"searchable"	: false,
+						"render" 		: function(result){
+							var id 			= (result._id)			? result._id			: "";
+							var status		= (result.status)		? result.status			: "<%=DEACTIVE%>";
+							var approved	= (result.is_approved)	? result.is_approved	: "<%=DEACTIVE%>";
+							
+							/** Status Link Label And Class **/
+							var statusLinkText  =	(status == '<%= DEACTIVE %>') ?	"<%= __('admin.system.activate'); %>"  : "<%= __('admin.system.deactivate'); %>" ;
+							var statusLinkTitle =	(status == '<%= DEACTIVE %>') ? "<%= __('admin.system.click_to_activate'); %>"  : "<%= __('admin.system.click_to_deactivate'); %>" ;
+							var statusLinkIcon  =	(status == '<%= DEACTIVE %>') ?	"done"	: "block";
+						
+							var dropDownButton 	=	''+
+							'<div class="btn-group m-l-5 m-t-5">'+
+								'<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">'+
+									'<%= __("admin.system.action"); %>'+
+									' <span class="caret"></span>'+
+								'</button>'+
+								'<ul class="dropdown-menu min-width-190">'+
+									/** Edit Link **/
+									'<li>'+
+										'<a href="<%=admin_list_url%>/reviews/edit/'+id+'" class="waves-effect waves-block">'+
+											'<i class="material-icons">mode_edit</i>'+
+											'<%= __("admin.system.edit"); %>'+
+										'</a>'+
+									'</li>'+
+									/** Status Link  **/
+									'<li>'+
+										'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/reviews/update_review_status/'+id+'/'+status+'/<%=ACTIVE_INACTIVE_STATUS%>" class=" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_change_status","review"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="'+statusLinkTitle+'">'+
+											'<i class="material-icons">'+statusLinkIcon+'</i>'+
+											statusLinkText+
+										'</a>'+
+									'</li>'+''
+									// /** Delete Link **/
+									// '<li>'+
+									// 	'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/reviews/delete/'+id+'" class="waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.posts.you_want_to_delete_this_review"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>">'+
+									// 		'<i class="material-icons">delete_sweep</i>'+
+									// 		' <%= __("admin.system.delete"); %>'+
+									// 	'</a>'+
+									// '</li>';
+									if( approved == "<%=DEACTIVE%>" ){
+										/** approve review Link **/
+										dropDownButton 	+= '<li>'+
+											'<a href="javascript:void(0)" data-href="<%=admin_list_url%>/reviews/apprve_review/'+id+'" class=" waves-effect waves-block confirm_box" data-confirm-message="<%= __("admin.user.do_you_want_to_approve_this_review"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="<%= __("admin.system.click_to_apprve"); %>">'+
+												'<i class="material-icons">done</i>'+
+												'<%=__("admin.system.approve")%>'+
+											'</a>'+
+										'</li>';
+									}
+								dropDownButton 	+= '</ul>'+
+							'</div>';
+							return dropDownButton;
+						}
+					},
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>/reviews",
+					type	: 	"POST",
+					data	: 	function (d) {
+				        d.status_search	= 	$('#status_search').val();
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": ratingView
+
+			});
+		});
+
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw();
+		}//end searchDatatable()
+		
+			
+		/** Search by status*/
+		$("#column_filter_status").change(function(){
+			var selectBoxValue = $(this).val();
+			$("#status_search").val(selectBoxValue);
+			dataTable.draw();
+		});
+
+
+		var ratingView = function(){
+			$('.click').each(function(){
+				var startValue = $(this).attr("data-rating");
+				//alert(startValue);
+				var ratingId = $(this).attr("id");
+				$("#"+ratingId).raty({
+					
+					half:     true,
+					readOnly	: true,
+					start : startValue,
+					path : '<%= WEBSITE_ADMIN_JS_PLUGIN_PATH %>jquery.raty/img',
+				});
+			});
+		}//end rating()
+		
+		
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

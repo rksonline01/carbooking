@@ -1,0 +1,134 @@
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.country.add_country'); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+						<%- include ('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					<form id="add-country" data-submit-btn-id="banner-edit-btn-id" method="post" class="on_click_submit" role="form" >						
+						<div class="tab-content mt-20">
+							<div class="row clearfix">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="country_iso_code" class="control-label"><%= __('admin.country.country_iso_code'); %><span class="required"> *</span> :</label>
+											<input name="country_iso_code" id="country_iso_code" type="text" class="form-control"/>
+										</div>
+										<span id="country_iso_code_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="country_code" class="control-label"><%= __('admin.country.country_dial_code'); %><span class="required"></span> :</label>
+											<input name="country_code" id="country_code" type="text" class="form-control"/>
+										</div>
+										<span id="country_code_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+										<span class="float-right">
+											<b><%= __('admin.system.these_fields_are_same_in_all_languages'); %></b>
+										</span>
+									<% } %>
+								</div>
+							</div>
+							<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ %>
+								
+								<% 
+								if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+									<div class="row clearfix seperator-line field-seperator"><hr/></div>
+								<% 
+								}
+								if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){ 
+									language_list.forEach(function(languages){ 
+										languageId 		= (languages._id) ?  languages._id : '';
+										languageCode 	= (languages.lang_code) ?  languages.lang_code : '';
+										%>
+										<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade_lang in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? 'active' : ''; %>" id="multi_lang_<%= languageCode; %>">
+											<div class="row clearfix">
+												<div class="col-sm-12">
+													<div class="form-group">
+														<div class="form-line">
+															<label for="body_<%= languageCode; %>" class="control-label">
+																<%= __('admin.country.country_name')%> 
+																<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																	<span class="required"> * </span>:
+																<% } %> 
+															</label>
+															<input type="hidden" name="pages_descriptions[<%= languageCode %>][language_id]" value="<%= languageId; %>"/>
+															<input type="text" name="pages_descriptions[<%=languageCode%>][country_name]"  id="name_<%= languageCode; %>" class="form-control"  />
+															
+														</div>
+														<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="pages_descriptions_<%=languageCode %>_country_name_error" class="error"></span>
+														<% } %>
+													</div>
+												</div>
+											</div>
+										</div>
+										<% 		
+									}); 
+								} 
+							} %>
+						</div>
+						<button type="button"  id="banner-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+<%- contentFor("script") %>
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			/**
+			 * Function to submit form
+			 */
+			/**
+		 * Function to submit form
+		 */
+			$('.btn-submit').click(function(){
+				var btnId = $(this).attr('id');
+				startTextLoading(btnId);
+				ajax_submit('add-country',function(status,response){
+					if(status){
+						window.location.href = response.redirect_url;
+					}else{
+						changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+						stopTextLoading(btnId);
+					}
+				});
+			});
+			
+		
+		});
+	</script>
+
+
+
+

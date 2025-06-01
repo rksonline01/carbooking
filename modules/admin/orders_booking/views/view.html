@@ -1,0 +1,330 @@
+<%
+	let productUrl 				= 	(result.product_url) 		? 	result.product_url 			:"";
+	let packageUrl 				= 	(result.package_url) 		? 	result.package_url 			:"";
+	let subscriptionUrl 		= 	(result.subscription_url) 	? 	result.subscription_url 	:"";
+	let orderDetails 			= 	(result.order_details)      ?   result.order_details        :"";
+	let addressDetails 			= 	(result.address_detail)      ?   result.address_detail        :"";
+
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.orders.order_booking_details'); %></h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=WEBSITE_ADMIN_URL+'orders_booking'%>" class="wave-effect">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+
+						</li>
+
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<div class="row clearfix">
+						<%if(orderDetails && Object.keys(orderDetails).length > 0){%>
+						<div class="col-sm-6">
+						<%}else{%>
+						<div class="col-sm-12">
+						<%}%>
+						
+							<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.booking_number'); %></th>
+									<td><%= result.booking_number || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.booking_date'); %></th>
+									<td><%= result.booking_date || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.booking_time'); %></th>
+									<td><%= result.booking_time || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.car_type'); %></th>
+									<%
+									let carType = CAR_TYPE_DROPDOWN.find(item => item.key == result.booking_car_type);
+									%>
+									<td><%= carType.value || 'N/A';%></td>
+								</tr>
+								
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.duration'); %></th>
+									<%
+									let duration = DURATION_TYPE_DROPDOWN.find(item => item.key == result.booking_duration);
+									%>
+									<td><%= duration.value || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.price'); %></th>
+									<td><%= (result.booking_price) ? displayPrice(result.booking_price) :'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.system.created'); %></th>
+									<td>
+										<span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created :'DD/MM/YYYY';%>"></span>
+									</td>
+								</tr>
+								
+							</table>
+
+						</div>
+						<%if(orderDetails && Object.keys(orderDetails).length > 0){%>
+						<div class="col-sm-6">
+							<h6><%= __('admin.orders.order_details'); %></h6>
+							<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.order_number'); %></th>
+									<td><%= (orderDetails) ? orderDetails.order_number : 'N/A'; %></td>
+								</tr>
+							
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.item_count'); %></th>
+									<td><%= (orderDetails) ?  orderDetails.item_count : 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.total_quantity'); %></th>
+									<td><%= (orderDetails) ?  orderDetails.total_quantity :'N/A';%></td>
+								</tr>
+								
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.total_selling_amount'); %></th>
+									<td><%= (orderDetails) ? displayPrice(orderDetails.total_selling_amount) : 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.total_product_discount'); %></th>
+									<td><%= (orderDetails) ? orderDetails.total_product_discount :'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.total_extra_discount'); %></th>
+									<td><%= (orderDetails) ? orderDetails.total_extra_discount :'N/A';%></td>
+								</tr>
+							</table>
+						</div>
+						<%}%>
+
+						<% if(addressDetails && Object.keys(addressDetails).length > 0){%>
+						<div class="col-sm-12">
+							<h6><%= __('admin.orders.address_details'); %></h6>
+							<table  class="row-border hover table table-bordered" cellspacing="0" width="100%"> %>
+							
+							<tr><th class="text-right"><label for="full_name" class="control-label"><%= __('admin.orders.customer_name'); %></th>
+	
+								<td><%=(typeof addressDetails.full_name !== typeof undefined)	? addressDetails.full_name	: 'N/A';%></td>
+							</tr>
+							
+							<tr>
+								<th class="text-right"><%= __('admin.user.phone_number'); %></th>
+								<td><%= (typeof addressDetails.mobile_number !== typeof undefined) ? addressDetails.mobile_number :"N/A";%></td>
+							</tr>
+						
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.user.zip_code'); %></th>
+								<td colspan="3"><%= (addressDetails.zip_code) ? addressDetails.zip_code :'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.user.country'); %></th>
+								<td colspan="3"><%= (addressDetails.country_name) ? addressDetails.country_name :'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.country.state_name'); %></th>
+								<td colspan="3"><%= (addressDetails.state_name) ? addressDetails.state_name :'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.country.city'); %></th>
+								<td colspan="3"><%= (addressDetails.city_name) ? addressDetails.city_name :'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.user.address_line_1'); %></th>
+								<td colspan="3"><%= (addressDetails.address_line_1) ? addressDetails.address_line_1 :'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.user.address_line_2'); %></th>
+								<td colspan="3"><%= (addressDetails.address_line_2) ? addressDetails.address_line_2 :'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.user.latitude'); %></th>
+								<td colspan="3"><%= (addressDetails.latitude) ? addressDetails.latitude :'N/A';%></td>
+							</tr>
+							<tr>
+								<th class="text-right" width="20%"><%= __('admin.user.longitude'); %></th>
+								<td colspan="3"><%= (addressDetails.longitude) ? addressDetails.longitude :'N/A';%></td>
+							</tr>
+							</table>
+						</div>
+							
+						<%}%>
+					</div>
+					<div class="row clearfix">
+						<%if(result.package_details && Object.keys(result.package_details).length > 0){
+							var packageDetails = (result.package_details) ? result.package_details : {};
+							var packageImage =	(packageDetails.package_image) ? package_url+packageDetails.package_image :''; %>
+
+							%>
+						<div class="col-sm-12">
+							<h6><%= __('admin.orders.package_details'); %></h6>
+
+							<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.product.package_image'); %></th>
+									<td><a href ="<%=packageImage%>" class="items-image" data-lightbox = "roadtrip">
+											<div class="">
+												<img src="<%=packageImage%>" alt="icon" class='img-thumbnail' height="100px" width="100px"/>
+											</div>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.product.package_name'); %></th>
+									<td><%= packageDetails.package_name || 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.car_type'); %></th>
+									<%
+									let packageCarType = (packageDetails) ? CAR_TYPE_DROPDOWN.find(item => item.key == packageDetails.car_type) : "";
+									%>
+									<td><%= (packageCarType) ? packageCarType.value : 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.duration'); %></th>
+									<%
+									let packageDuration =  (packageDetails) ? DURATION_TYPE_DROPDOWN.find(item => item.key == packageDetails.duration) : "";
+									%>
+									<td><%= (packageDuration) ? packageDuration.value : 'N/A';%></td>
+								</tr>
+								<tr>
+									<th class="text-end" width="20%"><%= __('admin.orders.price'); %></th>
+									<td><%= (packageDetails.price) ? displayPrice(packageDetails.price) :'N/A';%></td>
+								</tr>
+							</table>
+
+						</div>
+						<%}%>
+
+						<%if (result.subscription_details && Object.keys(result.subscription_details).length > 0) {
+							var subscriptionDetails = (result.subscription_details) ? result.subscription_details : {};
+							var subscriptionImage =	(subscriptionDetails.subscription_image) ? subscription_url+subscriptionDetails.subscription_image :''; %>
+							%>
+
+							<div class="col-sm-12">
+								<h6><%= __('admin.orders.subscription_details'); %></h6>
+
+								<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.product.subscription_image'); %></th>
+										<td><a href ="<%=subscriptionImage%>" class="items-image" data-lightbox = "roadtrip">
+												<div class="">
+													<img src="<%=subscriptionImage%>" alt="icon" class='img-thumbnail' height="100px" width="100px"/>
+												</div>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.product.subscription_name'); %></th>
+										<td><%= subscriptionDetails.subscription_name || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.car_type'); %></th>
+										<%
+										let subsCarType = (subscriptionDetails) ? CAR_TYPE_DROPDOWN.find(item => item.key == subscriptionDetails.car_type) : "";
+										%>
+										<td><%= (subsCarType) ? subsCarType.value : 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.duration'); %></th>
+										<%
+										let subsDuration = (subscriptionDetails) ? DURATION_TYPE_DROPDOWN.find(item => item.key == subscriptionDetails.duration) : "";
+										%>
+										<td><%= (subsDuration) ? subsDuration.value : 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.price'); %></th>
+										<td><%= (subscriptionDetails.price) ? displayPrice(subscriptionDetails.price) :'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.subscription.total_service'); %></th>
+										<td><%= (subscriptionDetails.total_service) ? subscriptionDetails.total_service :'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.subscription.validity_period'); %></th>
+										<td><%= (subscriptionDetails.validity_period) ? subscriptionDetails.validity_period :'N/A';%></td>
+									</tr>
+								</table>
+							</div>
+
+						<%}%>
+
+						<%if (result.my_subscription_details && Object.keys(result.my_subscription_details).length > 0) {
+							var subscriptionDetails = (result.my_subscription_details) ? result.my_subscription_details : {};
+							var subscriptionImage =	(subscriptionDetails.subscription_image) ? subscription_url+subscriptionDetails.subscription_image :''; %>
+
+							%>
+
+							<div class="col-sm-12">
+								<h6><%= __('admin.orders.subscription_details'); %></h6>
+
+								<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.product.subscription_image'); %></th>
+											<td><a href ="<%=subscriptionImage%>" class="items-image" data-lightbox = "roadtrip">
+												<div class="">
+													<img src="<%=subscriptionImage%>" alt="icon" class='img-thumbnail' height="100px" width="100px"/>
+												</div>
+											</a></td>
+									</tr>
+									
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.product.subscription_name'); %></th>
+										<td><%= subscriptionDetails.subscription_name || 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.car_type'); %></th>
+										<%
+										let subsCarType = (subscriptionDetails) ? CAR_TYPE_DROPDOWN.find(item => item.key == subscriptionDetails.car_type) : "";
+										%>
+										<td><%= (subsCarType) ? subsCarType.value : 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.duration'); %></th>
+										<%
+										let subsDuration = (subscriptionDetails) ? DURATION_TYPE_DROPDOWN.find(item => item.key == subscriptionDetails.duration) : "";
+										%>
+										<td><%= (subsDuration) ? subsDuration.value : 'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.orders.price'); %></th>
+										<td><%= (subscriptionDetails.price) ? displayPrice(subscriptionDetails.price) :'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.subscription.total_service'); %></th>
+										<td><%= (subscriptionDetails.total_service) ? subscriptionDetails.total_service :'N/A';%></td>
+									</tr>
+									<tr>
+										<th class="text-end" width="20%"><%= __('admin.subscription.validity_period'); %></th>
+										<td><%= (subscriptionDetails.validity_period) ? subscriptionDetails.validity_period :'N/A';%></td>
+									</tr>
+								</table>
+
+							</div>
+
+						<%}%>
+					</div>
+					
+					
+				</div>
+			
+			</div>
+		</div>
+	</div>
+</div>
+
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>

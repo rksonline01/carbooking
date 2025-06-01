@@ -1,0 +1,38 @@
+<!-- Start modal accept return request -->
+<div class="modal fade" id="assign-attribute-modal-box" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header ">
+				<h4 class="modal-title" id="largeModalLabel"><%= __('admin.category.assign_attribute'); %></h4>						
+			</div>
+            <hr/>
+			<div class="modal-body">
+               					
+				<div class="body">
+                    <form id="assign_attribute"  method="post" class="on_click_submit" action="<%= admin_list_url%>/assign_attribute" role="form">
+                        <div class="tab-content mt-20">
+                            <div class="row clearfix">
+                                <input type="hidden" id="categoryId" name="categoryId" value="" />
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <label for="attribute" class="control-label"><%= __('admin.category.select_attribute'); %> :</label>
+                                    <select  id="attribute" data-bs-live-search="true" class="form-control show-tick" name="attribute[]" multiple>
+                                        
+                                    </select>
+                                </div>
+                                <span id="attribute_error" class="error"></span>
+                            </div>
+                        </div>
+                        
+                    </form>	
+                  
+                </div>
+                <hr/>
+                <button type="button" id="accept-return-request-btn-id" class="btn bg-pink btn-sm waves-effect no_hover btn-assign-attribute"  ><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+                <button type="button" data-bs-dismiss="modal" class="no_hover btn bg-brown btn-sm waves-effect'"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button>
+			</div>
+		</div>				
+	</div>
+</div>
+<!-- End modal accept return request -->

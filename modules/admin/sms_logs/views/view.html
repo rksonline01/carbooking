@@ -1,0 +1,45 @@
+<%
+ var result = (typeof result !== typeof undefined) ? result :{};
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __('admin.sms_logs.details');%>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0">
+						<tr>
+							<th class="text-right" width="25%"><%= __('admin.sms_logs.user_name'); %></th>
+							<td><%=(result.user_name)  ? result.user_name :""; %></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.sms_logs.mobile_number'); %></th>
+							<td><%=(result.mobile_number)  ? result.mobile_number :""; %></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.sms_logs.message'); %></th>
+							<td><%=(result.message)  ? result.message :""; %></td>
+						</tr>
+						<tr>
+							<th class="text-right"  ><%= __('admin.system.created'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.created) ? result.created : 'N/A';%>"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

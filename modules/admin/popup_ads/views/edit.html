@@ -1,0 +1,410 @@
+
+<%
+	let start_time = result.start_time;
+	let end_time = result.end_time;
+%>
+
+
+
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.slider.edit_slider"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" >
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<!-- Multilanguage tabs -->
+					<%- include('../../elements/multilanguage_tabs.html') %>
+					<!-- Multilanguage tabs -->
+					<form id="edit-screen" data-submit-btn-id="screen-edit-btn-id" method="post" class="on_click_submit" role="form" enctype="mutlipart/form-data">		
+						
+						<div class="tab-content mt-20">			
+							<div class="row clearfix">
+								<div class="col-sm-12 align-center">
+									<div class="form-group add-image">
+										<% 
+										var oldImage	= 	(result.image)		? result.image			:''; 
+										var sliderImage	= 	(slider_image)		? slider_image			:ADD_PROFILE_IMAGE_ICON; 
+                                        var imageURL		= (image_url)		? image_url			    : "";
+										%>	
+										<input name="old_image" id="old_image" type="hidden" class="form-control"  value="<%=oldImage %>"/>
+										<input name="image" id="splash_image" class="form-control image-input-file" type="file"/>
+										<span class="help-inline required image" id="ContentTypeNameSpan">
+											<div id="pImage">
+												<img src="<%=imageURL%><%=sliderImage%>?dim=120x120&type=resize" alt="Splash screen image" class="profileImage" />
+											</div>
+										</span>
+										<br/>
+										<div>
+											<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="<%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>" class="btn bg-teal btn-block btn-sm waves-effect changePhoto">
+												<%= __("admin.banner.upload_image"); %>
+											</a>
+										</div>
+										<span id="image_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="order_number" class="control-label">
+												<%= __("admin.popup_ads.popup_ads_order_number"); %>
+												<span class="required"> * </span>:
+											</label> 
+											<input type="text" id="order_number" class="form-control" name="order_number" value="<%= result.order_number; %>"/>
+										</div>
+										<span id="order_number_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+							
+							<%
+							if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){
+								language_list.forEach(function(languages){
+									languageId 		= (languages._id) 		?  	languages._id 		:"";
+									languageCode 	= (languages.lang_code) ?	languages.lang_code :"";
+									title 		= (result.pages_descriptions && result.pages_descriptions[languageCode] && result.pages_descriptions[languageCode]['title']) ? result.pages_descriptions[languageCode]['title'] :"";
+									
+									content 	= (result.pages_descriptions && result.pages_descriptions[languageCode] && result.pages_descriptions[languageCode]['content']) ? result.pages_descriptions[languageCode]['content'] :"";
+
+									call_to_action 		= (result.pages_descriptions && result.pages_descriptions[languageCode] && result.pages_descriptions[languageCode]['call_to_action']) ? result.pages_descriptions[languageCode]['call_to_action'] :"";
+
+									%>
+
+								<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade_lang in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "active" : ""; %>" id="multi_lang_<%= languageCode; %>">
+									<div class="row clearfix">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="title_<%= languageCode; %>" class="control-label">
+														<%= __("admin.popup_ads.popup_ads_title"); %>
+														<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span class="required"> *</span>
+														<% } %> :
+													</label>
+													<input type="hidden" name="pages_descriptions[<%= languageCode %>][language_id]" value="<%= languageId; %>"/>
+													<input type="text" id="title_<%= languageCode; %>" class="form-control" name="pages_descriptions[<%=languageCode%>][title]" value="<%=title%>"/>
+												</div>
+												<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+													<span id="pages_descriptions_<%=languageCode %>_title_error" class="error"></span>
+												<% } %>
+											</div>
+										</div>
+									</div>									
+								
+									<div class="row clearfix">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="content_<%= languageCode; %>" class="control-label">
+														<%= __("admin.popup_ads.content"); %>
+														<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span class="required"> *</span>
+														<% } %> :
+													</label>
+													<textarea rows="4"  id="content_<%= languageCode; %>" class="form-control no-resize ckeditor"  name="pages_descriptions[<%=languageCode%>][content]"><%-content%></textarea>
+												</div>
+												<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+													<span id="pages_descriptions_<%=languageCode %>_content_error" class="error"></span>
+												<% } %>
+											</div>
+										</div>
+									</div>
+
+									<div class="row clearfix">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<div class="form-line">
+													<label for="call_to_action_<%= languageCode; %>" class="control-label">
+														<%= __("admin.popup_ads.call_to_action"); %>
+														<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span class="required"> *</span>
+														<% } %> :
+													</label>
+													<input type="hidden" name="pages_descriptions[<%= languageCode %>][language_id]" value="<%= languageId; %>"/>
+													<input type="text" id="call_to_action_<%= languageCode; %>" class="form-control" name="pages_descriptions[<%=languageCode%>][call_to_action]" value="<%=call_to_action%>"/>
+												</div>
+												<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+													<span id="pages_descriptions_<%=languageCode %>_call_to_action_error" class="error"></span>
+												<% } %>
+											</div>
+										</div>
+									</div>
+							    </div>
+							<% 	});
+							} %>
+
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="redirect_link" class="control-label">
+												<%= __("admin.slider.redirect_link"); %> <span class="required"> * </span>:
+											</label> 
+											<input type="text" id="redirect_link" class="form-control" name="redirect_link" value="<%= result.redirect_link; %>"/>
+										</div>
+										<span id="redirect_link_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="start_time" class="control-label">
+												<%= __("admin.slider.start_time"); %> <span class="required"> * </span>:
+											</label> 
+											<input type="text" id="start_time" class="form-control" name="start_time" value="<%= start_time; %>"/>
+										</div>
+										<span id="start_time_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="end_time" class="control-label">
+												<%= __("admin.slider.end_time"); %> <span class="required"> * </span>:
+											</label> 
+											<input type="text" id="end_time" class="form-control" name="end_time" value="<%= end_time; %>"/>
+										</div>
+										<span id="end_time_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="row clearfix">
+								
+								
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="display_frequency" class="control-label"><%= __("admin.popup_ads.display_frequency"); %><span class="required"> *</span> :</label>
+											<select id="display_frequency" name="display_frequency" class="form-control show-tick">
+												<option value=""><%= __("admin.popup_ads.select_display_frequency"); %></option>
+												<% DISPLAY_FREQUENCY_DROPDOWN.map((code)=>{ %>	
+
+													<% if(code.key == result.display_frequency ) {%>
+														
+														<option value="<%= code.key %>" selected="selected"><%= __(code.value) %></option>
+													<% } else { %>	  
+														<option value="<%= code.key %>"><%= __(code.value) %></option>
+													<% } %>	
+													
+												<% }); %>
+											</select>
+										</div>
+										<span id="display_frequency_error" class="error"></span>
+									</div>
+								</div>	
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="status" class="control-label"><%= __("admin.slider.status"); %><span class="required"> *</span> :</label>
+											<select id="status" name="status" class="form-control show-tick">
+												<option value="">Select Status</option>
+												<% ACTIVE_DEACTIVE_DROPDOWN.map((status)=>{ %>
+													
+													<% if(status.status_id == result.is_active ) {%>
+														
+														<option value="<%= status.status_id %>" selected="selected"><%= __(status.status_name) %></option>
+													<% } else { %>	  
+														<option value="<%= status.status_id %>"><%= __(status.status_name) %></option>
+													<% } %>	
+
+
+												<% }); %>
+											</select>
+										</div>
+										<span id="status_error" class="error"></span>
+									</div>
+								</div>
+							</div>
+
+
+
+						</div>
+						<input name="default_value" id="default_value" class="form-control image-input-file" value="default_value" type="hidden"/>
+						
+						<button type="button"  id="banner-edit-btn-id"  <%- ADMIN_LOADING_TEXT %> class="btn bg-pink btn-sm waves-effect btn-submit"><i class="material-icons font-14">save</i> <%= __('admin.system.submit'); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.css">
+
+
+
+
+<%- contentFor("script") %>
+<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>daterange/daterangepicker.js"></script>
+
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>bootstrap-datetimepicker.css">
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>bootstrap-datetimepicker.min.js"></script>
+
+
+
+
+	<script type="text/javascript">
+		/**Hide common error message*/
+			$("div.alert-danger").hide();
+			
+			CKEDITOR.replace('content_<%= languageCode; %>', {
+	     	filebrowserUploadUrl: '<%= WEBSITE_ADMIN_URL%>ckeditor_uploader/',
+		});
+		/** Function to submit form
+		 */
+		 $(".btn-submit").click(function(){
+			updateCkeditorValue();
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			submit_multipart_form("edit-screen",function(status,response){					
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					stopTextLoading(btnId);
+					changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+
+					$("div.alert-danger").show();
+					
+					$('html, body').animate({
+						 scrollTop: ($('.error').offset().top)
+					}, 10);
+				}
+			});
+		});
+		
+		/** 
+		 * User image Upload 
+		 */
+		$(document).on("click", ".changePhoto", function(){
+			if(!$(".add-image #splash_image").hasClass("added")){
+				$(".add-image #splash_image").trigger("click");
+				$(".add-image #splash_image").addClass("added");
+				window.setTimeout(function(){
+					$(".add-image #splash_image").removeClass("added");
+				},500);
+			}
+		});
+		
+		/** 
+		 *Show user image after select 
+		 */
+		$("#splash_image").on("change", function(){
+			var UPLOAD_FILE_SIZE = '5';
+			var size 			= parseFloat($("#splash_image")[0].files[0].size).toFixed(2);
+			var allowed_size 	= UPLOAD_FILE_SIZE * 1024 * 1024; 
+			if(size > UPLOAD_FILE_SIZE * 1024 * 1024){					
+					$("#splash_image_error").html("Please upload valid size image. Maximum uploaded file size 2 MB.");
+					$('#splash_image').val('');
+			}else{
+			var files = !!this.files ? this.files : [];
+			if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+			
+				if (/^image/.test( files[0].type)){ 
+					// only image file
+					var reader = new FileReader(); // instance of the FileReader
+					reader.readAsDataURL(files[0]); // read the local file
+					reader.onloadend = function(){ 
+						
+						$("#pImage").html("<img src='"+this.result+"' class='profileImage' >");
+					}
+					$("span#splash_image_error").text("");
+				}
+			}				
+		});
+
+
+		$("#start_time").click(function() {
+				let validTo = $("#end_time").val();
+				if (validTo) {
+					let validToDate = moment(validTo, "YYYY-MM-DD HH:mm");
+					$("#start_time").data("DateTimePicker").maxDate(validToDate);
+				}
+		});
+
+		// Handle clicks on "Valid To"
+		$("#end_time").click(function() {
+			let validFrom = $("#start_time").val();
+			if (validFrom) {
+				let validFromDate = moment(validFrom, "YYYY-MM-DD HH:mm");
+				$("#end_time").data("DateTimePicker").minDate(validFromDate);
+			}
+		});
+
+
+
+
+		// Initialize the "Valid To" datepicker
+		var today = moment(); // Ensure 'today' is defined properly
+
+	$("#start_time").datetimepicker({
+			format: "YYYY-MM-DD HH:mm",
+			minDate: "<%= start_time %>",
+			ignoreReadonly: true,
+			useCurrent: false,
+			sideBySide: true // Ensures date and time picker show together
+		}).on("dp.show", function (e) {
+        $(".bootstrap-datetimepicker-widget").css("z-index", "99999"); // Ensure visibility above modal
+		
+		$(".bootstrap-datetimepicker-widget .btn[data-action='incrementHours']").html('<i class="material-icons font-14">keyboard_arrow_up</i> ');		
+		$(".bootstrap-datetimepicker-widget .btn[data-action='decrementHours']").html('<i class="material-icons font-14">keyboard_arrow_down</i> ');
+		$(".bootstrap-datetimepicker-widget .btn[data-action='incrementMinutes']").html('<i class="material-icons font-14">keyboard_arrow_up</i> ');
+		$(".bootstrap-datetimepicker-widget .btn[data-action='decrementMinutes']").html('<i class="material-icons font-14">keyboard_arrow_down</i> ')
+	});
+
+		$("#end_time").datetimepicker({
+			format: "YYYY-MM-DD HH:mm",
+			minDate: "<%= end_time %>",
+			ignoreReadonly: true,
+			useCurrent: false,
+			sideBySide: true // Ensures date and time picker show together
+		}).on("dp.show", function (e) {
+        $(".bootstrap-datetimepicker-widget").css("z-index", "99999"); // Ensure visibility above modal
+		
+		$(".bootstrap-datetimepicker-widget .btn[data-action='incrementHours']").html('<i class="material-icons font-14">keyboard_arrow_up</i> ');		
+		$(".bootstrap-datetimepicker-widget .btn[data-action='decrementHours']").html('<i class="material-icons font-14">keyboard_arrow_down</i> ');
+		$(".bootstrap-datetimepicker-widget .btn[data-action='incrementMinutes']").html('<i class="material-icons font-14">keyboard_arrow_up</i> ');
+		$(".bootstrap-datetimepicker-widget .btn[data-action='decrementMinutes']").html('<i class="material-icons font-14">keyboard_arrow_down</i> ')
+	});
+
+		// Set the date after initialization
+			var startTime = "<%= start_time %>"; ; 
+			var startTimeFormattedDate = moment(startTime, "DD/MM/YYYY hh:mm a").format("YYYY-MM-DD HH:mm");
+			if (startTimeFormattedDate && moment(startTimeFormattedDate, "YYYY-MM-DD HH:mm", true).isValid()) {
+				$("#start_time").datetimepicker("date", moment(startTimeFormattedDate, "YYYY-MM-DD HH:mm"));			
+			}
+
+			// Set the date after initialization
+			var endTime = "<%= end_time %>"; ; 
+			var endTimeFormattedDate = moment(endTime, "DD/MM/YYYY hh:mm a").format("YYYY-MM-DD HH:mm");
+			if (endTimeFormattedDate && moment(endTimeFormattedDate, "YYYY-MM-DD HH:mm", true).isValid()) {
+				$("#end_time").datetimepicker("date", moment(endTimeFormattedDate, "YYYY-MM-DD HH:mm"));				
+			}
+
+
+	</script>

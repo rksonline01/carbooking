@@ -1,0 +1,57 @@
+<%	var result	= (typeof result !== typeof undefined && result)	?	result		:{};
+	var faqId	= (typeof result._id !== typeof undefined)			? 	result._id	:"";
+
+
+%>
+<div class="container-fluid">
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2><%= __('admin.faq.faq_details'); %></h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+
+						<li>
+							<a href="<%=admin_list_url%>">
+								<button type="button" class="btn bg-indigo waves-effect">
+									<i class="material-icons font-14">keyboard_backspace</i> <%= __('admin.system.back'); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body table-responsive" id="aniimated-thumbnials">
+					<table  class="row-border hover table table-bordered" cellspacing="0" width="100%">
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.faq.question'); %></th>
+							<td><%= (result.question && result.question[DEFAULT_LANGUAGE_CODE]) ? result.question[DEFAULT_LANGUAGE_CODE] : 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('admin.faq.answer'); %></th>
+							<td><%- (result.answer && result.answer[DEFAULT_LANGUAGE_CODE]) ? ( result.answer[DEFAULT_LANGUAGE_CODE]) : 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.system.status'); %></th>
+							<td>
+								<%
+									var status 		= 	(typeof result !== typeof undefined && result.is_active) ? 	result.is_active :DEACTIVE;
+									var statusClass	=	(status	==	ACTIVE) ?	"label-success"				:"label-danger";
+									var satusText	=	(status	==	ACTIVE)	?	__('admin.system.active')	:__('admin.system.inactive');
+								%>
+								<span class="label <%= statusClass %>"><%= satusText %></span>
+							</td>
+						</tr>
+						<tr>
+							<th class="text-right" width="20%"><%= __('For User'); %></th>
+							<td><%- (result.user_type) ? toTitleCase(result.user_type) : 'N/A';%></td>
+						</tr>
+						<tr>
+							<th class="text-right"><%= __('admin.system.modified'); %></th>
+							<td><span class="setDateTimeFormat" data-date-time="<%= (result.modified) ? result.modified : 'N/A';%>"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

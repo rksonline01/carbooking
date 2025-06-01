@@ -1,0 +1,313 @@
+<%
+
+var imageURL = (image_url) ? image_url : "";
+
+%>
+<div class="container-fluid">
+	<!--Search Start -->
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="panel-group" id="panel-group-id" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-col-pink">
+					<div class="panel-heading" role="tab" id="panel-heading-id">
+						<h4 class="panel-title">
+							<a role="button" data-bs-toggle="collapse" data-target="#panel-collapse-id" data-parent="#panel-group-id"
+								href="#panel-collapse-id" aria-expanded="false" aria-controls="panel-collapse-id">
+								<i class="material-icons">search</i>
+								<%= __("admin.system.search"); %>
+									<span class="pull-right collapse-toggle-icon"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="panel-collapse-id" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="panel-heading-id">
+						<form id="searchForm"  name="searchForm">
+						<div class="panel-body">
+							<div class="row clearfix dataTables_wrapper">
+								<div class="col-xs-12 col-sm-4">
+									<div class="form-group">
+										<div class="form-line">
+											<input class="form-control" id="column_filter_2" name="package_name" placeholder="<%= __("admin.package.search_by_package_name"); %>">
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+									<div class="form-group"> 
+										<div class="form-line">
+											<select class="form-control show-tick" id="car_type"  name="car_type">
+												<option value=""><%=__("admin.master.search_by_car_type");%></option>
+												<%
+												if(CAR_TYPE_DROPDOWN && CAR_TYPE_DROPDOWN.length > 0){
+													CAR_TYPE_DROPDOWN.forEach(function(carType, index){%>
+														<option value="<%=carType.key%>"><%=__(carType.value);%></option>
+												<% 	});
+												} %>
+											</select>
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+									<div class="form-group"> 
+										<div class="form-line">
+											<select class="form-control show-tick" id="duration"  name="duration">
+												<option value=""><%=__("admin.master.search_by_duration");%></option>
+												<%
+												if(DURATION_TYPE_DROPDOWN && DURATION_TYPE_DROPDOWN.length > 0){
+													DURATION_TYPE_DROPDOWN.forEach(function(durationType,index){%>
+														<option value="<%=durationType.key%>"><%=__(durationType.value);%></option>
+												<% 	});
+												} %>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+									<div class="form-group"> 
+										<div class="form-line">
+											<select class="form-control show-tick"id="is_active"  name="is_active">
+												<option value=""><%=__("admin.master.search_by_status");%></option>
+												<%
+												if(ACTIVE_DEACTIVE_DROPDOWN && ACTIVE_DEACTIVE_DROPDOWN.length > 0){
+													ACTIVE_DEACTIVE_DROPDOWN.forEach(function(searchStatus,index){%>
+														<option value="<%=searchStatus.status_id%>"><%=__(searchStatus.status_name);%></option>
+												<% 	});
+												} %>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+									<div class="form-group"> 
+										<div class="form-line">
+											<select class="form-control show-tick" id="provider_type"  name="provider_type">
+												<option value=""><%=__("admin.master.search_by_provider");%></option>
+												<%Object.keys(SERVICE_PROVIDER_TYPE_DROPDOWN).map(key=>{%>
+													<option value="<%=key%>"><%=SERVICE_PROVIDER_TYPE_DROPDOWN[key]%></option>	
+												<%})%>
+											</select>
+										</div>
+									</div>
+								</div>
+
+
+							</div>
+
+
+							
+							
+							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+								<button type="button" id="submit_btn" class="btn btn-sm waves-effect btn-success">
+									<%= __("admin.system.submit")%>
+								</button>
+								<button type="button" id="reset" class="btn btn-sm waves-effect btn-danger"
+									data-href="<%=admin_list_url%>">
+									<%= __("admin.system.reset")%>
+								</button>
+							</div>
+								
+						</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Search End -->
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.package.package_management"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin visible-md visible-lg visible-sm">
+						<li>
+							<a href="<%=admin_list_url%>/add">
+								<button type="button" class="btn bg-pink waves-effect">
+									<i class="material-icons font-14">add</i> <%= __("admin.system.add"); %>
+								</button>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					<table id="datatable-listing" class="row-border hover table table-bordered cb-data-table" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th width="20%"><%= __("admin.product.package_image"); %></th>
+								<th width="20%"><%= __("admin.product.package_name"); %></th>
+								<th width="10%"><%= __("admin.package.car_type"); %></th>
+								<th width="10%"><%= __("admin.package.duration"); %></th>
+								<th width="10%"><%= __("admin.package.price"); %></th>
+								<th width="10%"><%= __("admin.package.provider_type"); %></th>
+								<th width="5%"><%= __("admin.system.status"); %></th>
+								<th width="15%"><%= __("admin.system.modified"); %> </th>
+								<th width="10%"><%= __("admin.system.action"); %></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("css") %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>lightbox.css">
+
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>lightbox.js"></script>
+
+	<script type="text/javascript">
+		/** Function to initialize datatable and get server side data*/
+		var dataTable ="";
+		$(document).ready(function() {
+			dataTable 	= 	$('#datatable-listing').DataTable({
+				"language"	: 	{
+					"url" 	:	"<%= DATABLE_LANG_CDN %>"
+				},
+				"order"		: 	[[ 2, "desc" ]],
+				"sDom"		:	"ltipr",
+				"serverSide": 	true,
+				"scrollX"	: 	true,
+				"lengthMenu":	PAGING_LENGTH_MENU,
+				"columns"	: 	[
+					{
+						"data"			: 	{},
+						"orderable"		:   false, 
+						"searchable"	:	false,
+						"render"		: 	function(result){
+							var id 			=	(result._id) 				? 	result._id 			 :"";
+							var image 		=	(result.package_image) 		? 	result.package_image :"";
+							var imgFullPath	=	('<%=imageURL%>' && image)  ?  "<%=imageURL%>"+image :"";
+							var imgHtml 	= 	"";
+							if(imgFullPath){
+								imgHtml = "<a href='"+imgFullPath+"'  class='items-image' data-lightbox='roadtrip"+id+"'><img src='"+imgFullPath+"' class='img-thumbnail'  alt='Profile Image' width='100px' height='100px'/></a>"
+							}
+							return imgHtml;
+						}
+					},
+
+					{ "data": 'package_name' },
+					{
+						"data"			: 	"car_type",
+						"orderable"		:   false,
+						"field_type"	:   "<%= NUMERIC_FIELD %>",
+						"field_name"	:   "car_type",
+						"render": function(car_type){
+
+							var carObject 	= 	<%- JSON.stringify(CAR_TYPE_DROPDOWN) %>;
+							const carType = carObject.find(item => item.key == car_type);
+							return  carType.value ;
+						}
+					},
+					{
+						"data"			: 	"duration",
+						"orderable"		:   false,
+						"field_type"	:   "<%= NUMERIC_FIELD %>",
+						"field_name"	:   "duration",
+						"render": function(duration){
+
+							var durationObject 	= 	<%- JSON.stringify(DURATION_TYPE_DROPDOWN) %>;
+							const durationType = durationObject.find(item => item.key == duration);
+							return  durationType.value ;
+						}
+					},
+					{
+						"data"		:	'price',
+						"render"	: 	function(price){
+							price = currencyFormat(price);
+							return price;
+						}
+					},
+					{
+						"data"			: 	"provider_type",
+						"orderable"		:   false,
+						"field_type"	:   "<%= NUMERIC_FIELD %>",
+						"field_name"	:   "provider_type",
+						"render": function(provider_type){
+							let providerObject 	= 	<%- JSON.stringify(SERVICE_PROVIDER_TYPE_DROPDOWN)  %>;
+							let provider 		= 	providerObject[provider_type];
+							return  provider ;
+						}
+					},
+					{
+						"data"			: 	"is_active",
+						"orderable"		:   false,
+						"field_type"	:   "<%= NUMERIC_FIELD %>",
+						"field_name"	:   "is_active",
+						"render": function(is_active){
+
+							var statusObject 	= 	<%- JSON.stringify(GLOBAL_STATUS_SEARCH_DROPDOWN) %>;
+							var statusClass		=	(statusObject[is_active] && statusObject[is_active]["label_class"]) ? statusObject[is_active]["label_class"] :"";
+							var statusLabel		=	(statusObject[is_active] && statusObject[is_active]["status_name"]) ? statusObject[is_active]["status_name"] :"";
+							return '<span class="label '+statusClass+'">'+statusLabel+'</span>';
+						}
+					},
+					{
+						"data"		 : 'modified',
+						"searchable" : 	false,
+						"render" 	 : 	function(modified){
+							return moment(modified).tz(DEFAULT_TIME_ZONE).format(DATATABLE_DATE_TIME_FORMAT) ;
+						}
+					},
+					{
+						"data"			: 	{},
+						"orderable"		:   false,
+						"searchable"	: 	false,
+						"render" 		: 	function(result){
+							var id 			=	(result._id)		? 	result._id 		 :'';
+							var status 		=	(result.is_active)	? 	result.is_active :'<%= DEACTIVE %>';
+
+							/** Status Link Text **/
+							var statusLinkText  	=	(status == '<%= DEACTIVE %>') ? 	"<%= __('admin.system.active'); %>"				:"<%= __('admin.system.deactive'); %>";
+							/** Status Link Title **/
+							var statusLinkTitle 	=	(status == '<%= DEACTIVE %>')	?  	"<%= __('admin.system.click_to_activate'); %>"  :"<%= __('admin.system.click_to_deactivate'); %>" ;
+							/** Status Link Icon **/
+							var statusLinkIcon  	=	(status == '<%= DEACTIVE %>') ?	"done"	: "block";
+							var statusLabel			= (status == "<%= DEACTIVE %>") ? 	"bg-success" : "bg-red";
+
+							return '<div class="multi-action"><button class="action-button" onclick="openActionButtons(this)"><span class="fa fa-ellipsis-h"></span></button><div class="actions">  <a href="<%=admin_list_url%>/edit/'+id+'" class="" title="<%= __("admin.text_setting.edit")%>"><button class="btn bg-teal btn-sm waves-effect action-tags"><i class="material-icons font-14">mode_edit</i></button></a> <a href="<%=admin_list_url%>/view/'+id+'" class="" title="<%= __("admin.text_setting.view")%>"><button class="btn bg-teal btn-sm waves-effect action-tags"><i class="material-icons font-14">find_in_page</i></button></a> <a href="javascript:void(0)" data-href="<%=admin_list_url%>/update_status/'+id+'/'+status+'" class="confirm_box" data-confirm-message="<%= __("admin.offers.do_you_want_to_change_status"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>"  title="'+statusLinkTitle+'"><button class="btn '+statusLabel+' btn-sm waves-effect action-tags"><i class="text-white material-icons font-14">'+statusLinkIcon+'</i></button></a><a href="javascript:void(0)" data-href="<%=admin_list_url%>/delete/'+id+'" class="confirm_box" data-confirm-message="<%= __("admin.package.you_want_to_delete"); %>" data-confirm-heading="<%= __("admin.system.are_you_sure") %>" title="<%= __("admin.text_setting.delete")%>"><button class="btn bg-red btn-sm waves-effect action-tags"><i class="material-icons font-14">delete</i></button></a></div></div>'
+	                	}
+					}
+				],
+				"ajax":{
+					url 	:	"<%=admin_list_url%>",
+					type	: 	"POST",
+					data: function (d) {
+						var formdata = JSON.parse(JSON.stringify($("#searchForm").serializeArray()))
+						d.search_data = formdata	
+					},
+					dataSrc	: 	function(res){
+						return res.data;
+					}
+				},
+				"drawCallback": function (settings) {
+					// Get the row count after the data is drawn
+					var rowCount = dataTable.rows().count();
+					// Log the row count to the console
+					if (rowCount < 4) {
+						$('#datatable-listing').addClass('setTableActionBtn');
+					} else {
+						$('#datatable-listing').removeClass('setTableActionBtn');
+					}
+            	}
+			});
+		});
+	
+		
+		$("#submit_btn").on('click', function () {
+			dataTable.draw();
+		});
+		
+		/** Javascript function to search datatable */
+		function searchDatatable(columnNumber){
+			var query= $('#column_filter_'+columnNumber).val();
+			dataTable.column(columnNumber).search(query).draw()
+		}//end searchDatatable()
+	</script>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>datatable_state_storage.js"></script>

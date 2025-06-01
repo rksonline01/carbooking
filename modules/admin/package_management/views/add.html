@@ -1,0 +1,384 @@
+
+<div class="container-fluid" id="main-container">
+	<div class="row clearfix" >
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="card">
+				<div class="header">
+					<h2>
+						<%= __("admin.package.add_package"); %>
+					</h2>
+					<ul class="header-dropdown m-r--5 btn-right-top-margin">
+						<li>
+							<a href="<%=admin_list_url%>" ><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">keyboard_backspace</i> <%= __("admin.system.back"); %></button></a>
+						</li>
+					</ul>
+				</div>
+				<div class="body">
+					
+					<form id="add-cms" data-submit-btn-id="cms-add-btn-id" method="post" class="on_click_submit" role="form">
+						<!-- Tab panes -->
+
+						
+						<div class="tab-content mt-20">
+							
+							<div class="row clearfix">
+								<div class="col-sm-6 align-center">
+									<div class="form-group add-image">
+										
+										<input name="package_image" id="splash_image" class="form-control image-input-file" type="file"/>
+										<span class="help-inline required image" id="ContentTypeNameSpan">
+											<div id="pImage">
+												<img src="<%=ADD_PROFILE_IMAGE_ICON%>?dim=120x120&type=crop" alt="image" class="profileImage" />
+											</div>
+										</span>
+										<br/>
+										<div>
+											<a href="javascript:void(0)" data-toggle="tooltip" data-placement="bottom" title="<%= __("admin.system.allowed_file_extension")+ALLOWED_IMAGE_EXTENSIONS%>" class="btn bg-teal btn-block btn-sm waves-effect changePhoto">
+												<%= __("admin.banner.upload_image"); %> <span class="required"> *</span>
+											</a>
+										</div>
+										<span id="package_image_error" class="error"></span>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div id="package_video_css" style="display:none"></div>
+									<div class="form-group">
+										<label for="image" class="control-label"><%= __("admin.banner.upload_video"); %> <span class="required"> * </span>: <a href="javascript:void(0)" data-toggle="tooltip" data-placement="right" title="<%= __("admin.system.video_extension_and_size_suggestion_message")+ALLOWED_VIDEO_EXTENSIONS.join(', ')%>">
+											<i class="fas fa-info-circle"></i>
+										</a></label>
+										<input type="file" name="package_video" id="package_video" class="jfilestyle form-control" data-input="false" data-text="<%= __('admin.file.choose_file') %>">
+										<span id="package_video_error" class="error"></span>
+									</div>
+									
+								</div>
+							</div>
+							
+							<div class="row clearfix">
+								  
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="car_type" class="control-label"><%= __('admin.package.car_type'); %><span class="required"> * </span> :</label>
+
+											<select class="form-control show-tick search_by_status" id="car_type" name="car_type">
+												<option value=""><%=__("admin.package.select_car_type");%></option>
+												
+												<%  if(typeof CAR_TYPE_DROPDOWN!== typeof undefined && CAR_TYPE_DROPDOWN.length > 0){
+													CAR_TYPE_DROPDOWN.map(searchStatus=>{%>
+															<option value="<%=searchStatus.key%>"  ><%=searchStatus.value%></option>
+													<% 	});
+												} %>
+											</select>
+										</div>
+										<span id="car_type_error" class="error"></span>
+									</div>
+								</div>
+
+
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="duration" class="control-label"><%= __('admin.package.duration'); %><span class="required"> * </span> :</label>
+
+											<select class="form-control show-tick search_by_status" id="duration" name="duration">
+												<option value=""><%=__("admin.package.select_duration");%></option>
+												
+												<%  if(typeof DURATION_TYPE_DROPDOWN!== typeof undefined && DURATION_TYPE_DROPDOWN.length > 0){
+													DURATION_TYPE_DROPDOWN.map(searchStatus=>{%>
+															<option value="<%=searchStatus.key%>"  ><%=searchStatus.value%></option>
+													<% 	});
+												} %>
+											</select>
+										</div>
+										<span id="duration_error" class="error"></span>
+									</div>
+								</div>
+
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="price" class="control-label">
+												<%= __("admin.package.price"); %> <span class="required"> * </span>:
+											</label> 
+											<input type="text" id="price" class="form-control" name="price"/>
+										</div>
+										<span id="price_error" class="error"></span>
+									</div>
+								</div>
+								
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="offer_price" class="control-label">
+												<%= __("admin.package.offer_price"); %> :
+											</label> 
+											<input type="text" id="offer_price" class="form-control" name="offer_price"/>
+										</div>
+										<span id="offer_price_error" class="error"></span>
+									</div>
+								</div>
+								
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="offer_type" class="control-label"><%= __('admin.package.offer_type'); %>:</label>
+
+											<select class="form-control show-tick" id="offer_type" name="offer_type">
+												<option value=""><%=__("admin.package.select_offer_type");%></option>
+												
+												<%  if(typeof PROMO_DISCOUNT_TYPE_DROPDOWN!== typeof undefined && PROMO_DISCOUNT_TYPE_DROPDOWN.length > 0){
+													PROMO_DISCOUNT_TYPE_DROPDOWN.map(searchStatus=>{%>
+															<option value="<%=searchStatus.id%>"  ><%=searchStatus.name%></option>
+													<% 	});
+												} %>
+											</select>
+										</div>
+										<span id="offer_type_error" class="error"></span>
+									</div>
+								</div>
+								
+								
+								<!--
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="travel_time" class="control-label"><%= __('admin.package.travel_time'); %><span class="required"> * </span> :</label>
+
+											<select class="form-control show-tick" id="travel_time" name="travel_time">
+												<option value=""><%=__("admin.package.select_travel_time");%></option>
+												
+												<%  if(typeof TRAVEL_TIME_DROPDOWN!== typeof undefined && TRAVEL_TIME_DROPDOWN.length > 0){
+													TRAVEL_TIME_DROPDOWN.map(searchStatus=>{%>
+															<option value="<%=searchStatus.key%>"  ><%=searchStatus.value%></option>
+													<% 	});
+												} %>
+											</select>
+										</div>
+										<span id="travel_time_error" class="error"></span>
+									</div>
+								</div>
+								-->
+								
+								<div class="col-sm-6">
+									<div class="form-group">
+										<!-- <div class="form-line"> -->
+											<label for="vat_included" class="control-label"><%= __("admin.package.vat"); %> :</label>
+											<br>
+											<input class="with-gap" id="vat_included" name="vat_included" type="checkbox" value="1"><label class="label_checkbox" for="vat_included"><%= __("admin.package.vat_included"); %></label>
+										<!-- </div> -->
+										<span id="gender_error" class="error"></span>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="form-line">
+											<label for="provider_type" class="control-label"><%= __("admin.user.provider_type"); %> <span class="required">*  </span>:</label>
+											<select class="form-control show-tick selectpicker search_by_status" data-dropup-auto="false" id="provider_type" name="provider_type" >
+												<option value=""><%= __("admin.user.select_provider"); %></option>
+												<%Object.keys(SERVICE_PROVIDER_TYPE_DROPDOWN).map(key=>{%>
+													<option value="<%=key%>"><%=SERVICE_PROVIDER_TYPE_DROPDOWN[key]%></option>	
+												<%})%>
+											</select>
+										</div>
+										<span id="provider_type_error" class="error"></span>
+									</div>
+								</div>
+								
+
+							</div>
+
+              <div class="row clearfix seperator-line field-seperator"><hr/></div>
+
+							<div class="row clearfix">
+								<div class="col-sm-12">
+										<% if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 1){ %>
+												<span class="float-right m-t-15">
+														<b><%= __("admin.system.these_fields_are_sane_in_all_languages"); %></b>
+												</span>
+										<% } %>
+								</div>
+						</div>
+							<!-- Multilanguage tabs -->
+							<%- include ("../../elements/multilanguage_tabs.html") %>
+							<!-- Multilanguage tabs -->
+							
+
+							<%
+							if(typeof language_list !== typeof undefined && Array.isArray(language_list) && language_list.length > 0){
+								language_list.forEach(function(languages){
+									languageId 		= (languages._id) 		?  	languages._id 		:"";
+									languageCode 	= (languages.lang_code) ?	languages.lang_code :"";				
+									%>
+									<div role="tabpanel" class="tab-pane multi-lang-tab-pane fade_lang in <%= (languageCode == DEFAULT_LANGUAGE_CODE) ? "active" : ""; %>" id="multi_lang_<%= languageCode; %>">
+										
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="package_name<%= languageCode; %>" class="control-label">
+															<%= __("admin.package.package_name"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> * </span>:
+															<% } %>
+														</label>
+														<input type="hidden" name="pages_descriptions[<%= languageCode %>][language_id]" value="<%= languageId; %>"/>
+														<input type="text" id="package_name<%= languageCode; %>" class="form-control" name="pages_descriptions[<%=languageCode%>][package_name]"/>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+															<span id="pages_descriptions_<%=languageCode %>_package_name_error" class="error"></span>
+														<% } %>
+
+												</div>
+											</div>
+										</div>
+
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="body_<%= languageCode; %>" class="control-label">
+															<%= __("admin.package.package_description"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> * </span>:
+															<% } %>
+														</label>
+														<textarea rows="4"  id="body_<%= languageCode; %>" class="form-control no-resize ckeditor"  name="pages_descriptions[<%=languageCode%>][body]"></textarea>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+														<span id="pages_descriptions_<%=languageCode %>_body_error" class="error"></span>
+													<% } %>
+
+												</div>
+											</div>
+										</div>
+
+										<div class="row clearfix">
+											<div class="col-sm-12">
+												<div class="form-group">
+													<div class="form-line">
+														<label for="short_description_<%= languageCode; %>" class="control-label">
+															<%= __("admin.package.short_description"); %>
+															<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+																<span class="required"> * </span>:
+															<% } %>
+														</label>
+														<textarea rows="4"  id="short_description_<%= languageCode; %>" class="form-control no-resize"  name="pages_descriptions[<%=languageCode%>][short_description]"></textarea>
+													</div>
+													<% if(languageCode ==  DEFAULT_LANGUAGE_CODE){ %>
+														<span id="pages_descriptions_<%=languageCode %>_short_description_error" class="error"></span>
+													<% } %>
+												</div>
+											</div>
+										</div>
+									</div>
+							<% 	});
+							} %>
+
+							
+						<button type="button" id="cms-add-btn-id" class="btn bg-pink btn-sm waves-effect btn-submit" <%- ADMIN_LOADING_TEXT %> ><i class="material-icons font-14">save</i> <%= __("admin.system.submit"); %></button>
+						<a href="javascript:location.reload(true);" class="text-decoration-none"><button type="button" class="btn bg-blue-grey btn-sm waves-effect"><i class="material-icons font-14">refresh</i> <%= __("admin.system.reset"); %></button></a>
+						<a href="<%= admin_list_url %>"><button type="button" class="btn bg-brown btn-sm waves-effect"><i class="material-icons font-14">cancel</i><%= __("admin.system.cancel"); %></button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- contentFor("script") %>
+	<script src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>ckeditor/ckeditor.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		CKEDITOR.replace('body_<%= languageCode; %>', {
+	     	filebrowserUploadUrl: '<%= WEBSITE_ADMIN_URL%>cms/ckeditor_uploader/',
+		});
+
+		/**
+		 * Function to submit form
+		 */
+		$('.btn-submit').click(function(){
+			updateCkeditorValue();
+			var btnId = $(this).attr('id');
+			startTextLoading(btnId);
+			submit_multipart_form('add-cms',function(status,response){
+				if(status){
+					window.location.href = response.redirect_url;
+				}else{
+					changeTab('<%= DEFAULT_LANGUAGE_CODE %>');
+					stopTextLoading(btnId);
+				}
+			});
+		});
+		
+		
+		/** 
+		 * User image Upload 
+		 */
+		$(document).on("click", ".changePhoto", function(){
+			if(!$(".add-image #splash_image").hasClass("added")){
+				$(".add-image #splash_image").trigger("click");
+				$(".add-image #splash_image").addClass("added");
+				window.setTimeout(function(){
+					$(".add-image #splash_image").removeClass("added");
+				},500);
+			}
+		});
+			
+		/** 
+		 *Show user image after select 
+		 */
+		$("#splash_image").on("change", function(){
+			var UPLOAD_FILE_SIZE = '5';
+			var size 			 = parseFloat($("#splash_image")[0].files[0].size).toFixed(2);
+			var allowed_size 	 = UPLOAD_FILE_SIZE * 1024 * 1024; 
+			if(size > UPLOAD_FILE_SIZE * 1024 * 1024){					
+					$("#image_error").html("Please upload valid size image. Maximum uploaded file size 2 MB.");
+					$('#splash_image').val('');
+			}else{
+				var files = !!this.files ? this.files : [];
+				if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+			
+				if (/^image/.test( files[0].type)){ 
+					// only image file
+					var reader = new FileReader(); // instance of the FileReader
+					reader.readAsDataURL(files[0]); // read the local file
+					reader.onloadend = function(){ 						
+						$("#pImage").html("<img src='"+this.result+"' class='profileImage' >");
+					}
+					$("span#image_error").text("");
+				}
+			}				
+		});
+
+
+		$("#package_video").on("change", function () {
+			var files = !!this.files ? this.files : [];
+			if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+
+			// Check if the file is a video
+			if (/^video/.test(files[0].type)) { 
+				// Only video files
+				var reader = new FileReader(); // instance of the FileReader
+				reader.readAsDataURL(files[0]); // read the local file
+
+				reader.onloadend = function () {
+					$("#package_video_css").show();
+					// Create a video element and append it
+					$("#package_video_css").html(`
+						<video controls class="img-thumbnail" style="max-width: 50%; max-height: 100px;">
+							<source src="${this.result}" type="${files[0].type}">
+						</video>
+					`);
+				};
+
+				$("span#package_video_error").text("");
+			} else {
+				$("span#package_video_error").text("Please upload a valid video file.");
+				$("#package_video_css").html(""); // Clear the preview if not a valid video
+			}
+
+		});
+		
+	</script>

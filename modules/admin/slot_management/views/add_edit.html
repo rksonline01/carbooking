@@ -1,0 +1,140 @@
+<style>
+	table.slot_table {
+		width: 100%;
+		border-collapse: collapse;
+		text-align: center;
+	}
+	th.slot_th,
+	td.slot_td {
+		border: 1px solid black;
+		padding: 8px;
+	}
+	th.slot_th {
+		background-color: #f2f2f2;
+	}
+ </style>
+ <% result=(typeof result !==typeof undefined && result) ? result :{}; var isEditable=(typeof is_editable !==typeof
+	undefined && is_editable) ? is_editable :""; %>
+ <div class="container-fluid" id="main-container">
+	<div class="row clearfix">
+	   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		  <div class="card">
+			 <div class="header">
+				<h2>
+				   <%=  __("admin.system.add_slot"); %>
+				</h2>
+				<ul class="header-dropdown m-r--5 btn-right-top-margin">
+					<li>
+						<a href="<%=WEBSITE_ADMIN_URL%>leave-management"  target="_blank"><button type="button" class="btn bg-indigo waves-effect"><i class="material-icons font-14">add</i> <%= __("admin.system.leave_management"); %></button></a>
+					</li>
+				</ul>
+			 </div>
+			 <div class="body">
+				<form id="add-promo-code" data-submit-btn-id="promo-add-btn-id" method="post"
+				   class="on_click_submit" role="form" enctype="mutlipart/form-data">
+				   <input value="<%= result?._id %>" name="id" type="hidden">
+				   <% 
+					  WEEK_DAYS_DROPDOWN.map((days, index)=> { 
+						  
+					  let dayName = days.value.toLowerCase();
+					  
+					  let selectedSlots = result?.time_slot?.[dayName] 
+					  ? Object.keys(result.time_slot[dayName]) 
+					  : [];
+					  
+					  %>
+				   <div class="card">
+					  <h5 class="card-header">
+						 <div class="form-check form-check-inline"><input
+							class="form-check-input select_all" type="checkbox"
+							data-day_id="<%= days.key %>"> <%= days.value %>  </div>
+					  </h5>
+					  <div class="card-body">
+						 <% SLOT_TIME_DROPDOWN.map((slot, slotIndex)=> {
+							let isChecked = selectedSlots.includes(slot.key); 
+							%>
+						 <div class="form-check form-check-inline"><input
+							class="form-check-input slot_check slot_day_<%= days.key %>" type="checkbox"
+							value="<%= slot.key %>" name='time_slot[<%= days.value.toLowerCase() %>][<%= slot.key %>]' <%= isChecked ? "checked" : "" %>
+							>
+							<%= slot.value %>
+						 </div>
+						 <% }); %>
+					  </div>
+				   </div>
+				   <% }); %>
+				   <button type="button" id="promo-add-btn-id" <%- ADMIN_LOADING_TEXT %> class="btn bg-pink
+					  btn-sm waves-effect no_hover btn-submit"><i class="material-icons font-14">save</i>
+				   <%= __("Submit"); %>
+				   </button>
+				   <a href="javascript:location.reload(true);" class="text-decoration-none"><button
+					  type="button" class="btn bg-blue-grey btn-sm waves-effect"><i
+					  class="material-icons font-14">refresh</i>
+				   <%= __("Reset"); %>
+				   </button></a>
+				</form>
+			 </div>
+		  </div>
+	   </div>
+	</div>
+ </div>
+<%- contentFor("css") %>
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_CSS_PATH%>bootstrap-datetimepicker.css">
+<link rel="stylesheet" href="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/css/bootstrap-select.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/base/jquery-ui.min.css"
+	integrity="sha512-ELV+xyi8IhEApPS/pSj66+Jiw+sOT1Mqkzlh8ExXihe4zfqbWkxPRi8wptXIO9g73FSlhmquFlUOuMSoXz5IRw=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<%- contentFor("script") %>
+<script type="text/javascript" src="<%=WEBSITE_ADMIN_JS_PATH%>bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript"
+	src="<%=WEBSITE_ADMIN_JS_PLUGIN_PATH%>bootstrap-select/js/bootstrap-select.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"
+	integrity="sha512-57oZ/vW8ANMjR/KQ6Be9v/+/h6bq9/l3f0Oc7vn6qMqyhvPd1cvKBRWWpzu0QoneImqr2SkmO4MSqU+RpHom3Q=="
+	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		/**
+		* Javascript function to submit the form.
+		*/
+		$(".btn-submit").click(function () {
+			var btnId = $(this).attr("id");
+			startTextLoading(btnId);
+			ajax_submit("add-promo-code", function (status, response) {
+			if (status) {
+				window.location.href = response.redirect_url;
+			} else {
+				stopTextLoading(btnId);
+			}
+			});
+		});
+	});
+	
+	document.addEventListener("DOMContentLoaded", function () {
+		// Get all "Select All" checkboxes
+		const selectAllCheckboxes = document.querySelectorAll(".select_all");
+		
+		selectAllCheckboxes.forEach(selectAll => {
+		selectAll.addEventListener("change", function () {
+		const dayId = this.getAttribute("data-day_id"); // Get the day's ID
+		const checkboxes = document.querySelectorAll(`.slot_day_${dayId}`); // Get checkboxes for that day
+		
+		checkboxes.forEach(checkbox => {
+			checkbox.checked = this.checked; // Check/uncheck all in that day
+		});
+		});
+		});
+		
+		// Uncheck "Select All" if any slot is manually unchecked
+		document.querySelectorAll(".form-check-input[type='checkbox']").forEach(slotCheckbox => {
+		slotCheckbox.addEventListener("change", function () {
+		if (!this.classList.contains("select_all")) {
+		const dayId = this.classList[1].split("_")[2]; // Extract day ID from class
+		const allSlots = document.querySelectorAll(`.slot_day_${dayId}`);
+		const allChecked = [...allSlots].every(checkbox => checkbox.checked);
+		document.querySelector(`.select_all[data-day_id='${dayId}']`).checked = allChecked;
+		}
+		});
+		});
+	});
+</script>
