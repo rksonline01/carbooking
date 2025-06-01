@@ -1,12 +1,12 @@
 {
-  "name": "Demo-Code-repo",
+  "name": "Carbooking-repo",
   "version": "1.0.0",
   "description": "coderepo node 20 ",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Demo",
+  "author": "Carbooking",
   "license": "ISC",
   "dependencies": {
     "@turf/turf": "^7.2.0",
