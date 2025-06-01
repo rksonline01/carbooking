@@ -1,15 +1,11 @@
 /**  including .env file */
 var mongoUrl = process.env.MONGO_URL;
-//
-const mongoUrl = "mongodb+srv://rksonline01:otUmyxInZ6NgUGYH@cluster0.mongodb.net/myDB?retryWrites=true&w=majority";
-
 
 var MongoClient = require('mongodb').MongoClient;
 
 var _db;
 
-//var dbName = process.env.DATABASE;
-var dbName = carbooking;
+var dbName = process.env.DATABASE;
 
 const client = new MongoClient(mongoUrl);
 
