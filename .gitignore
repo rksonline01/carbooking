@@ -4,6 +4,38 @@ node_modules/
 # Optional npm cache directory
 .npm/
 
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.* 
+
+# Build output
+dist/
+build/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# PM2 process logs and data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage reports
+coverage/
+
 # Temp files
 *.swp
 *.swo
@@ -11,7 +43,3 @@ node_modules/
 
 # Other
 debug.log
-
-# Environment variables
-.env
-.env.* 
